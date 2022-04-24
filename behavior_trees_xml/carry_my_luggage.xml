@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<root main_tree_to_execute="BehaviorTree">
+    <!-- ////////// -->
+    <BehaviorTree ID="BehaviorTree">
+        <KeepRunningUntilFailure>
+            <SequenceStar>
+                <Action ID="Move" Point_x="0" Point_y="0" name="MoveToReferee"/>
+                <Action ID="Scanner"/>
+                <Action ID="TextToSpeech" Text_In="Start"/>
+                <Sequence>
+                    <Action Direction="{maleta}" ID="Maleta"/>
+                    <Action ID="TextToSpeech" Text_In="{maleta}"/>
+                </Sequence>
+                <ReactiveSequence>
+                    <Condition ID="IsPerson"/>
+                    <Fallback>
+                        <Condition ID="Stop"/>
+                        <Inverter>
+                            <Action ID="Navegation"/>
+                        </Inverter>
+                    </Fallback>
+                    <Action ID="Move" Point_x="0" Point_y="0" name="MoveToReferee"/>
+                </ReactiveSequence>
+            </SequenceStar>
+        </KeepRunningUntilFailure>
+    </BehaviorTree>
+    <!-- ////////// -->
+    <TreeNodesModel>
+        <Condition ID="IsPerson"/>
+        <Action ID="Maleta">
+            <output_port name="Direction">Dice izq o drch</output_port>
+        </Action>
+        <Action ID="Move">
+            <input_port default="0" name="Point_x">Posicion x del arbitro</input_port>
+            <input_port default="0" name="Point_y">Posicion y del arbitro</input_port>
+        </Action>
+        <Action ID="Navegation"/>
+        <Action ID="Scanner"/>
+        <Condition ID="Stop"/>
+        <Action ID="TextToSpeech">
+            <input_port name="Text_In">Texto de entrada</input_port>
+        </Action>
+    </TreeNodesModel>
+    <!-- ////////// -->
+</root>
+

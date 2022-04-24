@@ -1,12 +1,8 @@
 cmake_minimum_required(VERSION 3.0.2)
 project(robocup_home_education_los_ultramarinos)
 
-## Compile as C++11, supported in ROS Kinetic and newer
 add_compile_options(-std=c++17)
 
-## Find catkin macros and libraries
-## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
-## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
   roscpp
   dialogflow_ros_msgs
@@ -16,40 +12,12 @@ find_package(catkin REQUIRED COMPONENTS
   sound_play
   actionlib
   actionlib_msgs
+  behaviortree_cpp_v3
 )
-
-## System dependencies are found with CMake's conventions
-# find_package(Boost REQUIRED COMPONENTS system)
-
-
-## Uncomment this if the package has a setup.py. This macro ensures
-## modules and global scripts declared therein get installed
-## See http://ros.org/doc/api/catkin/html/user_guide/setup_dot_py.html
-# catkin_python_setup()
 
 ################################################
 ## Declare ROS messages, services and actions ##
 ################################################
-
-## To declare and build messages, services or actions from within this
-## package, follow these steps:
-## * Let MSG_DEP_SET be the set of packages whose message types you use in
-##   your messages/services/actions (e.g. std_msgs, actionlib_msgs, ...).
-## * In the file package.xml:
-##   * add a build_depend tag for "message_generation"
-##   * add a build_depend and a exec_depend tag for each package in MSG_DEP_SET
-##   * If MSG_DEP_SET isn't empty the following dependency has been pulled in
-##     but can be declared for certainty nonetheless:
-##     * add a exec_depend tag for "message_runtime"
-## * In this file (CMakeLists.txt):
-##   * add "message_generation" and every package in MSG_DEP_SET to
-##     find_package(catkin REQUIRED COMPONENTS ...)
-##   * add "message_runtime" and every package in MSG_DEP_SET to
-##     catkin_package(CATKIN_DEPENDS ...)
-##   * uncomment the add_*_files sections below as needed
-##     and list every .msg/.srv/.action file to be processed
-##   * uncomment the generate_messages entry below
-##   * add every package in MSG_DEP_SET to generate_messages(DEPENDENCIES ...)
 
 ## Generate messages in the 'msg' folder
 # add_message_files(
@@ -82,16 +50,6 @@ find_package(catkin REQUIRED COMPONENTS
 ## Declare ROS dynamic reconfigure parameters ##
 ################################################
 
-## To declare and build dynamic reconfigure parameters within this
-## package, follow these steps:
-## * In the file package.xml:
-##   * add a build_depend and a exec_depend tag for "dynamic_reconfigure"
-## * In this file (CMakeLists.txt):
-##   * add "dynamic_reconfigure" to
-##     find_package(catkin REQUIRED COMPONENTS ...)
-##   * uncomment the "generate_dynamic_reconfigure_options" section below
-##     and list every .cfg file to be processed
-
 ## Generate dynamic reconfigure parameters in the 'cfg' folder
 # generate_dynamic_reconfigure_options(
 #   cfg/DynReconf1.cfg
@@ -101,15 +59,10 @@ find_package(catkin REQUIRED COMPONENTS
 ###################################
 ## catkin specific configuration ##
 ###################################
-## The catkin_package macro generates cmake config files for your package
-## Declare things to be passed to dependent projects
-## INCLUDE_DIRS: uncomment this if your package contains header files
-## LIBRARIES: libraries you create in this project that dependent projects also need
-## CATKIN_DEPENDS: catkin_packages dependent projects also need
-## DEPENDS: system dependencies of this project that dependent projects also need
+
 catkin_package(
 	INCLUDE_DIRS include
-	LIBRARIES robocup_home_education_los_ultramarinos
+	LIBRARIES robocup_home_education_los_ultramarinos behaviortree_cpp_v3
 	CATKIN_DEPENDS roscpp dialogflow_ros_msgs actionlib_msgs
 	DEPENDS
 )
@@ -118,15 +71,25 @@ catkin_package(
 ## Build ##
 ###########
 
-## Specify additional locations of header files
-## Your package locations should be listed before other locations
 include_directories(
-include
-${catkin_INCLUDE_DIRS}
+  include
+  ${catkin_INCLUDE_DIRS}
+  ${PCL_INCLUDE_DIRS}
+  ${ZMQ_INCLUDE_DIRS}
 )
+
+link_directories(
+	${PCL_LIBRARY_DIRS}
+)
+
+add_definitions(${PCL_DEFINITIONS})
+
 add_library(robocup_home_education_los_ultramarinos
 	src/robocup_home_education/DialogInterface.cpp
 )
+
+add_library(texttospeech_bt_node SHARED src/behavior_tree_nodes/TextToSpeech.cpp)
+
 add_dependencies(robocup_home_education_los_ultramarinos ${catkin_EXPORTED_TARGETS} sound_play_generate_messages_cpp)
 target_link_libraries(robocup_home_education_los_ultramarinos ${catkin_LIBRARIES})
 
@@ -135,32 +98,23 @@ target_link_libraries(robocup_home_education_los_ultramarinos ${catkin_LIBRARIES
 #   src/${PROJECT_NAME}/robocup-home-education-los-ultramarinos.cpp
 # )
 
-## Add cmake target dependencies of the library
-## as an example, code may need to be generated before libraries
-## either from message generation or dynamic reconfigure
 # add_dependencies(${PROJECT_NAME} ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
-## Declare a C++ executable
-## With catkin_make all packages are built within a single CMake context
-## The recommended prefix ensures that target names across packages don't collide
-add_executable(Monologo_node src/Monologo_node.cpp)
-add_dependencies(Monologo_node ${catkin_EXPORTED_TARGETS} )
-target_link_libraries(Monologo_node ${catkin_LIBRARIES} robocup_home_education_los_ultramarinos)
+#add_executable(Monologo_node src/Monologo_node.cpp)
+add_executable(Monologo_bt_node src/Main.cpp)
+#add_dependencies(Monologo_node ${catkin_EXPORTED_TARGETS} )
+add_dependencies(Monologo_bt_node ${catkin_EXPORTED_TARGETS} )
+#target_link_libraries(Monologo_node ${catkin_LIBRARIES} robocup_home_education_los_ultramarinos)
+target_link_libraries(Monologo_bt_node ${catkin_LIBRARIES} robocup_home_education_los_ultramarinos ${ZMQ_LIBRARIES})
 
-## Rename C++ executable without prefix
-## The above recommended prefix causes long target names, the following renames the
-## target back to the shorter version for ease of user use
-## e.g. "rosrun someones_pkg node" instead of "rosrun someones_pkg someones_pkg_node"
-# set_target_properties(${PROJECT_NAME}_node PROPERTIES OUTPUT_NAME node PREFIX "")
+list(APPEND plugin_libs
+  texttospeech_bt_node
+)
 
-## Add cmake target dependencies of the executable
-## same as for the library above
-# add_dependencies(${PROJECT_NAME}_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-
-## Specify libraries to link a library or executable target against
-# target_link_libraries(${PROJECT_NAME}_node
-#   ${catkin_LIBRARIES}
-# )
+foreach(bt_plugin ${plugin_libs})
+  target_link_libraries(${bt_plugin} ${catkin_LIBRARIES} robocup_home_education_los_ultramarinos)
+  target_compile_definitions(${bt_plugin} PRIVATE BT_PLUGIN_EXPORT)
+endforeach()
 
 #############
 ## Install ##
