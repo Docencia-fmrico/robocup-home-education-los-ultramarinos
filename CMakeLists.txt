@@ -98,7 +98,7 @@ add_library(robocup_home_education_los_ultramarinos
 
 
 list(APPEND plugin_libs
-  asr_seguir_bt_node
+  
 )
 
 
@@ -122,9 +122,8 @@ target_link_libraries(robocup_home_education_los_ultramarinos ${catkin_LIBRARIES
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
-add_executable(Monologo_node src/Monologo_node.cpp)
-add_dependencies(Monologo_node ${catkin_EXPORTED_TARGETS} )
-target_link_libraries(Monologo_node ${catkin_LIBRARIES} robocup_home_education_los_ultramarinos)
+
+
 add_executable(ObservadorPersonas_rc src/ObservadorPersonas.cpp)
 add_executable(Coordinador_rc src/Coordinador.cpp)
 add_executable(ObservadorPelotasHSV_rc src/ObservadorPelotasHSV.cpp)
