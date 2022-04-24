@@ -12,8 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include <robocup_home_education/DialogInterface.h>
+#include "DialogInterface.h"
 #include <string>
+#include "std_msgs/Int32.h"
 
 namespace ph = std::placeholders;
 
@@ -22,7 +23,6 @@ class MonologoDF: public DialogInterface
   public:
     MonologoDF(): nh_()
     {
-      // this->registerCallback(std::bind(&MonologoDF::noIntentCB, this, ph::_1));
       this->registerCallback(
         std::bind(&MonologoDF::noIntentCB, this, ph::_1),
         "Default Fallback Intent");
@@ -30,75 +30,83 @@ class MonologoDF: public DialogInterface
         std::bind(&MonologoDF::startIntentCB, this, ph::_1),
         "Start");
       this->registerCallback(
-        std::bind(&MonologoDF::start_followingIntentCB, this, ph::_1),
-        "Start_Following");
+        std::bind(&MonologoDF::rightIntentCB, this, ph::_1),
+        "Right");
+      this->registerCallback(
+        std::bind(&MonologoDF::leftIntentCB, this, ph::_1),
+        "Left");
       this->registerCallback(
         std::bind(&MonologoDF::not_visionIntentCB, this, ph::_1),
         "Not_Vision");
       this->registerCallback(
-        std::bind(&MonologoDF::followingIntentCB, this, ph::_1),
-        "Following");
-      this->registerCallback(
         std::bind(&MonologoDF::stopIntentCB, this, ph::_1),
         "Stop");
+      this->registerCallback(
+        std::bind(&MonologoDF::emptyIntentCB, this, ph::_1),
+        "Empty");
+      
+      stop_pub = nh_.advertise<std_msgs::Int32>("/stop_received", 1);
+      std_msgs::Int32 msg;
+      msg.data = 0;
+      stop_pub.publish(msg);
     }
 
     void noIntentCB(dialogflow_ros_msgs::DialogflowResult result)
     {
-      ROS_INFO("noIntentCB: %s", result.intent.c_str());
+      ROS_INFO("Operator: %s", result.query_text.c_str());
       ROS_INFO("noIntentCB: %s\n", result.fulfillment_text.c_str());
       speak(result.fulfillment_text);
       ros::Duration(3, 0).sleep();
-      listen();
+      enableListen();
     }
     void startIntentCB(dialogflow_ros_msgs::DialogflowResult result)
     {
       ROS_INFO("Operator: %s", result.query_text.c_str());
       ROS_INFO("startIntentCB: %s\n", result.fulfillment_text.c_str());
       speak(result.fulfillment_text);
-      ros::Duration(9, 0).sleep();
-      listen();
+      // ros::Duration(6, 0).sleep();
+      disableListen();
     }
-    void start_followingIntentCB(dialogflow_ros_msgs::DialogflowResult result)
+    void rightIntentCB(dialogflow_ros_msgs::DialogflowResult result)
     {
       ROS_INFO("Operator: %s", result.query_text.c_str());
-      ROS_INFO("start_followingIntentCB: %s\n", result.fulfillment_text.c_str());
+      ROS_INFO("rightIntentCB: %s\n", result.fulfillment_text.c_str());
       speak(result.fulfillment_text);
-      ros::Duration(11, 0).sleep();
-      listen();
+      ros::Duration(14, 0).sleep();
+      enableListen();
+    }
+    void leftIntentCB(dialogflow_ros_msgs::DialogflowResult result)
+    {
+      ROS_INFO("Operator: %s", result.query_text.c_str());
+      ROS_INFO("leftIntentCB: %s\n", result.fulfillment_text.c_str());
+      speak(result.fulfillment_text);
+      ros::Duration(14, 0).sleep();
+      enableListen();
     }
     void not_visionIntentCB(dialogflow_ros_msgs::DialogflowResult result)
     {
       ROS_INFO("Operator: %s", result.query_text.c_str());
       ROS_INFO("not_visionIntentCB: %s\n", result.fulfillment_text.c_str());
       speak(result.fulfillment_text);
-    }
-    void followingIntentCB(dialogflow_ros_msgs::DialogflowResult result)
-    {
-      ROS_INFO("Operator: %s", result.query_text.c_str());
-      ROS_INFO("followingIntentCB: %s\n", result.fulfillment_text.c_str());
-      speak(result.fulfillment_text);
+      ros::Duration(3, 0).sleep();
+      enableListen();
     }
     void stopIntentCB(dialogflow_ros_msgs::DialogflowResult result)
     {
       ROS_INFO("Operator: %s", result.query_text.c_str());
       ROS_INFO("stopIntentCB: %s\n", result.fulfillment_text.c_str());
       speak(result.fulfillment_text);
+      disableListen();
+      std_msgs::Int32 msg;
+      msg.data = 1;
+      stop_pub.publish(msg);
+    }
+    void emptyIntentCB(dialogflow_ros_msgs::DialogflowResult result)
+    {
+      // enableListen();
     }
 
   private:
     ros::NodeHandle nh_;
+    ros::Publisher stop_pub;
 };
-
-int main(int argc, char** argv)
-{
-  ros::init(argc, argv, "Monologo_node");
-  MonologoDF forwarder;
-  forwarder.tell("Start");
-  forwarder.listen();
-  // forwarder.tell("Not_Vision");
-  // forwarder.tell("Following");
-  forwarder.listen();
-  ros::spin();
-  return 0;
-}

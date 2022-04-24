@@ -19,7 +19,8 @@
 
 DialogInterface::DialogInterface()
 : nh_(),
-  sc_(nh_, "/robotsound")
+  sc_(nh_, "/robotsound"),
+  enable_listen(false)
 {
   init();
 }
@@ -30,6 +31,8 @@ void DialogInterface::init()
     results_topic_ = "/dialogflow_client/results";
   if (!nh_.getParam("/dialogflow_client/start_srv", start_srv_))
     start_srv_ = "/dialogflow_client/start";
+  // if (!nh_.getParam("/dialogflow_client/stop_srv", stop_srv_))
+    stop_srv_ = "/dialogflow_client/stop";
 
   df_result_sub_ = nh_.subscribe(results_topic_, 1, &DialogInterface::dfCallback, this);
   listening_gui_ = nh_.advertise<std_msgs::Bool>("/dialog_gui/is_listening", 1, true);
@@ -66,10 +69,13 @@ void DialogInterface::dfCallback(const DialogflowResult::ConstPtr& result)
       std::regex intent_re = std::regex(item.first);
       if (std::regex_match(result->intent, intent_re))
       {
-        
         item.second(*result);
       }
     }
+  }
+  else{
+    auto item = registered_cbs_["Empty"];
+    item(*result);
   }
 }
 
@@ -103,4 +109,32 @@ bool DialogInterface::listen()
   ros::ServiceClient df_srv = nh_.serviceClient<std_srvs::Empty>(start_srv_, 1);
   df_srv.call(srv);
   return true;
+}
+
+bool DialogInterface::stopListen()
+{
+  std_srvs::Empty srv;
+  std_msgs::Bool msg;
+  msg.data = false;
+  listening_gui_.publish(msg);
+  ROS_INFO("[DialogInterface] Stopping listening");
+  enable_listen = false;
+  // ros::ServiceClient df_srv = nh_.serviceClient<std_srvs::Empty>(stop_srv_, 1);
+  // df_srv.call(srv);
+  return true;
+}
+
+void DialogInterface::enableListen()
+{
+  enable_listen = true;
+}
+
+void DialogInterface::disableListen()
+{
+  enable_listen = false;
+}
+
+bool DialogInterface::isListenEnabled()
+{
+  return enable_listen;
 }
