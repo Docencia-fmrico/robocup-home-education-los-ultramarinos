@@ -1,0 +1,10 @@
+<launch>
+        
+        <include file="$(find robots)/launch/kobuki_rplidar.launch"/>
+        
+       
+        
+        <include file="$(find navigation)/launch/navigation.launch"/>
+      
+
+</launch>

@@ -12,6 +12,11 @@ find_package(catkin REQUIRED COMPONENTS
   sound_play
   actionlib
   actionlib_msgs
+  geometry_msgs 
+  message_generation 
+  cv_bridge 
+  image_transport
+  tf
   behaviortree_cpp_v3
 )
 
@@ -86,19 +91,82 @@ add_definitions(${PCL_DEFINITIONS})
 
 add_library(robocup_home_education_los_ultramarinos
 	src/robocup_home_education/DialogInterface.cpp
+  src/visual_behavior/PIDController.cpp
+  src/visual_behavior/Controlador.cpp
 )
+
+
+
+list(APPEND plugin_libs
+  asr_seguir_bt_node
+)
+
+
+
+
+
+
+
 
 add_library(texttospeech_bt_node SHARED src/behavior_tree_nodes/TextToSpeech.cpp)
 
+
 add_dependencies(robocup_home_education_los_ultramarinos ${catkin_EXPORTED_TARGETS} sound_play_generate_messages_cpp)
 target_link_libraries(robocup_home_education_los_ultramarinos ${catkin_LIBRARIES})
-
 ## Declare a C++ library
 # add_library(${PROJECT_NAME}
 #   src/${PROJECT_NAME}/robocup-home-education-los-ultramarinos.cpp
 # )
 
-# add_dependencies(${PROJECT_NAME} ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+
+## Declare a C++ executable
+## With catkin_make all packages are built within a single CMake context
+## The recommended prefix ensures that target names across packages don't collide
+add_executable(Monologo_node src/Monologo_node.cpp)
+add_dependencies(Monologo_node ${catkin_EXPORTED_TARGETS} )
+target_link_libraries(Monologo_node ${catkin_LIBRARIES} robocup_home_education_los_ultramarinos)
+add_executable(ObservadorPersonas_rc src/ObservadorPersonas.cpp)
+add_executable(Coordinador_rc src/Coordinador.cpp)
+add_executable(ObservadorPelotasHSV_rc src/ObservadorPelotasHSV.cpp)
+add_executable( Control_rc src/Control.cpp ) 
+
+
+target_link_libraries( ObservadorPelotasHSV_rc
+${catkin_LIBRARIES}
+)
+
+target_link_libraries( ObservadorPersonas_rc
+${catkin_LIBRARIES}
+)
+
+target_link_libraries( Coordinador_rc
+${catkin_LIBRARIES}
+)
+
+
+target_link_libraries( Control_rc 
+${catkin_LIBRARIES} 
+${PROJECT_NAME}
+ )
+
+
+
+
+## Rename C++ executable without prefix
+## The above recommended prefix causes long target names, the following renames the
+## target back to the shorter version for ease of user use
+## e.g. "rosrun someones_pkg node" instead of "rosrun someones_pkg someones_pkg_node"
+# set_target_properties(${PROJECT_NAME}_node PROPERTIES OUTPUT_NAME node PREFIX "")
+
+## Add cmake target dependencies of the executable
+## same as for the library above
+# add_dependencies(${PROJECT_NAME}_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+
+## Specify libraries to link a library or executable target against
+# target_link_libraries(${PROJECT_NAME}_node
+#   ${catkin_LIBRARIES}
+# )
+
 
 #add_executable(Monologo_node src/Monologo_node.cpp)
 add_executable(Monologo_bt_node src/Main.cpp)
@@ -115,6 +183,7 @@ foreach(bt_plugin ${plugin_libs})
   target_link_libraries(${bt_plugin} ${catkin_LIBRARIES} robocup_home_education_los_ultramarinos)
   target_compile_definitions(${bt_plugin} PRIVATE BT_PLUGIN_EXPORT)
 endforeach()
+
 
 #############
 ## Install ##
