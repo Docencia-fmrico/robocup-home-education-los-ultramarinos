@@ -35,7 +35,11 @@ public:
 
   bool speak(std::string str);
   bool listen();
+  bool stopListen();
   bool tell(std::string str);
+  void enableListen();
+  void disableListen();
+  bool isListenEnabled();
 
   virtual void listenCallback(DialogflowResult result){}
   void registerCallback(
@@ -44,8 +48,9 @@ public:
 
 private:
   bool idle_;
+  bool enable_listen;
   ros::NodeHandle nh_;
-  std::string results_topic_, start_srv_;
+  std::string results_topic_, start_srv_, stop_srv_;
   ros::ServiceClient sound_client_;
   ros::Subscriber df_result_sub_;
   ros::Publisher listening_gui_, speak_gui_, tell_gui_;
