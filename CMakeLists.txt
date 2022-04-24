@@ -16,6 +16,12 @@ find_package(catkin REQUIRED COMPONENTS
   sound_play
   actionlib
   actionlib_msgs
+  geometry_msgs 
+  message_generation 
+  cv_bridge 
+  image_transport
+  tf
+  behaviortree_cpp_v3
 )
 
 ## System dependencies are found with CMake's conventions
@@ -109,9 +115,7 @@ find_package(catkin REQUIRED COMPONENTS
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
 	INCLUDE_DIRS include
-	LIBRARIES robocup_home_education_los_ultramarinos
-	CATKIN_DEPENDS roscpp dialogflow_ros_msgs actionlib_msgs
-	DEPENDS
+	CATKIN_DEPENDS LIBRARIES roscpp behaviortree_cpp_v3 dialogflow_ros_msgs actionlib_msgs 
 )
 
 ###########
@@ -126,10 +130,62 @@ ${catkin_INCLUDE_DIRS}
 )
 add_library(robocup_home_education_los_ultramarinos
 	src/robocup_home_education/DialogInterface.cpp
+  src/visual_behavior/PIDController.cpp
+  src/visual_behavior/Controlador.cpp
 )
+
+add_library(asr_seguir_bt_node SHARED src/nodo_behavior_tree/Seguir.cpp)
+
+
+list(APPEND plugin_libs
+  asr_seguir_bt_node
+)
+
+
+add_executable(ObservadorPersonas_rc src/ObservadorPersonas.cpp)
+add_executable(Coordinador_rc src/Coordinador.cpp)
+add_executable(ObservadorPelotasHSV_rc src/ObservadorPelotasHSV.cpp)
+add_executable( Control_rc src/Control.cpp ) 
+add_executable( nodo_nav_client_rc src/nodo_nav_client.cpp) 
+
+
+target_link_libraries( ObservadorPelotasHSV_rc
+${catkin_LIBRARIES}
+)
+
+target_link_libraries( ObservadorPersonas_rc
+${catkin_LIBRARIES}
+)
+
+target_link_libraries( Coordinador_rc
+${catkin_LIBRARIES}
+)
+
+
+target_link_libraries( nodo_nav_client_rc
+${catkin_LIBRARIES}
+)
+
+target_link_libraries( Control_rc 
+${catkin_LIBRARIES} 
+${PROJECT_NAME}
+ )
+
+
+
+foreach(bt_plugin ${plugin_libs})
+  target_link_libraries(${bt_plugin} ${catkin_LIBRARIES})
+  target_compile_definitions(${bt_plugin} PRIVATE BT_PLUGIN_EXPORT)
+endforeach()
+
+add_executable(Root 
+  src/Root.cpp
+)
+target_link_libraries(Root ${catkin_LIBRARIES} ${ZMQ_LIBRARIES})
+
+
 add_dependencies(robocup_home_education_los_ultramarinos ${catkin_EXPORTED_TARGETS} sound_play_generate_messages_cpp)
 target_link_libraries(robocup_home_education_los_ultramarinos ${catkin_LIBRARIES})
-
 ## Declare a C++ library
 # add_library(${PROJECT_NAME}
 #   src/${PROJECT_NAME}/robocup-home-education-los-ultramarinos.cpp
@@ -146,6 +202,14 @@ target_link_libraries(robocup_home_education_los_ultramarinos ${catkin_LIBRARIES
 add_executable(Monologo_node src/Monologo_node.cpp)
 add_dependencies(Monologo_node ${catkin_EXPORTED_TARGETS} )
 target_link_libraries(Monologo_node ${catkin_LIBRARIES} robocup_home_education_los_ultramarinos)
+
+
+
+
+roslint_cpp(
+  src/Root.cpp
+  include/nodo_behavior_tree/Seguir.h src/nodo_behavior_tree/Seguir.cpp
+)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
