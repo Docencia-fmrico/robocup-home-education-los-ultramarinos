@@ -47,7 +47,7 @@ int main(int argc, char** argv)
 
 
 	ros::Publisher talkPub = nh.advertise<std_msgs::String>("/nodo_hablar", fr);
-	ros::Publisher treePub = nh.advertise<std_msgs::String>("/status_seguimiento", fr);
+	ros::Publisher treePub = nh.advertise<std_msgs::String>("/status_maleta", fr);
 
 	ros::Subscriber movementSub = nh.subscribe<geometry_msgs::Pose2D>("/movement_data", fr, movementReceived);
 	ros::Subscriber Activador = nh.subscribe("/control_maleta", fr, activacionTree);
@@ -92,7 +92,7 @@ int main(int argc, char** argv)
 		        talkPub.publish(msg);
 
                 std::stringstream status;
-                status << "FAILURE";
+                status << "RUNNING";
                 msg.data = status.str();
 		        treePub.publish(msg);
 

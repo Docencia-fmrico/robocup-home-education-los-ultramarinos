@@ -30,7 +30,7 @@
 void activacionTree(const std_msgs::Bool::ConstPtr& pp)
 { 
   act = pp->data  ;
-  ROS_INFO("LRALDSAKSLKSL");
+  ROS_INFO("COORDINADOR ACTIVADO");
 
 }
 

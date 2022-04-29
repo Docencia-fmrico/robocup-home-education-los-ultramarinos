@@ -109,6 +109,10 @@ list(APPEND plugin_libs
 
 
 add_library(texttospeech_bt_node SHARED src/behavior_tree_nodes/TextToSpeech.cpp)
+add_library(Detectar SHARED src/behavior_tree_nodes/Detectar.cpp)
+add_library(Seguir SHARED src/behavior_tree_nodes/Seguir.cpp)
+add_library(Navegar SHARED src/behavior_tree_nodes/Navegar.cpp)
+add_library(testEsperar SHARED src/behavior_tree_nodes/testEsperar.cpp)
 
 
 add_dependencies(robocup_home_education_los_ultramarinos ${catkin_EXPORTED_TARGETS} sound_play_generate_messages_cpp)
@@ -130,6 +134,7 @@ add_executable(ObservadorPelotasHSV_rc src/ObservadorPelotasHSV.cpp)
 add_executable( Control_rc src/Control.cpp ) 
 add_executable( identificadorLado src/identificadorLado.cpp ) 
 add_executable( MoveDetector src/MoveDetector.cpp ) 
+add_executable( esperar src/esperar.cpp ) 
 
 
 target_link_libraries( ObservadorPelotasHSV_rc
@@ -155,6 +160,10 @@ ${catkin_LIBRARIES}
 )
 
 target_link_libraries( MoveDetector
+${catkin_LIBRARIES}
+)
+
+target_link_libraries( esperar
 ${catkin_LIBRARIES}
 )
 
@@ -186,6 +195,10 @@ target_link_libraries(Monologo_bt_node ${catkin_LIBRARIES} robocup_home_educatio
 
 list(APPEND plugin_libs
   texttospeech_bt_node
+  Seguir
+  Navegar
+  Detectar
+  testEsperar
 )
 
 foreach(bt_plugin ${plugin_libs})
