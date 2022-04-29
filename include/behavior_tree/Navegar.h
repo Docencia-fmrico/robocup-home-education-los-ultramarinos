@@ -21,6 +21,8 @@
 #include "std_msgs/Bool.h"
 #include "std_msgs/String.h"
 #include "geometry_msgs/PoseStamped.h"
+#include "move_base_msgs/MoveBaseActionResult.h"
+
 
 #include <string>
 #include "ros/ros.h"
@@ -38,9 +40,8 @@ class Navegar : public BT::ActionNodeBase
 
     BT::NodeStatus tick();
 
-    void messageCallback(const geometry_msgs::PoseStamped::ConstPtr& msg);
 
-
+    void messageCallback(const move_base_msgs::MoveBaseActionResult::ConstPtr& msg);
     
     static BT::PortsList providedPorts()
     {
@@ -52,11 +53,12 @@ class Navegar : public BT::ActionNodeBase
     ros::NodeHandle nh_;
     ros::Publisher activador ;
     ros::Subscriber sub ;
-    
-    std::string feedBack ;
+    std::string feedBack = "" ;
+
     
     ros::Time i;
     int a = 0;
+
 
 };
 

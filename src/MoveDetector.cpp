@@ -41,9 +41,9 @@
 
 cv_bridge::CvImagePtr filtrada;
 cv::Mat frameAnterior ;
+bool toFrames = false ;
 geometry_msgs::Pose2D datos;
 ros::Publisher pub;
-bool toFrames = false ;
 float rango = 150 ;
 int fr = 10;
 bool act = false;
@@ -59,15 +59,11 @@ void messageCallback(const  sensor_msgs::Image::ConstPtr&  msg)
 {
   if(act)
   {
+    
   cv_bridge::CvImagePtr filtrada = cv_bridge::toCvCopy(*msg , sensor_msgs::image_encodings::BGR8);
-   
   cv::Mat frameActual ;
- 
   cv::cvtColor(filtrada->image, frameActual, cv::COLOR_RGB2RGBA);
  
-
-  int channels = 3;  
-
   int step = frameActual.step;
   int height = frameActual.rows;
   int width = frameActual.cols;
@@ -121,21 +117,17 @@ void messageCallback(const  sensor_msgs::Image::ConstPtr&  msg)
                 
               }
 
-            }
-                   
+            }                   
   }
   }
   }
 
   cv::Point p1(width/2,0), p2(width/2,height);
   cv::Scalar colorLine(0,255,0); 
-  int thicknessLine = 1;
-    
+  int thicknessLine = 1;  
   cv::line(Output, p1, p2, colorLine, thicknessLine);
-
   toFrames  = true ;
   frameAnterior = frameActual ;
-  
   cv::imshow("Canvas",Output);
   cv::waitKey(3);
   
@@ -151,10 +143,12 @@ void messageCallback(const  sensor_msgs::Image::ConstPtr&  msg)
 
     if (contardoMovimientoDerecha > contardoMovimientoIzquierda){
       std::cout << "DERECHA" << "\n" ;
+
       datos.x = 1;
     }else{
       std::cout << "IZQUIERDA" << "\n" ;
       datos.x = -1;
+
     }
 
   } else{
@@ -168,16 +162,17 @@ pub.publish(datos);
 }
 }
 
+
 int main(int argc, char **argv)
 {
 
   ros::init(argc, argv, "MoveDetector");
   ros::NodeHandle nh;
 
-  ros::Subscriber sub = nh.subscribe("/camera/rgb/image_raw", fr, messageCallback);
+  ros::Subscriber sub = nh.subscribe("/camera/rgb/image_raw", 10, messageCallback);
   ros::Subscriber Activador = nh.subscribe("/control_maleta", fr, activacionTree);
-
   pub = nh.advertise<geometry_msgs::Pose2D>("/movement_data", fr);
+
   
   ros::spin();
 

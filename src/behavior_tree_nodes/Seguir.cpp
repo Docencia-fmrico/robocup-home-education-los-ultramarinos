@@ -25,11 +25,9 @@ namespace behavior_trees
 {
 
 Seguir::Seguir(const std::string& name , const BT::NodeConfiguration & config): BT::ActionNodeBase(name, config),nh_(),feedBack(" ")
-{ 
-   
+{   
   activador = nh_.advertise<std_msgs::Bool>("/control_seguimiento",10);
-  sub = nh_.subscribe<std_msgs::String>("/status_seguimiento", 1000, &Seguir::messageCallback, this);
-  
+  sub = nh_.subscribe<std_msgs::String>("/status_seguimiento", 10, &Seguir::messageCallback, this); 
 }
 
 
@@ -54,21 +52,19 @@ Seguir::tick()
   std_msgs::Bool act ;
   act.data = true ;
  
-  
-  activador.publish(act);
+    activador.publish(act);
   
   if (feedBack == "RUNNING") {
-     
-     
-     return BT::NodeStatus::RUNNING;
+       
+         return BT::NodeStatus::RUNNING;
   } 
 
   if (feedBack == "SUCCESS") {
     act.data = false ;
  
-  
-    activador.publish(act);
 
+    for (int i = 0; i < 5; i++)
+      activador.publish(act);
     return BT::NodeStatus::SUCCESS;
   }
     

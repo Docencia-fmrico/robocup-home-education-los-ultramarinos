@@ -19,6 +19,8 @@
 #include "std_msgs/Bool.h"
 #include "geometry_msgs/PoseStamped.h"
 
+#include "move_base_msgs/MoveBaseActionResult.h"
+
 #include "behaviortree_cpp_v3/behavior_tree.h"
 #include "std_msgs/String.h"
 #include "ros/ros.h"
@@ -32,10 +34,26 @@ Navegar::Navegar(const std::string& name , const BT::NodeConfiguration & config)
    
   activador = nh_.advertise<geometry_msgs::PoseStamped>("move_base_simple/goal",10);
 
+  sub = nh_.subscribe("/move_base/result", 10, &Navegar::messageCallback, this);
+
+
+}
+
+void
+Navegar::messageCallback(const move_base_msgs::MoveBaseActionResult::ConstPtr& msg)
+{
+  feedBack = msg->status.text ;
+  std::cout << "Resultado Navegacion : " << feedBack << "\n";
+}
+
+
+
+
   
 
 
 }
+
 
 
 
@@ -51,14 +69,16 @@ BT::NodeStatus
 Navegar::tick()
 {
 
-  
-  if (a == 1) {
+
+  if (a == 5) {
+
     std::cout << a << "\n";
     
     geometry_msgs::PoseStamped msg;
 
     msg.header.stamp = i;
     msg.header.frame_id = "map";
+
 
     msg.pose.position.x = 0.0;
     msg.pose.position.y = 0.0;
@@ -73,10 +93,20 @@ Navegar::tick()
     activador.publish(msg);
   }
   a++;
+
+
+  if (feedBack != "") {
+
+    if(feedBack == "Goal reached."){
+      return BT::NodeStatus::SUCCESS;
+    }else{
+      return BT::NodeStatus::FAILURE;
+    }
+  
+  }  
+
   return BT::NodeStatus::RUNNING;
-  
-    
-  
+
 }
 
 }  // namespace behavior_trees

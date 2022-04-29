@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<root main_tree_to_execute="BehaviorTree">
+    <!-- ////////// -->
+    <BehaviorTree ID="BehaviorTree">
+        <KeepRunningUntilFailure>
+            <ForceSuccess>
+                <ReactiveSequence>
+                    <Action ID="Navegar"/>
+                    <Action ID="Seguir"/>
+                    <Action ID="Navegar2"/>
+                </ReactiveSequence>
+            </ForceSuccess>
+        </KeepRunningUntilFailure>
+    </BehaviorTree>
+    <!-- ////////// -->
+    <TreeNodesModel>
+       <Action ID="Navegar"/>
+       <Action ID="Seguir"/>
+       <Action ID="Navegar2"/>
+    </TreeNodesModel>
+    <!-- ////////// -->
+</root>
+
