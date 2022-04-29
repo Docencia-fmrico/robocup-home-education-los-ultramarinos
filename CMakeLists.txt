@@ -132,7 +132,10 @@ add_executable(ObservadorPersonas_rc src/ObservadorPersonas.cpp)
 add_executable(Coordinador_rc src/Coordinador.cpp)
 add_executable(ObservadorPelotasHSV_rc src/ObservadorPelotasHSV.cpp)
 add_executable( Control_rc src/Control.cpp ) 
+
 add_executable( Graficos_rc src/Graficos.cpp ) 
+
+add_executable( identificadorLado src/identificadorLado.cpp ) 
 add_executable( MoveDetector src/MoveDetector.cpp ) 
 
 
@@ -154,6 +157,7 @@ ${catkin_LIBRARIES}
 ${PROJECT_NAME}
  )
 
+
 target_link_libraries( Graficos_rc 
 ${catkin_LIBRARIES} 
 ${PROJECT_NAME}
@@ -163,6 +167,13 @@ target_link_libraries(  MoveDetector
 ${catkin_LIBRARIES} 
 ${PROJECT_NAME}
  )
+
+target_link_libraries( identificadorLado
+${catkin_LIBRARIES}
+)
+
+
+
 
 
 
