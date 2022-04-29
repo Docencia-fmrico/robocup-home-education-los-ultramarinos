@@ -1,0 +1,8 @@
+prefix=/home/jorge03b/catkin_ws/install
+
+Name: robocup_home_education_los_ultramarinos
+Description: Description of robocup_home_education_los_ultramarinos
+Version: 0.0.0
+Cflags: -I${prefix}/include
+Libs: -L${prefix}/lib -lrobocup_home_education_los_ultramarinos -lbehaviortree_cpp_v3
+Requires: roscpp dialogflow_ros_msgs actionlib_msgs

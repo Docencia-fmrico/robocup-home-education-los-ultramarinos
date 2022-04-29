@@ -6,7 +6,7 @@
 
 
 Controlador::Controlador() 
-: PIDAngular(0, 1, 0, 0.8), PIDLineal(0, 3.0, 0,0.5)
+: PIDAngular(0, 1, 0, 1), PIDLineal(0, 3.0, 0,0.5)
 {
     
     distanciaMaxima = 3; 
