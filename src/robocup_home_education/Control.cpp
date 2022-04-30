@@ -62,15 +62,19 @@ int main(int argc, char** argv){
         double erra = controlador.errorAvance(da) ;
 
 
-		err.angular.x = errg;
-		err.linear.y = erra;
+		 err.angular.x = errg;
+		 err.linear.y = erra;
 
-		w = controlador.velocidadAngular( errg );
-        v = controlador.velocidadLineal( erra );
+     cmd.angular.z = w;
+     cmd.linear.x = v;
+      
+		 w = controlador.velocidadAngular( errg );
+     v = controlador.velocidadLineal( erra );
+
 
     
 	   cmd.angular.z = w;
-	   //cmd.linear.x = v;
+	   cmd.linear.x = v;
        
 	   
 	   pub_err_.publish(err);
