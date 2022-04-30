@@ -59,6 +59,8 @@ add_library(Seguir SHARED src/behavior_tree_nodes/Seguir.cpp)
 add_library(Navegar SHARED src/behavior_tree_nodes/Navegar.cpp)
 add_library(Esperar SHARED src/behavior_tree_nodes/Esperar.cpp)
 add_library(Navegar2 SHARED src/behavior_tree_nodes/Navegar2.cpp)
+add_library(Centrar SHARED src/behavior_tree_nodes/Centrar.cpp)
+
 
 add_dependencies(robocup_home_education_los_ultramarinos ${catkin_EXPORTED_TARGETS} sound_play_generate_messages_cpp)
 target_link_libraries(robocup_home_education_los_ultramarinos ${catkin_LIBRARIES})
@@ -146,6 +148,7 @@ list(APPEND plugin_libs
   Navegar
   Esperar
   Navegar2
+  Centrar
 )
 
 foreach(bt_plugin ${plugin_libs})
