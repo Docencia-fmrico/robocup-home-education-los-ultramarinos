@@ -69,6 +69,7 @@ int main(int argc, char** argv)
 
       cmd.angular.z = w;
       cmd.linear.x = v;
+      
 
       pub_vel_.publish(cmd);
     }
