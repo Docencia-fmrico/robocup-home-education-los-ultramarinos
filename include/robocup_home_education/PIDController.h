@@ -12,36 +12,27 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include <string>
 
-#include "behavior_tree/Esperar.h"
+#ifndef ROBOCUP_HOME_EDUCATION_PIDCONTROLLER_H
+#define ROBOCUP_HOME_EDUCATION_PIDCONTROLLER_H
 
-namespace behavior_trees
-{
-Esperar::Esperar(const std::string& name , const BT::NodeConfiguration & config): BT::ActionNodeBase(name, config)
-{
-}
+#include <cmath>
+#include <stdio.h>
+#include <stdlib.h>
 
-void Esperar::halt()
+class PIDController
 {
-  ROS_INFO("Seguir halt");
-}
+public:
+  PIDController(double min_ref, double max_ref, double min_output, double max_output);
 
-BT::NodeStatus Esperar::tick()
-{
-  if ( i < 10 )
-  {
-    ROS_INFO("Espera");
-    sleep(1);
-    return BT::NodeStatus::RUNNING;
-  }
-  i++;
-  ROS_INFO("Fin de la espera");
-  return BT::NodeStatus::SUCCESS;
-}
-}  // namespace behavior_trees
+  void set_pid(double n_KP, double n_KI, double n_KD);
+  double get_output(double new_reference);
 
-BT_REGISTER_NODES(factory)
-{
-  factory.registerNodeType<behavior_trees::Esperar>("Esperar");
-}
+private:
+  double KP_, KI_, KD_;
+
+  double min_ref_, max_ref_;
+  double min_output_, max_output_;
+  double prev_error_, int_error_;
+};
+#endif  // ROBOCUP_HOME_EDUCATION_PIDCONTROLLER_H
