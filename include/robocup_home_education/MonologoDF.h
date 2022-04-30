@@ -12,6 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#ifndef ROBOCUP_HOME_EDUCATION_MONOLOGODF_H
+#define ROBOCUP_HOME_EDUCATION_MONOLOGODF_H
+
 #include "DialogInterface.h"
 #include <string>
 #include "std_msgs/Int32.h"
@@ -44,7 +47,7 @@ class MonologoDF: public DialogInterface
       this->registerCallback(
         std::bind(&MonologoDF::emptyIntentCB, this, ph::_1),
         "Empty");
-      
+
       stop_pub = nh_.advertise<std_msgs::Int32>("/stop_received", 1);
       std_msgs::Int32 msg;
       msg.data = 0;
@@ -56,7 +59,7 @@ class MonologoDF: public DialogInterface
       ROS_INFO("Operator: %s", result.query_text.c_str());
       ROS_INFO("noIntentCB: %s\n", result.fulfillment_text.c_str());
       speak(result.fulfillment_text);
-      ros::Duration(3, 0).sleep();
+      // ros::Duration(3, 0).sleep();
       enableListen();
     }
     void startIntentCB(dialogflow_ros_msgs::DialogflowResult result)
@@ -72,7 +75,7 @@ class MonologoDF: public DialogInterface
       ROS_INFO("Operator: %s", result.query_text.c_str());
       ROS_INFO("rightIntentCB: %s\n", result.fulfillment_text.c_str());
       speak(result.fulfillment_text);
-      ros::Duration(14, 0).sleep();
+      // ros::Duration(14, 0).sleep();
       enableListen();
     }
     void leftIntentCB(dialogflow_ros_msgs::DialogflowResult result)
@@ -80,7 +83,7 @@ class MonologoDF: public DialogInterface
       ROS_INFO("Operator: %s", result.query_text.c_str());
       ROS_INFO("leftIntentCB: %s\n", result.fulfillment_text.c_str());
       speak(result.fulfillment_text);
-      ros::Duration(14, 0).sleep();
+      // ros::Duration(14, 0).sleep();
       enableListen();
     }
     void not_visionIntentCB(dialogflow_ros_msgs::DialogflowResult result)
@@ -88,7 +91,7 @@ class MonologoDF: public DialogInterface
       ROS_INFO("Operator: %s", result.query_text.c_str());
       ROS_INFO("not_visionIntentCB: %s\n", result.fulfillment_text.c_str());
       speak(result.fulfillment_text);
-      ros::Duration(3, 0).sleep();
+      // ros::Duration(3, 0).sleep();
       enableListen();
     }
     void stopIntentCB(dialogflow_ros_msgs::DialogflowResult result)
@@ -110,3 +113,4 @@ class MonologoDF: public DialogInterface
     ros::NodeHandle nh_;
     ros::Publisher stop_pub;
 };
+#endif  // ROBOCUP_HOME_EDUCATION_MONOLOGODF_H
