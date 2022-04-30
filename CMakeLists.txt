@@ -113,6 +113,7 @@ add_library(Seguir SHARED src/behavior_tree_nodes/Seguir.cpp)
 add_library(Navegar SHARED src/behavior_tree_nodes/Navegar.cpp)
 add_library(Esperar SHARED src/behavior_tree_nodes/Esperar.cpp)
 add_library(Navegar2 SHARED src/behavior_tree_nodes/Navegar2.cpp)
+add_library(MaletaDetector SHARED src/behavior_tree_nodes/MaletaDetector.cpp)
 
 
 add_dependencies(robocup_home_education_los_ultramarinos ${catkin_EXPORTED_TARGETS} sound_play_generate_messages_cpp)
@@ -132,11 +133,10 @@ add_executable(ObservadorPersonas_rc src/ObservadorPersonas.cpp)
 add_executable(Coordinador_rc src/Coordinador.cpp)
 add_executable(ObservadorPelotasHSV_rc src/ObservadorPelotasHSV.cpp)
 add_executable( Control_rc src/Control.cpp ) 
-
 add_executable( Graficos_rc src/Graficos.cpp ) 
-
 add_executable( identificadorLado src/identificadorLado.cpp ) 
 add_executable( MoveDetector src/MoveDetector.cpp ) 
+add_executable( NavegarHastaPunto src/NavegarHastaPunto.cpp ) 
 
 
 target_link_libraries( ObservadorPelotasHSV_rc
@@ -173,6 +173,10 @@ ${catkin_LIBRARIES}
 )
 
 
+target_link_libraries( NavegarHastaPunto
+${catkin_LIBRARIES}
+)
+
 
 
 
@@ -206,6 +210,7 @@ list(APPEND plugin_libs
   Navegar
   Esperar
   Navegar2
+  MaletaDetector
 )
 
 foreach(bt_plugin ${plugin_libs})

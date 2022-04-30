@@ -22,7 +22,7 @@
 #include "std_msgs/String.h"
 #include "geometry_msgs/PoseStamped.h"
 #include "move_base_msgs/MoveBaseActionResult.h"
-
+#include "std_msgs/Int64.h"
 #include <string>
 #include "ros/ros.h"
 
@@ -39,7 +39,7 @@ class Navegar2 : public BT::ActionNodeBase
 
     BT::NodeStatus tick();
 
-    void messageCallback(const move_base_msgs::MoveBaseActionResult::ConstPtr& msg);
+   void messageCallback(const std_msgs::Int64::ConstPtr& msg);
 
 
     
@@ -53,10 +53,9 @@ class Navegar2 : public BT::ActionNodeBase
     ros::NodeHandle nh_;
     ros::Publisher activador ;
     ros::Subscriber sub ;
-    std::string feedBack = "" ;
-    
+    int feedBack = 0 ;    
     ros::Time i;
-    int a = 0;
+    int ac = 0;
 
 
 };

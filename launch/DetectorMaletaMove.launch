@@ -1,0 +1,11 @@
+<launch>
+        
+        <include file="$(find astra_camera)/launch/astra.launch"/>
+        
+        <node pkg="robocup_home_education_los_ultramarinos" type="MoveDetector" name="MoveDetector" output="screen">
+	</node>
+	
+	<node pkg="robocup_home_education_los_ultramarinos" type="identificadorLado" name="identificadorLado" output="screen">
+	</node>
+        
+</launch>

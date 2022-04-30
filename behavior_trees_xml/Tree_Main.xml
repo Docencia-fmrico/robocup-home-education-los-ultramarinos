@@ -5,18 +5,28 @@
         <KeepRunningUntilFailure>
             <ForceSuccess>
                 <ReactiveSequence>
+                   <!-- ////////// 
                     <Action ID="Navegar"/>
+                    -->
+                    <Action ID="MaletaDetector"/> 
+                    <!-- ////////// 
                     <Action ID="Seguir"/>
-                    <Action ID="Navegar2"/>
+                    <Action ID="Navegar2"/>  
+                    --> 
                 </ReactiveSequence>
             </ForceSuccess>
         </KeepRunningUntilFailure>
     </BehaviorTree>
     <!-- ////////// -->
     <TreeNodesModel>
+    <!-- ////////// 
        <Action ID="Navegar"/>
+        --> 
+       <Action ID="MaletaDetector"/>
+       <!-- ////////// 
        <Action ID="Seguir"/>
        <Action ID="Navegar2"/>
+       --> 
     </TreeNodesModel>
     <!-- ////////// -->
 </root>

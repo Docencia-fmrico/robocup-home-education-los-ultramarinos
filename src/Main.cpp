@@ -39,11 +39,10 @@ int main(int argc, char **argv)
    factory.registerFromPlugin(loader.getOSName("Seguir"));
    factory.registerFromPlugin(loader.getOSName("Navegar"));
    factory.registerFromPlugin(loader.getOSName("Navegar2"));
+   factory.registerFromPlugin(loader.getOSName("MaletaDetector"));
 
   auto blackboard = BT::Blackboard::create();
-
   std::string pkgpath = ros::package::getPath("robocup_home_education_los_ultramarinos");
-
   std::string xml_file = pkgpath + "/behavior_trees_xml/Tree_Main.xml";
 
 

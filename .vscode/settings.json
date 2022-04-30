@@ -13,6 +13,7 @@
         "cwctype": "cpp",
         "array": "cpp",
         "atomic": "cpp",
+        "hash_map": "cpp",
         "strstream": "cpp",
         "*.tcc": "cpp",
         "bitset": "cpp",

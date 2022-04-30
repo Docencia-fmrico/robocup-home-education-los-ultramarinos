@@ -21,26 +21,24 @@
 #include "std_msgs/Bool.h"
 #include "std_msgs/String.h"
 #include "geometry_msgs/PoseStamped.h"
-#include "move_base_msgs/MoveBaseActionResult.h"
 #include <string>
 #include "ros/ros.h"
-#include "std_msgs/Int64.h"
 
 namespace behavior_trees
 {
 
-class Navegar : public BT::ActionNodeBase
+class MaletaDetector : public BT::ActionNodeBase
 {
   public:
 
-    explicit Navegar(const std::string& name , const BT::NodeConfiguration& config);
+    explicit MaletaDetector(const std::string& name , const BT::NodeConfiguration& config);
 
     void halt();
 
     BT::NodeStatus tick();
-
-    void messageCallback(const std_msgs::Int64::ConstPtr& msg);
     
+    void messageCallback(const std_msgs::String::ConstPtr& msg);
+ 
     static BT::PortsList providedPorts()
     {
         return { BT::InputPort<std::string>("object")};
@@ -48,13 +46,13 @@ class Navegar : public BT::ActionNodeBase
 
 
   private:
-
     ros::NodeHandle nh_;
     ros::Publisher activador ;
+    std::string feedBack ;
     ros::Subscriber sub ;
-    int feedBack = 0 ;    
-    ros::Time i;
-    int ac = 0;
+  
+
+
 };
 
 }  // namespace behavior_trees
