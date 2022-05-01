@@ -14,6 +14,9 @@
 
 /*#include <string>*/
 #include "behavior_tree/TextToSpeech.h"
+#include "sound_play/SoundRequest.h"
+#include "std_msgs/String.h"
+#include "diagnostic_msgs/DiagnosticArray.h"
 /*#include "behaviortree_cpp_v3/behavior_tree.h"
 #include "behaviortree_cpp_v3/bt_factory.h"
 #include "ros/ros.h"*/
@@ -21,21 +24,24 @@
 namespace behavior_tree
 {
 
+std::string feedback = "";
+std::string charla = "hello there, how are you today? I am very good" ;
+
+
 TextToSpeech::TextToSpeech(const std::string& name,  const BT::NodeConfiguration & config)
 : BT::ActionNodeBase(name, config)
 {
-  msg_sub = nh.subscribe<std_msgs::String>("/msg_receive", 1000, &TextToSpeech::messageReceivedCallback, this);
+  sub = nh.subscribe("/diagnostics", 10, &TextToSpeech::messageCallback, this);
+	
+	ad = nh.advertise<sound_play::SoundRequest>("/robotsound",10);
+	
 }
 
-void TextToSpeech::messageReceivedCallback(const std_msgs::String::ConstPtr& msg)
-{
-  if (forwarder.isListenEnabled())
-  {
-    // forwarder.disableListen();
-    forwarder.stopListen();
-  }
-  
-  forwarder.tell(msg->data);
+
+void TextToSpeech::messageCallback(const diagnostic_msgs::DiagnosticArray::ConstPtr& msg)
+{ 
+  std::cout << msg->status[0].message << "\n" ;
+  feedback = msg->status[0].message ;
 }
 
 void TextToSpeech::halt()
@@ -46,12 +52,26 @@ void TextToSpeech::halt()
 
 BT::NodeStatus TextToSpeech::tick()
 {
-  // ROS_INFO("TextToSpeech tick");
-  if (forwarder.isListenEnabled())
-  {
-    forwarder.listen();
+  if(ac < 5){
+      std::cout << "PUBLICANDO" << "\n" ;
+			sound_play::SoundRequest habla ;
+			habla.sound = -3 ;
+			habla.command = 1 ;
+			habla.volume = 1 ;
+			habla.arg = charla ;
+			ad.publish(habla) ;
+	}
+
+  ac++;
+
+
+  if (feedback != "0 sounds playing") {
+    return BT::NodeStatus::RUNNING;
   }
-  return BT::NodeStatus::SUCCESS;
+  else {
+    std::cout << "success" << "\n" ;
+    return BT::NodeStatus::SUCCESS;
+  }
 }
 
 }  // namespace behavior_tree

@@ -36,6 +36,7 @@ int main(int argc, char **argv)
 
 
    factory.registerFromPlugin(loader.getOSName("Esperar"));
+   factory.registerFromPlugin(loader.getOSName("TextToSpeech"));
    factory.registerFromPlugin(loader.getOSName("Seguir"));
    factory.registerFromPlugin(loader.getOSName("Navegar"));
    factory.registerFromPlugin(loader.getOSName("Navegar2"));
@@ -43,7 +44,7 @@ int main(int argc, char **argv)
 
   auto blackboard = BT::Blackboard::create();
   std::string pkgpath = ros::package::getPath("robocup_home_education_los_ultramarinos");
-  std::string xml_file = pkgpath + "/behavior_trees_xml/Tree_Main.xml";
+  std::string xml_file = pkgpath + "/behavior_trees_xml/TextToSpeech.xml";
 
 
   BT::Tree tree = factory.createTreeFromFile(xml_file);
