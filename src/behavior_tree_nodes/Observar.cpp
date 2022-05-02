@@ -78,11 +78,8 @@ Observar::tick()
       else{
          return BT::NodeStatus::RUNNING;
       }
-  } 
-    
-  
+  }   
 }
-
 }  // namespace behavior_trees
 
 
