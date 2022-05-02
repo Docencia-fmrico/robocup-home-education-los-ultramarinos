@@ -3,8 +3,8 @@
 #include "geometry_msgs/Pose2D.h"
 #include "geometry_msgs/Twist.h"
 #include "std_msgs/Bool.h"
-#include "robocup_home_education/Controlador.hpp"
-#include "robocup_home_education/PIDController.hpp"
+#include "robocup_home_education/Controlador.h"
+#include "robocup_home_education/PIDController.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string>
