@@ -40,9 +40,11 @@ namespace behavior_tree
     private:
       ros::NodeHandle nh;
       ros::Subscriber msg_sub;
+      ros::Subscriber msg_to_say_sub;
       MonologoDF forwarder;
 
       void messageReceivedCallback(const std_msgs::String::ConstPtr& msg);
+      void messageToSayCallback(const std_msgs::String::ConstPtr& msg);
   };
 
 }  // namespace behavior_tree
