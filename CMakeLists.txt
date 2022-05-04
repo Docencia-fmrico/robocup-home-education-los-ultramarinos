@@ -18,6 +18,8 @@ find_package(catkin REQUIRED COMPONENTS
   image_transport
   tf
   behaviortree_cpp_v3
+  diagnostic_msgs
+ 
 )
 
 ################################################
@@ -103,17 +105,15 @@ list(APPEND plugin_libs
 
 
 
-
-
-
-
-
 add_library(TextToSpeech SHARED src/behavior_tree_nodes/TextToSpeech.cpp)
+add_library(TextToSpeech2 SHARED src/behavior_tree_nodes/TextToSpeech2.cpp)
 add_library(Seguir SHARED src/behavior_tree_nodes/Seguir.cpp)
 add_library(Navegar SHARED src/behavior_tree_nodes/Navegar.cpp)
 add_library(Esperar SHARED src/behavior_tree_nodes/Esperar.cpp)
 add_library(Navegar2 SHARED src/behavior_tree_nodes/Navegar2.cpp)
 add_library(MaletaDetector SHARED src/behavior_tree_nodes/MaletaDetector.cpp)
+add_library(Centrar SHARED src/behavior_tree_nodes/Centrar.cpp)
+add_library(MaletaDetector2 SHARED src/behavior_tree_nodes/MaletaDetector2.cpp)
 
 
 add_dependencies(robocup_home_education_los_ultramarinos ${catkin_EXPORTED_TARGETS} sound_play_generate_messages_cpp)
@@ -181,6 +181,7 @@ ${catkin_LIBRARIES}
 
 
 
+
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
 ## target back to the shorter version for ease of user use
@@ -206,11 +207,14 @@ target_link_libraries(Monologo_bt_node ${catkin_LIBRARIES} robocup_home_educatio
 
 list(APPEND plugin_libs
   TextToSpeech
+  TextToSpeech2
   Seguir
   Navegar
   Esperar
   Navegar2
   MaletaDetector
+  Centrar
+  MaletaDetector2
 )
 
 foreach(bt_plugin ${plugin_libs})

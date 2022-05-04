@@ -20,24 +20,26 @@
 #include "geometry_msgs/Twist.h"
 #include "std_msgs/Bool.h"
 #include "std_msgs/String.h"
-
+#include "geometry_msgs/PoseStamped.h"
+#include "geometry_msgs/Pose2D.h"
+#include <math.h>
 #include <string>
 #include "ros/ros.h"
 
 namespace behavior_trees
 {
 
-class Seguir : public BT::ActionNodeBase
+class Centrar : public BT::ActionNodeBase
 {
   public:
 
-    explicit Seguir(const std::string& name , const BT::NodeConfiguration& config);
+    explicit Centrar(const std::string& name , const BT::NodeConfiguration& config);
 
     void halt();
 
     BT::NodeStatus tick();
 
-    void messageCallback(const std_msgs::String::ConstPtr& msg);
+    void messageCallback(const geometry_msgs::Twist::ConstPtr& msg);
 
 
     
@@ -48,16 +50,26 @@ class Seguir : public BT::ActionNodeBase
 
 
   private:
-  
     ros::NodeHandle nh_;
-    ros::Publisher activador ;
     ros::Subscriber sub ;
-    std::string feedBack ;
-    int a = 0 ; 
+
+    ros::Publisher ad ;
+    std::string feedBack = "" ;
+
+    double dg;
+    double da;
+    
+    double lim_g = 0.3;
+    double lim_a = 0.5;
+
+
+    ros::Time i;
+    int a = 0;
     bool exito = false ;
+
 
 };
 
 }  // namespace behavior_trees
 
-#endif  // BEHAVIOR_TREES_SEGUIR_H
+#endif  // BEHAVIOR_TREES_Centrar_H

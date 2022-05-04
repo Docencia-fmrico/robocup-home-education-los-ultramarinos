@@ -5,6 +5,7 @@
 #include "geometry_msgs/Pose2D.h"
 //#include "robocup-home-education-los-ultramarinos/RobotData.h"
 //#include "robocup-home-education-los-ultramarinos/PolarPoint.h"
+#include "sound_play/SoundRequest.h"
 #include "tf/tf.h"
 #include <cmath>
 #include <memory>
@@ -72,9 +73,12 @@ int main(int argc, char** argv)
 	ros::init(argc, argv, "Coordinador");
 	ros::NodeHandle nh;
 	ros::Rate loop_rate(fr);
-
+    bool perdido_aviso = true ;
     ros::Publisher cPub = nh.advertise<geometry_msgs::Pose2D> ("/controller_instructions", fr, true);
-	ros::Publisher talkPub = nh.advertise<std_msgs::String>("/nodo_hablar", fr);
+	std::string lost_warnnig = "I cannot see you, you are too fast for me. Please come back" ;
+
+	ros::Publisher 	hablar = nh.advertise<sound_play::SoundRequest>("/robotsound",10);
+
 	ros::Publisher treePub = nh.advertise<std_msgs::String>("/status_seguimiento", fr);
 
 	ros::Subscriber personSub = nh.subscribe<geometry_msgs::Pose2D>("/person_data", fr, personReceived);
@@ -92,14 +96,30 @@ int main(int argc, char** argv)
 	
 	while (ros::ok())
 	{
+
 	if(act){
 	now = ros::Time::now().toSec();
+
+	sound_play::SoundRequest habla ;
+	
 	
     if (!lost(latest_ball, now))
     {
 		std::cout << "found ball!" << std::endl;
 		found_ball = true;
 		found_person = false;
+		
+		//--------------------------------------
+		if (!perdido_aviso) {
+		sound_play::SoundRequest habla ;
+		habla.sound = -1 ;
+	    habla.command = 0 ;
+	    habla.volume = 1 ;
+	    habla.arg = lost_warnnig ;
+        hablar.publish(habla) ;
+		perdido_aviso = true ;	
+		}
+        // ----------------------------------------
 	    cPub.publish(ball);
     }
     else if (!lost(latest_person, now))
@@ -107,6 +127,7 @@ int main(int argc, char** argv)
 		found_ball = false;
 		found_person = true;
 		std::cout << "found person!" << std::endl;
+		perdido_aviso = true ;
 	    cPub.publish(person);
     }
 	else
@@ -114,11 +135,18 @@ int main(int argc, char** argv)
 		found_ball = false;
 		found_person = false;
 		std::cout << "lost all" << std::endl;
-   
-        std::stringstream ss;
-        ss << "NO VEOOOO";
-        msg.data = ss.str();
-		talkPub.publish(msg);
+
+        //---------------------------------------------
+		if (perdido_aviso) {
+		sound_play::SoundRequest habla ;
+		habla.sound = -3 ;
+	    habla.command = 2 ;
+	    habla.volume = 1 ;
+	    habla.arg = lost_warnnig ;
+        hablar.publish(habla) ;	
+		perdido_aviso = false ;
+		}
+        // -----------------------------------------------
 		cPub.publish(lost_);
 	}
 
@@ -137,6 +165,8 @@ int main(int argc, char** argv)
         msg.data = ss.str();
 		treePub.publish(msg);	
 		}
+
+	
 
 	}
 

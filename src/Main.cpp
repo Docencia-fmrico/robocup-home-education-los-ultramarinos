@@ -37,17 +37,21 @@ int main(int argc, char **argv)
 
    factory.registerFromPlugin(loader.getOSName("Esperar"));
    factory.registerFromPlugin(loader.getOSName("TextToSpeech"));
+   factory.registerFromPlugin(loader.getOSName("TextToSpeech2"));
    factory.registerFromPlugin(loader.getOSName("Seguir"));
    factory.registerFromPlugin(loader.getOSName("Navegar"));
    factory.registerFromPlugin(loader.getOSName("Navegar2"));
    factory.registerFromPlugin(loader.getOSName("MaletaDetector"));
+   factory.registerFromPlugin(loader.getOSName("Centrar"));
+     factory.registerFromPlugin(loader.getOSName("MaletaDetector2"));
 
   auto blackboard = BT::Blackboard::create();
+  blackboard->set("maleta_dir","nada");
   std::string pkgpath = ros::package::getPath("robocup_home_education_los_ultramarinos");
-  std::string xml_file = pkgpath + "/behavior_trees_xml/TextToSpeech.xml";
+  std::string xml_file = pkgpath + "/behavior_trees_xml/Tree_Main.xml";
 
 
-  BT::Tree tree = factory.createTreeFromFile(xml_file);
+  BT::Tree tree = factory.createTreeFromFile(xml_file,blackboard);
   auto publisher_zmq = std::make_shared<BT::PublisherZMQ>(tree, 10, 1666, 1667);
 
   ros::Rate loop_rate(10);

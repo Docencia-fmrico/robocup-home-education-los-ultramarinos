@@ -11,7 +11,7 @@ bool act = false;
 int data_number = 0;
 int orientacion = 0;
 int fr = 10;
-const int max_data = 200;
+const int max_data = 5;
 const int min_dif = max_data/10;
 std_msgs::String msg;
 geometry_msgs::Pose2D mSensorsData;
@@ -19,7 +19,7 @@ geometry_msgs::Pose2D mSensorsData;
 void activacionTree(const std_msgs::Bool::ConstPtr& pp)
 { 
   act = pp->data  ;
-  ROS_INFO("IDENTIFICADOR ACTIVADO");
+  //ROS_INFO("IDENTIFICADOR ACTIVADO");
 }
 
 void movementReceived(const geometry_msgs::Pose2DConstPtr& lado)
@@ -38,7 +38,7 @@ int main(int argc, char** argv)
 	ros::NodeHandle nh;
     ros::Rate loop_rate(fr);
 
-	ros::Publisher talkPub = nh.advertise<std_msgs::String>("/nodo_hablar", fr);
+	//ros::Publisher talkPub = nh.advertise<std_msgs::String>("/nodo_hablar", fr);
 	ros::Publisher treePub = nh.advertise<std_msgs::String>("/status_maleta", fr);
 
 	ros::Subscriber movementSub = nh.subscribe<geometry_msgs::Pose2D>("/movement_data", fr, movementReceived);
@@ -50,39 +50,50 @@ int main(int argc, char** argv)
         {
             if(orientacion > min_dif){
 
+                /*  
                 std::stringstream result;
                 result << "DERECHA";
                 msg.data = result.str();
 		        talkPub.publish(msg);
+                */
+                
+                std::cout << " EXITOOOOOOO DERECHA " ;
 
                 std::stringstream status;
-                status << "SUCCESS";
+                status << "SUCCESS_DERECHA";
                 msg.data = status.str();
 		        treePub.publish(msg);
 
             }
 
             else if(orientacion < -min_dif){
-
+                
+                /*
                 std::stringstream result;
                 result << "IZQUIERDA";
                 msg.data = result.str();
 		        talkPub.publish(msg);
+                */
+
+                std::cout << " EXITOOOOOOO IZQUIERDA ";
 
                 std::stringstream status;
-                status << "SUCCESS";
+                status << "SUCCESS_IZQUIERDA";
                 msg.data = status.str();
 		        treePub.publish(msg);
             }
             else if(-min_dif <= orientacion <= min_dif){
+                
 
+                /*
                 std::stringstream result;
                 result << "FAIL";
                 msg.data = result.str();
 		        talkPub.publish(msg);
+                */
 
                 std::stringstream status;
-                status << "FAILURE";
+                status << "NO_MOVIMIENTO";
                 msg.data = status.str();
 		        treePub.publish(msg);
             }

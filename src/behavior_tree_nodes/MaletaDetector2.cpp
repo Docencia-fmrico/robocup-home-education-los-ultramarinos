@@ -14,7 +14,7 @@
 
 #include <string>
 
-#include "behavior_tree/MaletaDetector.h"
+#include "behavior_tree/MaletaDetector2.h"
 #include "geometry_msgs/Twist.h"
 #include "std_msgs/Bool.h"
 #include "behaviortree_cpp_v3/behavior_tree.h"
@@ -22,38 +22,38 @@
 #include "ros/ros.h"
 #include "std_msgs/String.h"
 #include "sound_play/SoundRequest.h"
+#include "geometry_msgs/Pose2D.h"
 
 namespace behavior_trees
 {
-MaletaDetector::MaletaDetector(const std::string& name , const BT::NodeConfiguration & config): BT::ActionNodeBase(name, config)
+MaletaDetector2::MaletaDetector2(const std::string& name , const BT::NodeConfiguration & config): BT::ActionNodeBase(name, config)
 { 
   int fr = 10 ;
-  sub = nh_.subscribe<std_msgs::String>("/status_maleta", fr, &MaletaDetector::messageCallback, this); 
-  activador = nh_.advertise<std_msgs::Bool>("/control_maleta",fr);
-   
+  sub = nh_.subscribe("/movement_data", fr, &MaletaDetector2::messageCallback, this); 
+  activador = nh_.advertise<std_msgs::Bool>("/control_maleta",fr);   
 }
 
 void
-MaletaDetector::messageCallback(const std_msgs::String::ConstPtr& msg)
+MaletaDetector2::messageCallback(const geometry_msgs::Pose2D::ConstPtr& msg)
 {
-  feedBack = msg->data ;
-  //std::cout << msg->data  ;
+  feedBack = msg->x ;
 }
 
 void
-MaletaDetector::halt()
+MaletaDetector2::halt()
 {
   ROS_INFO("Seguir halt");
 }
 
 BT::NodeStatus
-MaletaDetector::tick()
+MaletaDetector2::tick()
 {  
   
-
   // espero un poco 
+  
   if(a < 10 ){
    //ROS_INFO("Centrar RUNNING Esperansdo");
+   ROS_INFO("ESperando MANO RUNNING ");
    std_msgs::Bool act; 
    act.data = true; 
    activador.publish(act);
@@ -61,40 +61,49 @@ MaletaDetector::tick()
    return BT::NodeStatus::RUNNING;
   }
 
-  if (feedBack == "RUNNING" || feedBack == "NO_MOVIMIENTO" ) {
-    //ROS_INFO("ESCANEANDO DIRECCION ") ;
+  // cuento durante 10 s
+
+  if( a >=  10 && a < 110 ) {
+    if(feedBack ==  1 ){
+      derecha++; 
+    }else if(feedBack == -1){
+      izquierda++;
+    }
+    ROS_INFO("ESCANEANDO MANO RUNNING ");
+    a++ ;
     return BT::NodeStatus::RUNNING;
-  } 
-
-  if (feedBack == "SUCCESS_IZQUIERDA" ) {
-    
-    if(!exito){
-      std_msgs::Bool act;   
-      act.data = false ;
-      ROS_INFO("DIRECCION ENCONTRADA IZQUIERDA") ;
-      activador.publish(act);
-      setOutput("maleta_dir","left");
-      exito=true;
-    }
-
-    return BT::NodeStatus::SUCCESS;
-
-  } else if(feedBack == "SUCCESS_DERECHA" ){
-    
-    if(!exito){
+  }
+ 
+  std::cout << a ;
+  
+  ROS_INFO("Condiciones ");
+  if (derecha > izquierda){
+    if (!exito){
       std_msgs::Bool act; 
-      act.data = false ;
-      setOutput("maleta_dir","right");
-      ROS_INFO("DIRECCION ENCONTRADA DERECHA") ;
+      act.data = false; 
       activador.publish(act);
       exito=true;
-    }
-
+    } 
+    ROS_INFO("Exito escaneo   ");  
     return BT::NodeStatus::SUCCESS;
+  }
+  else if(derecha <= izquierda){
+    if (!exito){
+      std_msgs::Bool act; 
+      act.data = false; 
+      activador.publish(act);
+      exito=true;  
+    } 
+    ROS_INFO("Exito escaneo   ");
+    return BT::NodeStatus::SUCCESS;
+
+  }else{
+
+    return BT::NodeStatus::RUNNING;;
 
   }
   
-   return BT::NodeStatus::FAILURE;
+
 }
 
 }  // namespace behavior_trees
@@ -102,5 +111,5 @@ MaletaDetector::tick()
 
 BT_REGISTER_NODES(factory)
 {
-  factory.registerNodeType<behavior_trees::MaletaDetector>("MaletaDetector");
+  factory.registerNodeType<behavior_trees::MaletaDetector2>("MaletaDetector2");
 }

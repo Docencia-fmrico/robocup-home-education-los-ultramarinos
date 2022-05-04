@@ -17,15 +17,19 @@ double w = 0;
 bool act = false ;
 
 void messageCallback(const geometry_msgs::Pose2D::ConstPtr& msg)
-{ 
+{
+  
   dg = msg->y; 
   da = msg->x;
+
 }
 
 
 void activacionTree(const std_msgs::Bool::ConstPtr& pp)
 { 
   act = pp->data  ;
+
+
 }
 
 int main(int argc, char** argv){
@@ -33,10 +37,21 @@ int main(int argc, char** argv){
 
 	ros::NodeHandle nh;
 	Controlador controlador = Controlador();
+    
     ros::Subscriber Activador = nh.subscribe("/control_seguimiento", fr, activacionTree);
+
+
 	ros::Subscriber sub = nh.subscribe("/controller_instructions", fr, messageCallback);
 	ros::Publisher pub_vel_ = nh.advertise<geometry_msgs::Twist>("mobile_base/commands/velocity",fr);
+
+	ros::Publisher pub_err_ = nh.advertise<geometry_msgs::Twist>("errores",fr);
+
+	
+
+
     geometry_msgs::Twist cmd;
+	geometry_msgs::Twist err;
+
 	ros::Rate loop_rate(fr);
 	
     while(ros::ok()){
@@ -46,12 +61,23 @@ int main(int argc, char** argv){
 		double errg = controlador.errorGiro(dg) ; 
         double erra = controlador.errorAvance(da) ;
 
-		w = controlador.velocidadAngular( errg );
-        v = controlador.velocidadLineal( erra );
 
+		 err.angular.x = errg;
+		 err.linear.y = erra;
+
+     cmd.angular.z = w;
+     cmd.linear.x = v;
+      
+		 w = controlador.velocidadAngular( errg );
+     v = controlador.velocidadLineal( erra );
+
+
+    
 	   cmd.angular.z = w;
 	   cmd.linear.x = v;
-    	   
+       
+	   
+	   pub_err_.publish(err);
 	   pub_vel_.publish(cmd);     
 	}
 	

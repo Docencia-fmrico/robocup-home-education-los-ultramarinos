@@ -41,7 +41,7 @@ class MaletaDetector : public BT::ActionNodeBase
  
     static BT::PortsList providedPorts()
     {
-        return { BT::InputPort<std::string>("object")};
+        return { BT::OutputPort<std::string>("maleta_dir")};
     }
 
 
@@ -50,6 +50,10 @@ class MaletaDetector : public BT::ActionNodeBase
     ros::Publisher activador ;
     std::string feedBack ;
     ros::Subscriber sub ;
+    ros::Publisher ad;    
+    std::string charla ;
+    int a = 0 ;
+    bool exito = false ;
   
 
 

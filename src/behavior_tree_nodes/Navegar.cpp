@@ -52,8 +52,7 @@ Navegar::tick()
 
   if (ac == 5) 
   {
-
-    ROS_INFO(" POSICION ARBITRO COMUNICADA ");
+    //ROS_INFO(" POSICION ARBITRO COMUNICADA ");
 
     geometry_msgs::PoseStamped msg;
     
@@ -61,8 +60,8 @@ Navegar::tick()
     msg.header.stamp = i;
     msg.header.frame_id = "map";
 
-    msg.pose.position.x = -5.0;
-    msg.pose.position.y = 0.0;
+    msg.pose.position.x = -3;
+    msg.pose.position.y = 0;
     msg.pose.position.z = 0.0;
 
     msg.pose.orientation.x = 0.0;
@@ -73,7 +72,7 @@ Navegar::tick()
     activador.publish(msg);
   }
   ac++;
-  std::cout << "Feedback : " <<  feedBack ;
+  //std::cout << "Feedback : " <<  feedBack ;
   
   if(feedBack == 1 )
   {

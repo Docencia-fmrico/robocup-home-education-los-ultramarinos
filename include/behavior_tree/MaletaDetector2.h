@@ -20,44 +20,48 @@
 #include "geometry_msgs/Twist.h"
 #include "std_msgs/Bool.h"
 #include "std_msgs/String.h"
-
+#include "geometry_msgs/PoseStamped.h"
+#include "geometry_msgs/Pose2D.h"
 #include <string>
 #include "ros/ros.h"
 
 namespace behavior_trees
 {
 
-class Seguir : public BT::ActionNodeBase
+class MaletaDetector2 : public BT::ActionNodeBase
 {
   public:
 
-    explicit Seguir(const std::string& name , const BT::NodeConfiguration& config);
+    explicit MaletaDetector2(const std::string& name , const BT::NodeConfiguration& config);
 
     void halt();
 
     BT::NodeStatus tick();
-
-    void messageCallback(const std_msgs::String::ConstPtr& msg);
-
-
     
+    void messageCallback(const geometry_msgs::Pose2D::ConstPtr& msg);
+ 
     static BT::PortsList providedPorts()
     {
-        return { BT::InputPort<std::string>("object")};
+        return { BT::OutputPort<std::string>("maleta_dir")};
     }
 
 
   private:
-  
     ros::NodeHandle nh_;
     ros::Publisher activador ;
+    int feedBack ;
     ros::Subscriber sub ;
-    std::string feedBack ;
-    int a = 0 ; 
+    ros::Publisher ad;    
+    std::string charla ;
+    int a = 0 ;
     bool exito = false ;
+    int izquierda = 0 ;
+    int derecha = 0 ;
+  
+
 
 };
 
 }  // namespace behavior_trees
 
-#endif  // BEHAVIOR_TREES_SEGUIR_H
+#endif  // BEHAVIOR_TREES_NAVEGAR_H

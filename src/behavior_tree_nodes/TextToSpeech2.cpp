@@ -13,7 +13,7 @@
 // limitations under the License.
 
 /*#include <string>*/
-#include "behavior_tree/TextToSpeech.h"
+#include "behavior_tree/TextToSpeech2.h"
 #include "sound_play/SoundRequest.h"
 #include "std_msgs/String.h"
 #include "diagnostic_msgs/DiagnosticArray.h"
@@ -25,34 +25,34 @@ namespace behavior_tree
 {
 
 
-TextToSpeech::TextToSpeech(const std::string& name,  const BT::NodeConfiguration & config)
+TextToSpeech2::TextToSpeech2(const std::string& name,  const BT::NodeConfiguration & config)
 : BT::ActionNodeBase(name, config)
 {
-  sub = nh.subscribe("/diagnostics", 10, &TextToSpeech::messageCallback, this);
+  sub = nh.subscribe("/diagnostics", 10, &TextToSpeech2::messageCallback, this);
 	ad = nh.advertise<sound_play::SoundRequest>("/robotsound",10);
-  charla = "Hello there , I see that you need help. Please point repeatedly (shaking your hand) the bag you want me to take" ;
+  charla = "You have chosen the bag. Now i will start following you after these message ends. Remember, when we are finish the trip say STOP very loud and i will return to the start";
 	
 }
 
 
-void TextToSpeech::messageCallback(const diagnostic_msgs::DiagnosticArray::ConstPtr& msg)
+void TextToSpeech2::messageCallback(const diagnostic_msgs::DiagnosticArray::ConstPtr& msg)
 { 
   //std::cout << msg->status[0].message << "\n" ;
   feedback = msg->status[0].message ;
 }
 
-void TextToSpeech::halt()
+void TextToSpeech2::halt()
 {
   
-  // ROS_INFO("TextToSpeech halt");
+  // ROS_INFO("TextToSpeech2 halt");
 }
 
-BT::NodeStatus TextToSpeech::tick()
+BT::NodeStatus TextToSpeech2::tick()
 {
-  if(ac < 20){
+  if(ac < 5){
       ac++;
       //std::cout << "PUBLICANDO" << "\n" ;
-      if(ac < 3 ){
+			if(ac < 3 ){
 			sound_play::SoundRequest habla ;
 			habla.sound = -3 ;
 			habla.command = 1 ;
@@ -68,15 +68,15 @@ BT::NodeStatus TextToSpeech::tick()
     return BT::NodeStatus::RUNNING;
   }
   else {
-     if(!exito){
+    if(!exito) {
       sound_play::SoundRequest habla ;
 			habla.sound = -1 ;
 			habla.command = 0 ;
 			habla.volume = 1 ;
 			habla.arg = charla ;
 			ad.publish(habla) ;
-      exito=true;
-     }
+      exito = false ;
+    }  
     return BT::NodeStatus::SUCCESS;
   }
 }
@@ -86,5 +86,5 @@ BT::NodeStatus TextToSpeech::tick()
 
 BT_REGISTER_NODES(factory)
 {
-  factory.registerNodeType<behavior_tree::TextToSpeech>("TextToSpeech");
+  factory.registerNodeType<behavior_tree::TextToSpeech2>("TextToSpeech2");
 }

@@ -8,6 +8,9 @@
     <arg name="google_application_credentials" value="$(arg google_application_credentials)"/>
     <arg name="config_file" value="$(arg config_file)"/>
   </include>
+  <!--
   <node pkg="robocup_home_education_los_ultramarinos" type="Monologo_bt_node" name="Monologo_bt_node" output="screen">
   </node>
+  -->
+  
 </launch>

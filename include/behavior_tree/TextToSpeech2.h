@@ -27,10 +27,10 @@
 namespace behavior_tree
 {
 
-  class TextToSpeech : public BT::ActionNodeBase
+  class TextToSpeech2 : public BT::ActionNodeBase
   {
     public:
-      explicit TextToSpeech(const std::string& name, const BT::NodeConfiguration& config);
+      explicit TextToSpeech2(const std::string& name, const BT::NodeConfiguration& config);
 
       void halt();
 
@@ -38,7 +38,7 @@ namespace behavior_tree
 
       static BT::PortsList providedPorts()
       {
-        return { BT::OutputPort<std::string>("object")};
+        return { BT::InputPort<std::string>("maleta_dir")};
       }
       
       void messageCallback(const diagnostic_msgs::DiagnosticArray::ConstPtr& msg);
@@ -49,9 +49,8 @@ namespace behavior_tree
       ros::Publisher ad;      
       std::string charla ;
       std::string feedback ;
-
-      int ac = 0;
       bool exito = false ;
+      int ac = 0;
       
   };
 
