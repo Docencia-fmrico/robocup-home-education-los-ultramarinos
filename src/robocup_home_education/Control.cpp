@@ -3,8 +3,8 @@
 #include "geometry_msgs/Pose2D.h"
 #include "geometry_msgs/Twist.h"
 #include "std_msgs/Bool.h"
-#include "visual_behavior/Controlador.hpp"
-#include "visual_behavior/PIDController.hpp"
+#include "robocup_home_education/Controlador.h"
+#include "robocup_home_education/PIDController.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string>
@@ -18,15 +18,15 @@ bool act = false ;
 
 void messageCallback(const geometry_msgs::Pose2D::ConstPtr& msg)
 {
-  
-  dg = msg->y; 
+
+  dg = msg->y;
   da = msg->x;
 
 }
 
 
 void activacionTree(const std_msgs::Bool::ConstPtr& pp)
-{ 
+{
   act = pp->data  ;
 
 
@@ -37,7 +37,7 @@ int main(int argc, char** argv){
 
 	ros::NodeHandle nh;
 	Controlador controlador = Controlador();
-    
+
     ros::Subscriber Activador = nh.subscribe("/control_seguimiento", fr, activacionTree);
 
 
@@ -46,19 +46,19 @@ int main(int argc, char** argv){
 
 	ros::Publisher pub_err_ = nh.advertise<geometry_msgs::Twist>("errores",fr);
 
-	
+
 
 
     geometry_msgs::Twist cmd;
 	geometry_msgs::Twist err;
 
 	ros::Rate loop_rate(fr);
-	
+
     while(ros::ok()){
     if(act)
 	{
-	
-		double errg = controlador.errorGiro(dg) ; 
+
+		double errg = controlador.errorGiro(dg) ;
         double erra = controlador.errorAvance(da) ;
 
 
@@ -68,18 +68,18 @@ int main(int argc, char** argv){
 		w = controlador.velocidadAngular( errg );
         v = controlador.velocidadLineal( erra );
 
-    
+
 	   cmd.angular.z = w;
 	   //cmd.linear.x = v;
-       
-	   
+
+
 	   pub_err_.publish(err);
-	   pub_vel_.publish(cmd);     
+	   pub_vel_.publish(cmd);
 	}
-	
+
 	ros::spinOnce();
     loop_rate.sleep();
 }
-			
+
 	return 0;
 }

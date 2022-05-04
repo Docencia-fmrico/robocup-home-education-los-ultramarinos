@@ -20,7 +20,6 @@
 #include "std_msgs/Bool.h"
 #include "std_msgs/Float32.h"
 #include "cv_bridge/cv_bridge.h"
-#include "darknet_ros_msgs/BoundingBoxes.h"
 #include "tf/tf.h"
 #include "image_transport/image_transport.h"
 #include "geometry_msgs/Pose2D.h"

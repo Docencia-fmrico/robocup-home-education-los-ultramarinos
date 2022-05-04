@@ -19,7 +19,7 @@
 
 #include "ros/ros.h"
 #include "cv_bridge/cv_bridge.h"
-#include "darknet_ros_msgs/BoundingBoxes.h"
+//#include "darknet_ros_msgs/BoundingBoxes.h"
 #include "tf/tf.h"
 #include "std_msgs/Bool.h"
 #include "geometry_msgs/Pose2D.h"
