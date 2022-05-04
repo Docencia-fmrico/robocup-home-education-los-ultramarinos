@@ -23,6 +23,7 @@ TextToSpeech::TextToSpeech(const std::string& name,  const BT::NodeConfiguration
 : BT::ActionNodeBase(name, config)
 {
   msg_sub = nh.subscribe<std_msgs::String>("/msg_receive", 1000, &TextToSpeech::messageReceivedCallback, this);
+  msg_to_say_sub = nh.subscribe<std_msgs::String>("/msg_to_say", 1000, &TextToSpeech::messageToSayCallback, this);
 }
 
 void TextToSpeech::messageReceivedCallback(const std_msgs::String::ConstPtr& msg)
@@ -33,6 +34,16 @@ void TextToSpeech::messageReceivedCallback(const std_msgs::String::ConstPtr& msg
   }
 
   forwarder.tell(msg->data);
+}
+
+void TextToSpeech::messageToSayCallback(const std_msgs::String::ConstPtr& msg)
+{
+  if (forwarder.isListenEnabled())
+  {
+    forwarder.stopListen();
+  }
+
+  forwarder.speak(msg->data);
 }
 
 void TextToSpeech::halt()

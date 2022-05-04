@@ -1,0 +1,2 @@
+string person
+string object

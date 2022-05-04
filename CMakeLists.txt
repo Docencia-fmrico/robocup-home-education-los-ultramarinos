@@ -20,10 +20,20 @@ find_package(catkin REQUIRED COMPONENTS
   behaviortree_cpp_v3
 )
 
+add_message_files(
+  FILES
+  Info.msg
+)
+
+generate_messages(
+  DEPENDENCIES
+  std_msgs
+)
+
 catkin_package(
 	INCLUDE_DIRS include
 	LIBRARIES robocup_home_education_los_ultramarinos behaviortree_cpp_v3
-	CATKIN_DEPENDS roscpp dialogflow_ros_msgs actionlib_msgs
+	CATKIN_DEPENDS roscpp dialogflow_ros_msgs actionlib_msgs message_runtime
 	DEPENDS
 )
 
@@ -64,6 +74,7 @@ add_library(Centrar SHARED src/behavior_tree_nodes/Centrar.cpp)
 
 add_dependencies(robocup_home_education_los_ultramarinos ${catkin_EXPORTED_TARGETS} sound_play_generate_messages_cpp)
 target_link_libraries(robocup_home_education_los_ultramarinos ${catkin_LIBRARIES})
+
 ## Declare a C++ library
 # add_library(${PROJECT_NAME}
 #   src/${PROJECT_NAME}/robocup-home-education-los-ultramarinos.cpp
@@ -82,7 +93,6 @@ add_executable( Graficos_rc src/robocup_home_education/Graficos.cpp )
 
 add_executable( identificadorLado src/robocup_home_education/identificadorLado.cpp ) 
 add_executable( MoveDetector src/robocup_home_education/MoveDetector.cpp ) 
-
 
 target_link_libraries( ObservadorPelotasHSV_rc
 ${catkin_LIBRARIES}
