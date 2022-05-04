@@ -5,11 +5,11 @@ add_compile_options(-std=c++17)
 
 find_package(catkin REQUIRED COMPONENTS
   roscpp
-  #dialogflow_ros_msgs
+  dialogflow_ros_msgs
   roslint
   std_srvs
   std_msgs
-  #sound_play
+  sound_play
   actionlib
   actionlib_msgs
   geometry_msgs 
@@ -53,7 +53,7 @@ list(APPEND plugin_libs
   
 )
 
-#add_library(TextToSpeech SHARED src/behavior_tree_nodes/TextToSpeech.cpp)
+add_library(TextToSpeech SHARED src/behavior_tree_nodes/TextToSpeech.cpp)
 add_library(Seguir SHARED src/behavior_tree_nodes/Seguir.cpp)
 add_library(Navegar SHARED src/behavior_tree_nodes/Navegar.cpp)
 add_library(Esperar SHARED src/behavior_tree_nodes/Esperar.cpp)
@@ -62,7 +62,7 @@ add_library(Centrar SHARED src/behavior_tree_nodes/Centrar.cpp)
 add_library(Iniciar SHARED src/behavior_tree_nodes/Iniciar.cpp)
 
 
-add_dependencies(robocup_home_education_los_ultramarinos ${catkin_EXPORTED_TARGETS} )#sound_play_generate_messages_cpp
+add_dependencies(robocup_home_education_los_ultramarinos ${catkin_EXPORTED_TARGETS} sound_play_generate_messages_cpp)
 target_link_libraries(robocup_home_education_los_ultramarinos ${catkin_LIBRARIES})
 ## Declare a C++ library
 # add_library(${PROJECT_NAME}
@@ -143,7 +143,7 @@ target_link_libraries(Monologo_node ${catkin_LIBRARIES} robocup_home_education_l
 target_link_libraries(Carry_My_Luggage_bt_node ${catkin_LIBRARIES} robocup_home_education_los_ultramarinos ${ZMQ_LIBRARIES})
 
 list(APPEND plugin_libs
-  #TextToSpeech
+  TextToSpeech
   Seguir
   Navegar
   Esperar
