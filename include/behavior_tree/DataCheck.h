@@ -18,7 +18,7 @@
 #include "behaviortree_cpp_v3/behavior_tree.h"
 #include "behaviortree_cpp_v3/bt_factory.h"
 #include "geometry_msgs/Twist.h"
-#include "std_msgs/Bool.h"
+#include "std_msgs/Int32.h"
 #include "std_msgs/String.h"
 
 #include <string>
@@ -53,6 +53,7 @@ class DataCheck : public BT::ActionNodeBase
     ros::Subscriber sub ;
     
     std::string feedBack ;
+    int person_counter = 1;
 
 
 };
