@@ -32,11 +32,15 @@ int main(int argc, char **argv)
   BT::SharedLibrary loader;
 
   factory.registerFromPlugin(loader.getOSName("TextToSpeech"));
+  factory.registerFromPlugin(loader.getOSName("Observar"));
+  factory.registerFromPlugin(loader.getOSName("DataCheck"));
+  factory.registerFromPlugin(loader.getOSName("DataDump"));
+  factory.registerFromPlugin(loader.getOSName("Navegar3"));
 
   auto blackboard = BT::Blackboard::create();
 
   std::string pkgpath = ros::package::getPath("robocup_home_education_los_ultramarinos");
-  std::string xml_file = pkgpath + "/behavior_trees_xml/TextToSpeech.xml";
+  std::string xml_file = pkgpath + "/behavior_trees_xml/find_my_mates.xml";
 
   BT::Tree tree = factory.createTreeFromFile(xml_file);
   auto publisher_zmq = std::make_shared<BT::PublisherZMQ>(tree, 10, 1666, 1667);

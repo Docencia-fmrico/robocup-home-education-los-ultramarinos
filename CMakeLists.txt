@@ -92,12 +92,11 @@ add_executable(ObservadorPersonas_rc src/robocup_home_education/ObservadorPerson
 add_executable(Coordinador_rc src/robocup_home_education/Coordinador.cpp)
 add_executable(ObservadorPelotasHSV_rc src/robocup_home_education/ObservadorPelotasHSV.cpp)
 add_executable( Control_rc src/robocup_home_education/Control.cpp ) 
-
 add_executable( Graficos_rc src/robocup_home_education/Graficos.cpp ) 
-add_executable( data_collector src/data_collector.cpp )
-
+add_executable( data_collector src/robocup_home_education/data_collector.cpp )
 add_executable( identificadorLado src/robocup_home_education/identificadorLado.cpp ) 
-add_executable( MoveDetector src/robocup_home_education/MoveDetector.cpp ) 
+add_executable( MoveDetector src/robocup_home_education/MoveDetector.cpp )
+add_executable( Find_My_Mates src/Find_My_Mates.cpp )
 
 target_link_libraries( ObservadorPelotasHSV_rc
 ${catkin_LIBRARIES}
@@ -133,6 +132,10 @@ ${catkin_LIBRARIES}
 )
 
 target_link_libraries( data_collector
+${catkin_LIBRARIES}
+)
+
+target_link_libraries( Find_My_Mates
 ${catkin_LIBRARIES}
 )
 
