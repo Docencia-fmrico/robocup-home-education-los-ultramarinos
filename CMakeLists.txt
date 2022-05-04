@@ -110,7 +110,7 @@ list(APPEND plugin_libs
 
 add_library(TextToSpeech SHARED src/behavior_tree_nodes/TextToSpeech.cpp)
 add_library(Seguir SHARED src/behavior_tree_nodes/Seguir.cpp)
-add_library(Navegar SHARED src/behavior_tree_nodes/Navegar.cpp)
+#add_library(Navegar SHARED src/behavior_tree_nodes/Navegar.cpp)
 add_library(Esperar SHARED src/behavior_tree_nodes/Esperar.cpp)
 add_library(Navegar2 SHARED src/behavior_tree_nodes/Navegar2.cpp)
 add_library(Observar SHARED src/behavior_tree_nodes/Observar.cpp)
@@ -208,7 +208,7 @@ target_link_libraries(Monologo_bt_node ${catkin_LIBRARIES} robocup_home_educatio
 list(APPEND plugin_libs
   TextToSpeech
   Seguir
-  Navegar
+  #Navegar
   Esperar
   Navegar2
   Observar

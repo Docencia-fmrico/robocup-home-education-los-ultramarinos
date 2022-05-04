@@ -25,9 +25,9 @@ struct Person {
 
 struct RGB {
 
-    int r;
-    int g;
-    int b;
+    double r;
+    double g;
+    double b;
     std::string name;
 
 };

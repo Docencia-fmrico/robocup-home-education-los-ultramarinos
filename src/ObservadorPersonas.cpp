@@ -21,12 +21,17 @@ ros::Publisher mSensorsPublisher;
 ros::Subscriber Activador;
 ros::Publisher treePub;
 ros::Publisher objectPub;
+const int max_vals = 10;
 u_int R_ = 0;
 u_int G_ = 0;
 u_int B_ = 0;
+u_int Rs [max_vals];
+u_int Gs [max_vals];
+u_int Bs [max_vals];
+int values_counter = 0;
 float min_dist;
 bool found_person;
-bool found_object;
+bool found_object = false;
 bool act = false;
 double now;
 int fr = 10;
@@ -43,6 +48,19 @@ void activacionTree(const std_msgs::Bool::ConstPtr& clave)
   act = clave->data;
   ROS_INFO("Observador Activado");
 
+}
+
+u_int hacerMedia(u_int arr[])
+{
+	u_int result = 0;
+	
+	for(int i = 0;i < sizeof(arr); i++){
+		result = result + arr[i];
+		//ROS_INFO("Media: %d", result);
+	}
+	result = result/sizeof(arr);
+	ROS_INFO("Media: %d", result);
+	return result;
 }
 
 
@@ -70,7 +88,7 @@ void callback_bbx(const sensor_msgs::ImageConstPtr& depth, const sensor_msgs::Im
 		min_dist=0.5;
 		// #####################################
 		found_person = false;
-		found_object = false;
+		//found_object = false;
 		
 		for(int i=0;i<boxes->bounding_boxes.size();i++)
 		{
@@ -95,9 +113,9 @@ void callback_bbx(const sensor_msgs::ImageConstPtr& depth, const sensor_msgs::Im
 					G_ = vector_rgb[1];
 					B_ = vector_rgb[0];
 
-					pp.x = R_;
-					pp.y = G_;
-					pp.theta = B_;
+					//pp.x = R_;
+					//pp.y = G_;
+					//pp.theta = B_;
 
 					xmax = boxes->bounding_boxes[i].xmax;
 					xmin = boxes->bounding_boxes[i].xmin;
@@ -105,16 +123,27 @@ void callback_bbx(const sensor_msgs::ImageConstPtr& depth, const sensor_msgs::Im
 					ymin = boxes->bounding_boxes[i].ymin;
 
 
-					if(pp.x != 0 || pp.y != 0 || pp.theta != 0){
-						found_person = true;
+					if( (R_ != 0 || G_ != 0 || B_ != 0 ) && values_counter < max_vals){
+						Rs[values_counter] = R_;
+						Gs[values_counter] = G_;
+						Bs[values_counter] = B_;
+
+						ROS_INFO("R = %d", Rs[values_counter]);
+						ROS_INFO("G = %d", Gs[values_counter]);
+						ROS_INFO("B = %d", Bs[values_counter]);
+						
+						values_counter++;
+						ROS_INFO("values = %d", values_counter);
 					}
+
+					found_person = true;
 
 					}
 			}
 		}
 		
 
-		if (found_person)
+		if (found_person && !found_object)
 		{
 			for(int i=0;i<boxes->bounding_boxes.size();i++)
 			{
@@ -133,25 +162,36 @@ void callback_bbx(const sensor_msgs::ImageConstPtr& depth, const sensor_msgs::Im
 					std::stringstream ss;
 					ss << boxes->bounding_boxes[i].Class;
 					object.data = ss.str();
-					objectPub.publish(object);
 
-					std::stringstream ss2;
-					ss2 << "SUCCESS";
-					msg.data = ss2.str();
-					treePub.publish(msg);
-
-					mSensorsPublisher.publish(pp);
 					found_object = true;
 				}
 			}
-			if(!found_object)
+			//if(!found_object || values_counter < max_vals)
+			if(values_counter < max_vals)
 			{
 			std::stringstream ss;
 			ss << "RUNNING";
 			msg.data = ss.str();
 			treePub.publish(msg);
 			//Solo para tests
-			mSensorsPublisher.publish(pp);
+			//mSensorsPublisher.publish(pp);
+			}
+			else{
+
+				pp.x = hacerMedia(Rs);
+				pp.y = hacerMedia(Gs);
+				pp.theta = hacerMedia(Bs);
+
+
+				std::stringstream ss;
+				ss << "SUCCESS";
+				msg.data = ss.str();
+				treePub.publish(msg);
+
+				mSensorsPublisher.publish(pp);
+				objectPub.publish(object);
+
+				values_counter = 0;
 			}
 		}
 		else
@@ -187,6 +227,4 @@ int main(int argc, char** argv)
 	objectPub = nh.advertise<std_msgs::String>("/object_data", fr);
 
 	ros::spin();
-	
-
 }
