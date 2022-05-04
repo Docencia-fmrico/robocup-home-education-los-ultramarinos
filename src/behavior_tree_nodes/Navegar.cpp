@@ -14,29 +14,29 @@
 
 #include <string>
 
-#include "behavior_tree/Navegar2.h"
+#include "behavior_tree/Navegar.h"
 
 namespace behavior_trees
 {
-Navegar2::Navegar2(const std::string& name, const BT::NodeConfiguration & config):
+Navegar::Navegar(const std::string& name, const BT::NodeConfiguration & config):
 BT::ActionNodeBase(name, config), nh_(), feedBack(" ")
 {
   activador = nh_.advertise<geometry_msgs::PoseStamped>("move_base_simple/goal", 10);
-  sub = nh_.subscribe("/move_base/result", 10, &Navegar2::messageCallback, this);
+  sub = nh_.subscribe("/move_base/result", 10, &Navegar::messageCallback, this);
 }
 
-void Navegar2::messageCallback(const move_base_msgs::MoveBaseActionResult::ConstPtr& msg)
+void Navegar::messageCallback(const move_base_msgs::MoveBaseActionResult::ConstPtr& msg)
 {
   feedBack = msg->status.text;
   std::cout << "Resultado Navegacion : " << feedBack << "\n";
 }
 
-void Navegar2::halt()
+void Navegar::halt()
 {
   ROS_INFO("Seguir halt");
 }
 
-BT::NodeStatus Navegar2::tick()
+BT::NodeStatus Navegar::tick()
 {
   if (a == 5)
   {
@@ -75,8 +75,7 @@ BT::NodeStatus Navegar2::tick()
 }
 }  // namespace behavior_trees
 
-
 BT_REGISTER_NODES(factory)
 {
-  factory.registerNodeType<behavior_trees::Navegar2>("Navegar2");
+  factory.registerNodeType<behavior_trees::Navegar>("Navegar");
 }

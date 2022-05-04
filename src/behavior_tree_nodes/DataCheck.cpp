@@ -14,30 +14,33 @@
 
 #include <string>
 
-#include "behavior_tree/Seguir.h"
+#include "behavior_tree/DataCheck.h"
 
 namespace behavior_trees
 {
 
-Seguir::Seguir(const std::string& name , const BT::NodeConfiguration & config):
+DataCheck::DataCheck(const std::string& name , const BT::NodeConfiguration & config):
 BT::ActionNodeBase(name, config), nh_(), feedBack(" ")
 {
   activador = nh_.advertise<std_msgs::Bool>("/control_seguimiento", 10);
-  sub = nh_.subscribe<std_msgs::String>("/status_seguimiento", 10, &Seguir::messageCallback, this);
+  sub = nh_.subscribe<std_msgs::String>("/status_seguimiento", 10, &DataCheck::messageCallback, this);
 }
 
-void Seguir::messageCallback(const std_msgs::String::ConstPtr& msg)
+void DataCheck::messageCallback(const std_msgs::String::ConstPtr& msg)
 {
   feedBack = msg->data;
   std::cout << msg->data;
 }
 
-void Seguir::halt()
+void DataCheck::halt()
 {
-  ROS_INFO("Seguir halt");
+  //ROS_INFO("Seguir halt");
+  std_msgs::Bool act;
+  act.data = false;
+  activador.publish(act);
 }
 
-BT::NodeStatus Seguir::tick()
+BT::NodeStatus DataCheck::tick()
 {
   std_msgs::Bool act;
   act.data = true;
@@ -64,5 +67,5 @@ BT::NodeStatus Seguir::tick()
 
 BT_REGISTER_NODES(factory)
 {
-  factory.registerNodeType<behavior_trees::Seguir>("Seguir");
+  factory.registerNodeType<behavior_trees::DataCheck>("DataCheck");
 }

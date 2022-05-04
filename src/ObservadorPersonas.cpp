@@ -21,6 +21,7 @@ ros::Publisher mSensorsPublisher;
 ros::Subscriber Activador;
 ros::Publisher treePub;
 ros::Publisher objectPub;
+ros::Publisher talkPub;
 const int max_vals = 10;
 u_int R_ = 0;
 u_int G_ = 0;
@@ -79,7 +80,7 @@ void callback_bbx(const sensor_msgs::ImageConstPtr& depth, const sensor_msgs::Im
 		//cv::Mat rgb = RgbImageData->image;
 		//cv::erode(RgbImageData->image, rgb, cv::Mat());
 
-		std::string tag = "sports ball";
+		std::string tag = "person";
 		
 		float px_center=DepthImageData->image.cols/2;
 		float py_center=DepthImageData->image.rows/2;
@@ -188,6 +189,11 @@ void callback_bbx(const sensor_msgs::ImageConstPtr& depth, const sensor_msgs::Im
 				msg.data = ss.str();
 				treePub.publish(msg);
 
+				std::stringstream dialog;
+				dialog << "Welcome";
+				msg.data = dialog.str();
+				talkPub.publish(dialog);
+
 				mSensorsPublisher.publish(pp);
 				objectPub.publish(object);
 
@@ -225,6 +231,7 @@ int main(int argc, char** argv)
 	Activador = nh.subscribe("/control_observador", fr, activacionTree);
 	treePub = nh.advertise<std_msgs::String>("/status_observador", fr);
 	objectPub = nh.advertise<std_msgs::String>("/object_data", fr);
+	talkPub = nh.advertise<std_msgs::String>("/msg_receive", fr);
 
 	ros::spin();
 }

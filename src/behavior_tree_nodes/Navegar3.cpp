@@ -14,47 +14,49 @@
 
 #include <string>
 
-#include "behavior_tree/Navegar2.h"
+#include "behavior_tree/Navegar3.h"
+
 
 namespace behavior_trees
 {
-Navegar2::Navegar2(const std::string& name, const BT::NodeConfiguration & config):
+Navegar3::Navegar3(const std::string& name, const BT::NodeConfiguration & config):
 BT::ActionNodeBase(name, config), nh_(), feedBack(" ")
 {
   activador = nh_.advertise<geometry_msgs::PoseStamped>("move_base_simple/goal", 10);
-  sub = nh_.subscribe("/move_base/result", 10, &Navegar2::messageCallback, this);
+  sub = nh_.subscribe("/move_base/result", 10, &Navegar3::messageCallback, this);
 }
 
-void Navegar2::messageCallback(const move_base_msgs::MoveBaseActionResult::ConstPtr& msg)
+void Navegar3::messageCallback(const move_base_msgs::MoveBaseActionResult::ConstPtr& msg)
 {
   feedBack = msg->status.text;
   std::cout << "Resultado Navegacion : " << feedBack << "\n";
 }
 
-void Navegar2::halt()
+void Navegar3::halt()
 {
   ROS_INFO("Seguir halt");
 }
 
-BT::NodeStatus Navegar2::tick()
+BT::NodeStatus Navegar3::tick()
 {
   if (a == 5)
   {
     std::cout << a << "\n";
 
     geometry_msgs::PoseStamped msg;
+    msg = positions[counter];
 
-    msg.header.stamp = i;
-    msg.header.frame_id = "map";
+    //msg.header.stamp = i;
+    //msg.header.frame_id = "map";
 
-    msg.pose.position.x = 0.0;
-    msg.pose.position.y = 0.0;
-    msg.pose.position.z = 0.0;
+    //msg.pose.position.x = 0.0;
+   // msg.pose.position.y = 0.0;
+    //msg.pose.position.z = 0.0;
 
-    msg.pose.orientation.x = 0.0;
-    msg.pose.orientation.y = 0.0;
-    msg.pose.orientation.z = 0.0;
-    msg.pose.orientation.w = 1.0;
+   // msg.pose.orientation.x = 0.0;
+   // msg.pose.orientation.y = 0.0;
+   // msg.pose.orientation.z = 0.0;
+   // msg.pose.orientation.w = 1.0;
 
     activador.publish(msg);
   }
@@ -64,6 +66,9 @@ BT::NodeStatus Navegar2::tick()
   {
     if (feedBack == "Goal reached.")
     {
+      a = 0;
+      counter++;
+      feedBack = "";
       return BT::NodeStatus::SUCCESS;
     }
     else
@@ -75,8 +80,7 @@ BT::NodeStatus Navegar2::tick()
 }
 }  // namespace behavior_trees
 
-
 BT_REGISTER_NODES(factory)
 {
-  factory.registerNodeType<behavior_trees::Navegar2>("Navegar2");
+  factory.registerNodeType<behavior_trees::Navegar3>("Navegar3");
 }

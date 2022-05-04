@@ -26,3 +26,9 @@ Cambio en el /catkin_ws/src/dialog/dialogflow_ros/dialogflow_ros/scripts/dialogf
 ```py
 rostopic pub /move_base_simple/goal geometry_msgs/PoseStamped '{ header: {stamp: now, frame_id: "map"}, pose: { position: {x: 0, y: 0, z: 0.0}, orientation: {w: 1.0}}}'
 ```
+
+## Roslint
+
+```py
+catkin_make roslint_robocup_home_education_los_ultramarinos
+```

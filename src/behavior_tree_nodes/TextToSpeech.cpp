@@ -12,11 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-/*#include <string>*/
+#include <string>
+
 #include "behavior_tree/TextToSpeech.h"
-/*#include "behaviortree_cpp_v3/behavior_tree.h"
-#include "behaviortree_cpp_v3/bt_factory.h"
-#include "ros/ros.h"*/
 
 namespace behavior_tree
 {
@@ -25,22 +23,31 @@ TextToSpeech::TextToSpeech(const std::string& name,  const BT::NodeConfiguration
 : BT::ActionNodeBase(name, config)
 {
   msg_sub = nh.subscribe<std_msgs::String>("/msg_receive", 1000, &TextToSpeech::messageReceivedCallback, this);
+  msg_to_say_sub = nh.subscribe<std_msgs::String>("/msg_to_say", 1000, &TextToSpeech::messageToSayCallback, this);
 }
 
 void TextToSpeech::messageReceivedCallback(const std_msgs::String::ConstPtr& msg)
 {
   if (forwarder.isListenEnabled())
   {
-    // forwarder.disableListen();
     forwarder.stopListen();
   }
-  
+
   forwarder.tell(msg->data);
+}
+
+void TextToSpeech::messageToSayCallback(const std_msgs::String::ConstPtr& msg)
+{
+  if (forwarder.isListenEnabled())
+  {
+    forwarder.stopListen();
+  }
+
+  forwarder.speak(msg->data);
 }
 
 void TextToSpeech::halt()
 {
-  
   // ROS_INFO("TextToSpeech halt");
 }
 

@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef DIALOGINTERFACE__H
-#define DIALOGINTERFACE__H
+#ifndef ROBOCUP_HOME_EDUCATION_DIALOGINTERFACE_H
+#define ROBOCUP_HOME_EDUCATION_DIALOGINTERFACE_H
 
 #include <ros/ros.h>
 #include <string>
@@ -41,7 +41,7 @@ public:
   void disableListen();
   bool isListenEnabled();
 
-  virtual void listenCallback(DialogflowResult result){}
+  virtual void listenCallback(DialogflowResult result) {}
   void registerCallback(
     std::function<void(const DialogflowResult & result)> cb,
     std::string intent = "(.*)");
@@ -63,5 +63,4 @@ private:
   void init();
   void dfCallback(const DialogflowResult::ConstPtr& result);
 };
-
-#endif
+#endif  // ROBOCUP_HOME_EDUCATION_DIALOGINTERFACE_H

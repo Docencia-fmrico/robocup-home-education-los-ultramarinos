@@ -21,8 +21,7 @@
 #include "std_msgs/Bool.h"
 #include "std_msgs/String.h"
 #include "geometry_msgs/PoseStamped.h"
-#include "move_base_msgs/MoveBaseActionResult.h"
-
+#include "geometry_msgs/Pose2D.h"
 
 #include <string>
 #include "ros/ros.h"
@@ -30,32 +29,40 @@
 namespace behavior_trees
 {
 
-class Navegar : public BT::ActionNodeBase
+class Centrar : public BT::ActionNodeBase
 {
   public:
 
-    explicit Navegar(const std::string& name , const BT::NodeConfiguration& config);
+    explicit Centrar(const std::string& name , const BT::NodeConfiguration& config);
 
     void halt();
 
     BT::NodeStatus tick();
 
+    void messageCallback(const geometry_msgs::Twist::ConstPtr& msg);
 
-    void messageCallback(const move_base_msgs::MoveBaseActionResult::ConstPtr& msg);
+
     
     static BT::PortsList providedPorts()
     {
-      return { BT::InputPort<std::string>("object")};
+        return { BT::InputPort<std::string>("object")};
     }
 
 
   private:
     ros::NodeHandle nh_;
-    ros::Publisher activador ;
     ros::Subscriber sub ;
+
+    ros::Publisher ad ;
     std::string feedBack = "" ;
 
+    double dg;
+    double da;
     
+    double lim_g = 0.0;
+    double lim_a = 0.99;
+
+
     ros::Time i;
     int a = 0;
 
@@ -64,4 +71,4 @@ class Navegar : public BT::ActionNodeBase
 
 }  // namespace behavior_trees
 
-#endif  // BEHAVIOR_TREES_NAVEGAR_H
+#endif  // BEHAVIOR_TREES_Centrar_H

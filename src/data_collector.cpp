@@ -170,14 +170,20 @@ void talk(ros::Publisher talkPub, Person people[], int people_counter)
 void activacionTree(const std_msgs::Bool::ConstPtr& pp)
 { 
   act = pp->data  ;
-  ROS_INFO("HABLANDO...");
-  if(act){
-      talk(talkPub, people, people_counter);
-      std::stringstream ss;
-	  ss << "SUCCESS";
-	  msg.data = ss.str();
-	  treePub.publish(msg);
-  }
+
+    if (people_counter < 3){
+        //talk(talkPub, people, people_counter);
+        std::stringstream ss;
+	    ss << "FAILURE";
+	    msg.data = ss.str();
+	    treePub.publish(msg);
+    }
+    else{
+        std::stringstream ss;
+	    ss << "SUCCESS";
+	    msg.data = ss.str();
+	    treePub.publish(msg);
+    }
 }
 
 
@@ -202,7 +208,7 @@ int main(int argc, char** argv)
 	treePub = nh.advertise<std_msgs::String>("/status_data", fr);
 
 	ros::Subscriber colorSub = nh.subscribe<geometry_msgs::Pose2D>("/person_data", fr, personReceived);
-	ros::Subscriber listenerSub = nh.subscribe<std_msgs::String>("/listener_data", fr, voiceReceived);
+	ros::Subscriber listenerSub = nh.subscribe<std_msgs::String>("/info_received", fr, voiceReceived);
     ros::Subscriber objectSub = nh.subscribe<std_msgs::String>("/object_data", fr, objectReceived);
 	ros::Subscriber Activador = nh.subscribe("/control_data", fr, activacionTree);
 
