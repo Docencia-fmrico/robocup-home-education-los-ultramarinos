@@ -30,7 +30,10 @@ TextToSpeech2::TextToSpeech2(const std::string& name,  const BT::NodeConfigurati
 {
   sub = nh.subscribe("/diagnostics", 10, &TextToSpeech2::messageCallback, this);
 	ad = nh.advertise<sound_play::SoundRequest>("/robotsound",10);
-  charla = "You have chosen the bag. Now i will start following you after these message ends. Remember, when we are finish the trip say STOP very loud and i will return to the start";
+
+  
+
+  charla = "you have chosen the left bag. Now i will start following you.";
 	
 }
 
@@ -49,11 +52,18 @@ void TextToSpeech2::halt()
 
 BT::NodeStatus TextToSpeech2::tick()
 {
+
   if(ac < 5){
       ac++;
       //std::cout << "PUBLICANDO" << "\n" ;
 			if(ac < 3 ){
+        
+        
 			sound_play::SoundRequest habla ;
+      
+      
+      
+      
 			habla.sound = -3 ;
 			habla.command = 1 ;
 			habla.volume = 1 ;
@@ -73,7 +83,7 @@ BT::NodeStatus TextToSpeech2::tick()
 			habla.sound = -1 ;
 			habla.command = 0 ;
 			habla.volume = 1 ;
-			habla.arg = charla ;
+			habla.arg = charla;
 			ad.publish(habla) ;
       exito = false ;
     }  

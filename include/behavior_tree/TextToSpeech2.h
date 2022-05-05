@@ -38,7 +38,7 @@ namespace behavior_tree
 
       static BT::PortsList providedPorts()
       {
-        return { BT::InputPort<std::string>("maleta_dir")};
+        return { BT::InputPort<std::string>("message")};
       }
       
       void messageCallback(const diagnostic_msgs::DiagnosticArray::ConstPtr& msg);
@@ -48,6 +48,7 @@ namespace behavior_tree
       ros::Subscriber sub;
       ros::Publisher ad;      
       std::string charla ;
+      
       std::string feedback ;
       bool exito = false ;
       int ac = 0;

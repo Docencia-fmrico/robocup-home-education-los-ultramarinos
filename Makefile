@@ -68,17 +68,26 @@ install/strip/fast: preinstall/fast
 	/usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
 .PHONY : install/strip/fast
 
-# Special rule for the target install/local
-install/local: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
-	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
-.PHONY : install/local
+# Special rule for the target list_install_components
+list_install_components:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Available install components are: \"Unspecified\""
+.PHONY : list_install_components
 
-# Special rule for the target install/local
-install/local/fast: preinstall/fast
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
-	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
-.PHONY : install/local/fast
+# Special rule for the target list_install_components
+list_install_components/fast: list_install_components
+
+.PHONY : list_install_components/fast
+
+# Special rule for the target test
+test:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running tests..."
+	/usr/bin/ctest --force-new-ctest-process $(ARGS)
+.PHONY : test
+
+# Special rule for the target test
+test/fast: test
+
+.PHONY : test/fast
 
 # Special rule for the target edit_cache
 edit_cache:
@@ -102,27 +111,6 @@ rebuild_cache/fast: rebuild_cache
 
 .PHONY : rebuild_cache/fast
 
-# Special rule for the target list_install_components
-list_install_components:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Available install components are: \"Unspecified\""
-.PHONY : list_install_components
-
-# Special rule for the target list_install_components
-list_install_components/fast: list_install_components
-
-.PHONY : list_install_components/fast
-
-# Special rule for the target test
-test:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running tests..."
-	/usr/bin/ctest --force-new-ctest-process $(ARGS)
-.PHONY : test
-
-# Special rule for the target test
-test/fast: test
-
-.PHONY : test/fast
-
 # Special rule for the target install
 install: preinstall
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
@@ -134,6 +122,18 @@ install/fast: preinstall/fast
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
 	/usr/bin/cmake -P cmake_install.cmake
 .PHONY : install/fast
+
+# Special rule for the target install/local
+install/local: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
+	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
+.PHONY : install/local
+
+# Special rule for the target install/local
+install/local/fast: preinstall/fast
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
+	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
+.PHONY : install/local/fast
 
 # The main all target
 all: cmake_check_build_system
@@ -168,6 +168,21 @@ depend:
 .PHONY : depend
 
 # Convenience name for target.
+robocup-home-education-los-ultramarinos/CMakeFiles/NavegarHastaPunto.dir/rule:
+	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f CMakeFiles/Makefile2 robocup-home-education-los-ultramarinos/CMakeFiles/NavegarHastaPunto.dir/rule
+.PHONY : robocup-home-education-los-ultramarinos/CMakeFiles/NavegarHastaPunto.dir/rule
+
+# Convenience name for target.
+NavegarHastaPunto: robocup-home-education-los-ultramarinos/CMakeFiles/NavegarHastaPunto.dir/rule
+
+.PHONY : NavegarHastaPunto
+
+# fast build rule for target.
+NavegarHastaPunto/fast:
+	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f robocup-home-education-los-ultramarinos/CMakeFiles/NavegarHastaPunto.dir/build.make robocup-home-education-los-ultramarinos/CMakeFiles/NavegarHastaPunto.dir/build
+.PHONY : NavegarHastaPunto/fast
+
+# Convenience name for target.
 robocup-home-education-los-ultramarinos/CMakeFiles/MoveDetector.dir/rule:
 	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f CMakeFiles/Makefile2 robocup-home-education-los-ultramarinos/CMakeFiles/MoveDetector.dir/rule
 .PHONY : robocup-home-education-los-ultramarinos/CMakeFiles/MoveDetector.dir/rule
@@ -183,216 +198,6 @@ MoveDetector/fast:
 .PHONY : MoveDetector/fast
 
 # Convenience name for target.
-robocup-home-education-los-ultramarinos/CMakeFiles/tf_generate_messages_py.dir/rule:
-	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f CMakeFiles/Makefile2 robocup-home-education-los-ultramarinos/CMakeFiles/tf_generate_messages_py.dir/rule
-.PHONY : robocup-home-education-los-ultramarinos/CMakeFiles/tf_generate_messages_py.dir/rule
-
-# Convenience name for target.
-tf_generate_messages_py: robocup-home-education-los-ultramarinos/CMakeFiles/tf_generate_messages_py.dir/rule
-
-.PHONY : tf_generate_messages_py
-
-# fast build rule for target.
-tf_generate_messages_py/fast:
-	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f robocup-home-education-los-ultramarinos/CMakeFiles/tf_generate_messages_py.dir/build.make robocup-home-education-los-ultramarinos/CMakeFiles/tf_generate_messages_py.dir/build
-.PHONY : tf_generate_messages_py/fast
-
-# Convenience name for target.
-robocup-home-education-los-ultramarinos/CMakeFiles/TextToSpeech.dir/rule:
-	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f CMakeFiles/Makefile2 robocup-home-education-los-ultramarinos/CMakeFiles/TextToSpeech.dir/rule
-.PHONY : robocup-home-education-los-ultramarinos/CMakeFiles/TextToSpeech.dir/rule
-
-# Convenience name for target.
-TextToSpeech: robocup-home-education-los-ultramarinos/CMakeFiles/TextToSpeech.dir/rule
-
-.PHONY : TextToSpeech
-
-# fast build rule for target.
-TextToSpeech/fast:
-	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f robocup-home-education-los-ultramarinos/CMakeFiles/TextToSpeech.dir/build.make robocup-home-education-los-ultramarinos/CMakeFiles/TextToSpeech.dir/build
-.PHONY : TextToSpeech/fast
-
-# Convenience name for target.
-robocup-home-education-los-ultramarinos/CMakeFiles/tf2_msgs_generate_messages_py.dir/rule:
-	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f CMakeFiles/Makefile2 robocup-home-education-los-ultramarinos/CMakeFiles/tf2_msgs_generate_messages_py.dir/rule
-.PHONY : robocup-home-education-los-ultramarinos/CMakeFiles/tf2_msgs_generate_messages_py.dir/rule
-
-# Convenience name for target.
-tf2_msgs_generate_messages_py: robocup-home-education-los-ultramarinos/CMakeFiles/tf2_msgs_generate_messages_py.dir/rule
-
-.PHONY : tf2_msgs_generate_messages_py
-
-# fast build rule for target.
-tf2_msgs_generate_messages_py/fast:
-	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f robocup-home-education-los-ultramarinos/CMakeFiles/tf2_msgs_generate_messages_py.dir/build.make robocup-home-education-los-ultramarinos/CMakeFiles/tf2_msgs_generate_messages_py.dir/build
-.PHONY : tf2_msgs_generate_messages_py/fast
-
-# Convenience name for target.
-robocup-home-education-los-ultramarinos/CMakeFiles/Coordinador_rc.dir/rule:
-	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f CMakeFiles/Makefile2 robocup-home-education-los-ultramarinos/CMakeFiles/Coordinador_rc.dir/rule
-.PHONY : robocup-home-education-los-ultramarinos/CMakeFiles/Coordinador_rc.dir/rule
-
-# Convenience name for target.
-Coordinador_rc: robocup-home-education-los-ultramarinos/CMakeFiles/Coordinador_rc.dir/rule
-
-.PHONY : Coordinador_rc
-
-# fast build rule for target.
-Coordinador_rc/fast:
-	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f robocup-home-education-los-ultramarinos/CMakeFiles/Coordinador_rc.dir/build.make robocup-home-education-los-ultramarinos/CMakeFiles/Coordinador_rc.dir/build
-.PHONY : Coordinador_rc/fast
-
-# Convenience name for target.
-robocup-home-education-los-ultramarinos/CMakeFiles/tf_generate_messages_eus.dir/rule:
-	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f CMakeFiles/Makefile2 robocup-home-education-los-ultramarinos/CMakeFiles/tf_generate_messages_eus.dir/rule
-.PHONY : robocup-home-education-los-ultramarinos/CMakeFiles/tf_generate_messages_eus.dir/rule
-
-# Convenience name for target.
-tf_generate_messages_eus: robocup-home-education-los-ultramarinos/CMakeFiles/tf_generate_messages_eus.dir/rule
-
-.PHONY : tf_generate_messages_eus
-
-# fast build rule for target.
-tf_generate_messages_eus/fast:
-	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f robocup-home-education-los-ultramarinos/CMakeFiles/tf_generate_messages_eus.dir/build.make robocup-home-education-los-ultramarinos/CMakeFiles/tf_generate_messages_eus.dir/build
-.PHONY : tf_generate_messages_eus/fast
-
-# Convenience name for target.
-robocup-home-education-los-ultramarinos/CMakeFiles/tf2_msgs_generate_messages_cpp.dir/rule:
-	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f CMakeFiles/Makefile2 robocup-home-education-los-ultramarinos/CMakeFiles/tf2_msgs_generate_messages_cpp.dir/rule
-.PHONY : robocup-home-education-los-ultramarinos/CMakeFiles/tf2_msgs_generate_messages_cpp.dir/rule
-
-# Convenience name for target.
-tf2_msgs_generate_messages_cpp: robocup-home-education-los-ultramarinos/CMakeFiles/tf2_msgs_generate_messages_cpp.dir/rule
-
-.PHONY : tf2_msgs_generate_messages_cpp
-
-# fast build rule for target.
-tf2_msgs_generate_messages_cpp/fast:
-	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f robocup-home-education-los-ultramarinos/CMakeFiles/tf2_msgs_generate_messages_cpp.dir/build.make robocup-home-education-los-ultramarinos/CMakeFiles/tf2_msgs_generate_messages_cpp.dir/build
-.PHONY : tf2_msgs_generate_messages_cpp/fast
-
-# Convenience name for target.
-robocup-home-education-los-ultramarinos/CMakeFiles/Esperar.dir/rule:
-	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f CMakeFiles/Makefile2 robocup-home-education-los-ultramarinos/CMakeFiles/Esperar.dir/rule
-.PHONY : robocup-home-education-los-ultramarinos/CMakeFiles/Esperar.dir/rule
-
-# Convenience name for target.
-Esperar: robocup-home-education-los-ultramarinos/CMakeFiles/Esperar.dir/rule
-
-.PHONY : Esperar
-
-# fast build rule for target.
-Esperar/fast:
-	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f robocup-home-education-los-ultramarinos/CMakeFiles/Esperar.dir/build.make robocup-home-education-los-ultramarinos/CMakeFiles/Esperar.dir/build
-.PHONY : Esperar/fast
-
-# Convenience name for target.
-robocup-home-education-los-ultramarinos/CMakeFiles/tf_generate_messages_nodejs.dir/rule:
-	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f CMakeFiles/Makefile2 robocup-home-education-los-ultramarinos/CMakeFiles/tf_generate_messages_nodejs.dir/rule
-.PHONY : robocup-home-education-los-ultramarinos/CMakeFiles/tf_generate_messages_nodejs.dir/rule
-
-# Convenience name for target.
-tf_generate_messages_nodejs: robocup-home-education-los-ultramarinos/CMakeFiles/tf_generate_messages_nodejs.dir/rule
-
-.PHONY : tf_generate_messages_nodejs
-
-# fast build rule for target.
-tf_generate_messages_nodejs/fast:
-	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f robocup-home-education-los-ultramarinos/CMakeFiles/tf_generate_messages_nodejs.dir/build.make robocup-home-education-los-ultramarinos/CMakeFiles/tf_generate_messages_nodejs.dir/build
-.PHONY : tf_generate_messages_nodejs/fast
-
-# Convenience name for target.
-robocup-home-education-los-ultramarinos/CMakeFiles/Navegar2.dir/rule:
-	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f CMakeFiles/Makefile2 robocup-home-education-los-ultramarinos/CMakeFiles/Navegar2.dir/rule
-.PHONY : robocup-home-education-los-ultramarinos/CMakeFiles/Navegar2.dir/rule
-
-# Convenience name for target.
-Navegar2: robocup-home-education-los-ultramarinos/CMakeFiles/Navegar2.dir/rule
-
-.PHONY : Navegar2
-
-# fast build rule for target.
-Navegar2/fast:
-	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f robocup-home-education-los-ultramarinos/CMakeFiles/Navegar2.dir/build.make robocup-home-education-los-ultramarinos/CMakeFiles/Navegar2.dir/build
-.PHONY : Navegar2/fast
-
-# Convenience name for target.
-robocup-home-education-los-ultramarinos/CMakeFiles/ObservadorPersonas_rc.dir/rule:
-	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f CMakeFiles/Makefile2 robocup-home-education-los-ultramarinos/CMakeFiles/ObservadorPersonas_rc.dir/rule
-.PHONY : robocup-home-education-los-ultramarinos/CMakeFiles/ObservadorPersonas_rc.dir/rule
-
-# Convenience name for target.
-ObservadorPersonas_rc: robocup-home-education-los-ultramarinos/CMakeFiles/ObservadorPersonas_rc.dir/rule
-
-.PHONY : ObservadorPersonas_rc
-
-# fast build rule for target.
-ObservadorPersonas_rc/fast:
-	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f robocup-home-education-los-ultramarinos/CMakeFiles/ObservadorPersonas_rc.dir/build.make robocup-home-education-los-ultramarinos/CMakeFiles/ObservadorPersonas_rc.dir/build
-.PHONY : ObservadorPersonas_rc/fast
-
-# Convenience name for target.
-robocup-home-education-los-ultramarinos/CMakeFiles/Seguir.dir/rule:
-	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f CMakeFiles/Makefile2 robocup-home-education-los-ultramarinos/CMakeFiles/Seguir.dir/rule
-.PHONY : robocup-home-education-los-ultramarinos/CMakeFiles/Seguir.dir/rule
-
-# Convenience name for target.
-Seguir: robocup-home-education-los-ultramarinos/CMakeFiles/Seguir.dir/rule
-
-.PHONY : Seguir
-
-# fast build rule for target.
-Seguir/fast:
-	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f robocup-home-education-los-ultramarinos/CMakeFiles/Seguir.dir/build.make robocup-home-education-los-ultramarinos/CMakeFiles/Seguir.dir/build
-.PHONY : Seguir/fast
-
-# Convenience name for target.
-robocup-home-education-los-ultramarinos/CMakeFiles/tf_generate_messages_cpp.dir/rule:
-	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f CMakeFiles/Makefile2 robocup-home-education-los-ultramarinos/CMakeFiles/tf_generate_messages_cpp.dir/rule
-.PHONY : robocup-home-education-los-ultramarinos/CMakeFiles/tf_generate_messages_cpp.dir/rule
-
-# Convenience name for target.
-tf_generate_messages_cpp: robocup-home-education-los-ultramarinos/CMakeFiles/tf_generate_messages_cpp.dir/rule
-
-.PHONY : tf_generate_messages_cpp
-
-# fast build rule for target.
-tf_generate_messages_cpp/fast:
-	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f robocup-home-education-los-ultramarinos/CMakeFiles/tf_generate_messages_cpp.dir/build.make robocup-home-education-los-ultramarinos/CMakeFiles/tf_generate_messages_cpp.dir/build
-.PHONY : tf_generate_messages_cpp/fast
-
-# Convenience name for target.
-robocup-home-education-los-ultramarinos/CMakeFiles/tf2_msgs_generate_messages_nodejs.dir/rule:
-	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f CMakeFiles/Makefile2 robocup-home-education-los-ultramarinos/CMakeFiles/tf2_msgs_generate_messages_nodejs.dir/rule
-.PHONY : robocup-home-education-los-ultramarinos/CMakeFiles/tf2_msgs_generate_messages_nodejs.dir/rule
-
-# Convenience name for target.
-tf2_msgs_generate_messages_nodejs: robocup-home-education-los-ultramarinos/CMakeFiles/tf2_msgs_generate_messages_nodejs.dir/rule
-
-.PHONY : tf2_msgs_generate_messages_nodejs
-
-# fast build rule for target.
-tf2_msgs_generate_messages_nodejs/fast:
-	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f robocup-home-education-los-ultramarinos/CMakeFiles/tf2_msgs_generate_messages_nodejs.dir/build.make robocup-home-education-los-ultramarinos/CMakeFiles/tf2_msgs_generate_messages_nodejs.dir/build
-.PHONY : tf2_msgs_generate_messages_nodejs/fast
-
-# Convenience name for target.
-robocup-home-education-los-ultramarinos/CMakeFiles/Navegar.dir/rule:
-	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f CMakeFiles/Makefile2 robocup-home-education-los-ultramarinos/CMakeFiles/Navegar.dir/rule
-.PHONY : robocup-home-education-los-ultramarinos/CMakeFiles/Navegar.dir/rule
-
-# Convenience name for target.
-Navegar: robocup-home-education-los-ultramarinos/CMakeFiles/Navegar.dir/rule
-
-.PHONY : Navegar
-
-# fast build rule for target.
-Navegar/fast:
-	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f robocup-home-education-los-ultramarinos/CMakeFiles/Navegar.dir/build.make robocup-home-education-los-ultramarinos/CMakeFiles/Navegar.dir/build
-.PHONY : Navegar/fast
-
-# Convenience name for target.
 robocup-home-education-los-ultramarinos/CMakeFiles/Graficos_rc.dir/rule:
 	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f CMakeFiles/Makefile2 robocup-home-education-los-ultramarinos/CMakeFiles/Graficos_rc.dir/rule
 .PHONY : robocup-home-education-los-ultramarinos/CMakeFiles/Graficos_rc.dir/rule
@@ -406,6 +211,81 @@ Graficos_rc: robocup-home-education-los-ultramarinos/CMakeFiles/Graficos_rc.dir/
 Graficos_rc/fast:
 	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f robocup-home-education-los-ultramarinos/CMakeFiles/Graficos_rc.dir/build.make robocup-home-education-los-ultramarinos/CMakeFiles/Graficos_rc.dir/build
 .PHONY : Graficos_rc/fast
+
+# Convenience name for target.
+robocup-home-education-los-ultramarinos/CMakeFiles/diagnostic_msgs_generate_messages_lisp.dir/rule:
+	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f CMakeFiles/Makefile2 robocup-home-education-los-ultramarinos/CMakeFiles/diagnostic_msgs_generate_messages_lisp.dir/rule
+.PHONY : robocup-home-education-los-ultramarinos/CMakeFiles/diagnostic_msgs_generate_messages_lisp.dir/rule
+
+# Convenience name for target.
+diagnostic_msgs_generate_messages_lisp: robocup-home-education-los-ultramarinos/CMakeFiles/diagnostic_msgs_generate_messages_lisp.dir/rule
+
+.PHONY : diagnostic_msgs_generate_messages_lisp
+
+# fast build rule for target.
+diagnostic_msgs_generate_messages_lisp/fast:
+	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f robocup-home-education-los-ultramarinos/CMakeFiles/diagnostic_msgs_generate_messages_lisp.dir/build.make robocup-home-education-los-ultramarinos/CMakeFiles/diagnostic_msgs_generate_messages_lisp.dir/build
+.PHONY : diagnostic_msgs_generate_messages_lisp/fast
+
+# Convenience name for target.
+robocup-home-education-los-ultramarinos/CMakeFiles/diagnostic_msgs_generate_messages_eus.dir/rule:
+	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f CMakeFiles/Makefile2 robocup-home-education-los-ultramarinos/CMakeFiles/diagnostic_msgs_generate_messages_eus.dir/rule
+.PHONY : robocup-home-education-los-ultramarinos/CMakeFiles/diagnostic_msgs_generate_messages_eus.dir/rule
+
+# Convenience name for target.
+diagnostic_msgs_generate_messages_eus: robocup-home-education-los-ultramarinos/CMakeFiles/diagnostic_msgs_generate_messages_eus.dir/rule
+
+.PHONY : diagnostic_msgs_generate_messages_eus
+
+# fast build rule for target.
+diagnostic_msgs_generate_messages_eus/fast:
+	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f robocup-home-education-los-ultramarinos/CMakeFiles/diagnostic_msgs_generate_messages_eus.dir/build.make robocup-home-education-los-ultramarinos/CMakeFiles/diagnostic_msgs_generate_messages_eus.dir/build
+.PHONY : diagnostic_msgs_generate_messages_eus/fast
+
+# Convenience name for target.
+robocup-home-education-los-ultramarinos/CMakeFiles/Monologo_bt_node.dir/rule:
+	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f CMakeFiles/Makefile2 robocup-home-education-los-ultramarinos/CMakeFiles/Monologo_bt_node.dir/rule
+.PHONY : robocup-home-education-los-ultramarinos/CMakeFiles/Monologo_bt_node.dir/rule
+
+# Convenience name for target.
+Monologo_bt_node: robocup-home-education-los-ultramarinos/CMakeFiles/Monologo_bt_node.dir/rule
+
+.PHONY : Monologo_bt_node
+
+# fast build rule for target.
+Monologo_bt_node/fast:
+	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f robocup-home-education-los-ultramarinos/CMakeFiles/Monologo_bt_node.dir/build.make robocup-home-education-los-ultramarinos/CMakeFiles/Monologo_bt_node.dir/build
+.PHONY : Monologo_bt_node/fast
+
+# Convenience name for target.
+robocup-home-education-los-ultramarinos/CMakeFiles/identificadorLado.dir/rule:
+	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f CMakeFiles/Makefile2 robocup-home-education-los-ultramarinos/CMakeFiles/identificadorLado.dir/rule
+.PHONY : robocup-home-education-los-ultramarinos/CMakeFiles/identificadorLado.dir/rule
+
+# Convenience name for target.
+identificadorLado: robocup-home-education-los-ultramarinos/CMakeFiles/identificadorLado.dir/rule
+
+.PHONY : identificadorLado
+
+# fast build rule for target.
+identificadorLado/fast:
+	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f robocup-home-education-los-ultramarinos/CMakeFiles/identificadorLado.dir/build.make robocup-home-education-los-ultramarinos/CMakeFiles/identificadorLado.dir/build
+.PHONY : identificadorLado/fast
+
+# Convenience name for target.
+robocup-home-education-los-ultramarinos/CMakeFiles/tf2_msgs_generate_messages_lisp.dir/rule:
+	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f CMakeFiles/Makefile2 robocup-home-education-los-ultramarinos/CMakeFiles/tf2_msgs_generate_messages_lisp.dir/rule
+.PHONY : robocup-home-education-los-ultramarinos/CMakeFiles/tf2_msgs_generate_messages_lisp.dir/rule
+
+# Convenience name for target.
+tf2_msgs_generate_messages_lisp: robocup-home-education-los-ultramarinos/CMakeFiles/tf2_msgs_generate_messages_lisp.dir/rule
+
+.PHONY : tf2_msgs_generate_messages_lisp
+
+# fast build rule for target.
+tf2_msgs_generate_messages_lisp/fast:
+	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f robocup-home-education-los-ultramarinos/CMakeFiles/tf2_msgs_generate_messages_lisp.dir/build.make robocup-home-education-los-ultramarinos/CMakeFiles/tf2_msgs_generate_messages_lisp.dir/build
+.PHONY : tf2_msgs_generate_messages_lisp/fast
 
 # Convenience name for target.
 robocup-home-education-los-ultramarinos/CMakeFiles/tf_generate_messages_lisp.dir/rule:
@@ -438,6 +318,336 @@ tf2_msgs_generate_messages_eus/fast:
 .PHONY : tf2_msgs_generate_messages_eus/fast
 
 # Convenience name for target.
+robocup-home-education-los-ultramarinos/CMakeFiles/Coordinador_rc.dir/rule:
+	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f CMakeFiles/Makefile2 robocup-home-education-los-ultramarinos/CMakeFiles/Coordinador_rc.dir/rule
+.PHONY : robocup-home-education-los-ultramarinos/CMakeFiles/Coordinador_rc.dir/rule
+
+# Convenience name for target.
+Coordinador_rc: robocup-home-education-los-ultramarinos/CMakeFiles/Coordinador_rc.dir/rule
+
+.PHONY : Coordinador_rc
+
+# fast build rule for target.
+Coordinador_rc/fast:
+	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f robocup-home-education-los-ultramarinos/CMakeFiles/Coordinador_rc.dir/build.make robocup-home-education-los-ultramarinos/CMakeFiles/Coordinador_rc.dir/build
+.PHONY : Coordinador_rc/fast
+
+# Convenience name for target.
+robocup-home-education-los-ultramarinos/CMakeFiles/Esperar.dir/rule:
+	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f CMakeFiles/Makefile2 robocup-home-education-los-ultramarinos/CMakeFiles/Esperar.dir/rule
+.PHONY : robocup-home-education-los-ultramarinos/CMakeFiles/Esperar.dir/rule
+
+# Convenience name for target.
+Esperar: robocup-home-education-los-ultramarinos/CMakeFiles/Esperar.dir/rule
+
+.PHONY : Esperar
+
+# fast build rule for target.
+Esperar/fast:
+	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f robocup-home-education-los-ultramarinos/CMakeFiles/Esperar.dir/build.make robocup-home-education-los-ultramarinos/CMakeFiles/Esperar.dir/build
+.PHONY : Esperar/fast
+
+# Convenience name for target.
+robocup-home-education-los-ultramarinos/CMakeFiles/tf_generate_messages_py.dir/rule:
+	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f CMakeFiles/Makefile2 robocup-home-education-los-ultramarinos/CMakeFiles/tf_generate_messages_py.dir/rule
+.PHONY : robocup-home-education-los-ultramarinos/CMakeFiles/tf_generate_messages_py.dir/rule
+
+# Convenience name for target.
+tf_generate_messages_py: robocup-home-education-los-ultramarinos/CMakeFiles/tf_generate_messages_py.dir/rule
+
+.PHONY : tf_generate_messages_py
+
+# fast build rule for target.
+tf_generate_messages_py/fast:
+	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f robocup-home-education-los-ultramarinos/CMakeFiles/tf_generate_messages_py.dir/build.make robocup-home-education-los-ultramarinos/CMakeFiles/tf_generate_messages_py.dir/build
+.PHONY : tf_generate_messages_py/fast
+
+# Convenience name for target.
+robocup-home-education-los-ultramarinos/CMakeFiles/diagnostic_msgs_generate_messages_cpp.dir/rule:
+	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f CMakeFiles/Makefile2 robocup-home-education-los-ultramarinos/CMakeFiles/diagnostic_msgs_generate_messages_cpp.dir/rule
+.PHONY : robocup-home-education-los-ultramarinos/CMakeFiles/diagnostic_msgs_generate_messages_cpp.dir/rule
+
+# Convenience name for target.
+diagnostic_msgs_generate_messages_cpp: robocup-home-education-los-ultramarinos/CMakeFiles/diagnostic_msgs_generate_messages_cpp.dir/rule
+
+.PHONY : diagnostic_msgs_generate_messages_cpp
+
+# fast build rule for target.
+diagnostic_msgs_generate_messages_cpp/fast:
+	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f robocup-home-education-los-ultramarinos/CMakeFiles/diagnostic_msgs_generate_messages_cpp.dir/build.make robocup-home-education-los-ultramarinos/CMakeFiles/diagnostic_msgs_generate_messages_cpp.dir/build
+.PHONY : diagnostic_msgs_generate_messages_cpp/fast
+
+# Convenience name for target.
+robocup-home-education-los-ultramarinos/CMakeFiles/tf2_msgs_generate_messages_cpp.dir/rule:
+	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f CMakeFiles/Makefile2 robocup-home-education-los-ultramarinos/CMakeFiles/tf2_msgs_generate_messages_cpp.dir/rule
+.PHONY : robocup-home-education-los-ultramarinos/CMakeFiles/tf2_msgs_generate_messages_cpp.dir/rule
+
+# Convenience name for target.
+tf2_msgs_generate_messages_cpp: robocup-home-education-los-ultramarinos/CMakeFiles/tf2_msgs_generate_messages_cpp.dir/rule
+
+.PHONY : tf2_msgs_generate_messages_cpp
+
+# fast build rule for target.
+tf2_msgs_generate_messages_cpp/fast:
+	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f robocup-home-education-los-ultramarinos/CMakeFiles/tf2_msgs_generate_messages_cpp.dir/build.make robocup-home-education-los-ultramarinos/CMakeFiles/tf2_msgs_generate_messages_cpp.dir/build
+.PHONY : tf2_msgs_generate_messages_cpp/fast
+
+# Convenience name for target.
+robocup-home-education-los-ultramarinos/CMakeFiles/tf_generate_messages_eus.dir/rule:
+	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f CMakeFiles/Makefile2 robocup-home-education-los-ultramarinos/CMakeFiles/tf_generate_messages_eus.dir/rule
+.PHONY : robocup-home-education-los-ultramarinos/CMakeFiles/tf_generate_messages_eus.dir/rule
+
+# Convenience name for target.
+tf_generate_messages_eus: robocup-home-education-los-ultramarinos/CMakeFiles/tf_generate_messages_eus.dir/rule
+
+.PHONY : tf_generate_messages_eus
+
+# fast build rule for target.
+tf_generate_messages_eus/fast:
+	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f robocup-home-education-los-ultramarinos/CMakeFiles/tf_generate_messages_eus.dir/build.make robocup-home-education-los-ultramarinos/CMakeFiles/tf_generate_messages_eus.dir/build
+.PHONY : tf_generate_messages_eus/fast
+
+# Convenience name for target.
+robocup-home-education-los-ultramarinos/CMakeFiles/tf2_msgs_generate_messages_py.dir/rule:
+	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f CMakeFiles/Makefile2 robocup-home-education-los-ultramarinos/CMakeFiles/tf2_msgs_generate_messages_py.dir/rule
+.PHONY : robocup-home-education-los-ultramarinos/CMakeFiles/tf2_msgs_generate_messages_py.dir/rule
+
+# Convenience name for target.
+tf2_msgs_generate_messages_py: robocup-home-education-los-ultramarinos/CMakeFiles/tf2_msgs_generate_messages_py.dir/rule
+
+.PHONY : tf2_msgs_generate_messages_py
+
+# fast build rule for target.
+tf2_msgs_generate_messages_py/fast:
+	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f robocup-home-education-los-ultramarinos/CMakeFiles/tf2_msgs_generate_messages_py.dir/build.make robocup-home-education-los-ultramarinos/CMakeFiles/tf2_msgs_generate_messages_py.dir/build
+.PHONY : tf2_msgs_generate_messages_py/fast
+
+# Convenience name for target.
+robocup-home-education-los-ultramarinos/CMakeFiles/TextToSpeech.dir/rule:
+	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f CMakeFiles/Makefile2 robocup-home-education-los-ultramarinos/CMakeFiles/TextToSpeech.dir/rule
+.PHONY : robocup-home-education-los-ultramarinos/CMakeFiles/TextToSpeech.dir/rule
+
+# Convenience name for target.
+TextToSpeech: robocup-home-education-los-ultramarinos/CMakeFiles/TextToSpeech.dir/rule
+
+.PHONY : TextToSpeech
+
+# fast build rule for target.
+TextToSpeech/fast:
+	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f robocup-home-education-los-ultramarinos/CMakeFiles/TextToSpeech.dir/build.make robocup-home-education-los-ultramarinos/CMakeFiles/TextToSpeech.dir/build
+.PHONY : TextToSpeech/fast
+
+# Convenience name for target.
+robocup-home-education-los-ultramarinos/CMakeFiles/TextToSpeech2.dir/rule:
+	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f CMakeFiles/Makefile2 robocup-home-education-los-ultramarinos/CMakeFiles/TextToSpeech2.dir/rule
+.PHONY : robocup-home-education-los-ultramarinos/CMakeFiles/TextToSpeech2.dir/rule
+
+# Convenience name for target.
+TextToSpeech2: robocup-home-education-los-ultramarinos/CMakeFiles/TextToSpeech2.dir/rule
+
+.PHONY : TextToSpeech2
+
+# fast build rule for target.
+TextToSpeech2/fast:
+	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f robocup-home-education-los-ultramarinos/CMakeFiles/TextToSpeech2.dir/build.make robocup-home-education-los-ultramarinos/CMakeFiles/TextToSpeech2.dir/build
+.PHONY : TextToSpeech2/fast
+
+# Convenience name for target.
+robocup-home-education-los-ultramarinos/CMakeFiles/diagnostic_msgs_generate_messages_py.dir/rule:
+	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f CMakeFiles/Makefile2 robocup-home-education-los-ultramarinos/CMakeFiles/diagnostic_msgs_generate_messages_py.dir/rule
+.PHONY : robocup-home-education-los-ultramarinos/CMakeFiles/diagnostic_msgs_generate_messages_py.dir/rule
+
+# Convenience name for target.
+diagnostic_msgs_generate_messages_py: robocup-home-education-los-ultramarinos/CMakeFiles/diagnostic_msgs_generate_messages_py.dir/rule
+
+.PHONY : diagnostic_msgs_generate_messages_py
+
+# fast build rule for target.
+diagnostic_msgs_generate_messages_py/fast:
+	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f robocup-home-education-los-ultramarinos/CMakeFiles/diagnostic_msgs_generate_messages_py.dir/build.make robocup-home-education-los-ultramarinos/CMakeFiles/diagnostic_msgs_generate_messages_py.dir/build
+.PHONY : diagnostic_msgs_generate_messages_py/fast
+
+# Convenience name for target.
+robocup-home-education-los-ultramarinos/CMakeFiles/MaletaDetector2.dir/rule:
+	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f CMakeFiles/Makefile2 robocup-home-education-los-ultramarinos/CMakeFiles/MaletaDetector2.dir/rule
+.PHONY : robocup-home-education-los-ultramarinos/CMakeFiles/MaletaDetector2.dir/rule
+
+# Convenience name for target.
+MaletaDetector2: robocup-home-education-los-ultramarinos/CMakeFiles/MaletaDetector2.dir/rule
+
+.PHONY : MaletaDetector2
+
+# fast build rule for target.
+MaletaDetector2/fast:
+	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f robocup-home-education-los-ultramarinos/CMakeFiles/MaletaDetector2.dir/build.make robocup-home-education-los-ultramarinos/CMakeFiles/MaletaDetector2.dir/build
+.PHONY : MaletaDetector2/fast
+
+# Convenience name for target.
+robocup-home-education-los-ultramarinos/CMakeFiles/tf_generate_messages_nodejs.dir/rule:
+	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f CMakeFiles/Makefile2 robocup-home-education-los-ultramarinos/CMakeFiles/tf_generate_messages_nodejs.dir/rule
+.PHONY : robocup-home-education-los-ultramarinos/CMakeFiles/tf_generate_messages_nodejs.dir/rule
+
+# Convenience name for target.
+tf_generate_messages_nodejs: robocup-home-education-los-ultramarinos/CMakeFiles/tf_generate_messages_nodejs.dir/rule
+
+.PHONY : tf_generate_messages_nodejs
+
+# fast build rule for target.
+tf_generate_messages_nodejs/fast:
+	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f robocup-home-education-los-ultramarinos/CMakeFiles/tf_generate_messages_nodejs.dir/build.make robocup-home-education-los-ultramarinos/CMakeFiles/tf_generate_messages_nodejs.dir/build
+.PHONY : tf_generate_messages_nodejs/fast
+
+# Convenience name for target.
+robocup-home-education-los-ultramarinos/CMakeFiles/Navegar2.dir/rule:
+	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f CMakeFiles/Makefile2 robocup-home-education-los-ultramarinos/CMakeFiles/Navegar2.dir/rule
+.PHONY : robocup-home-education-los-ultramarinos/CMakeFiles/Navegar2.dir/rule
+
+# Convenience name for target.
+Navegar2: robocup-home-education-los-ultramarinos/CMakeFiles/Navegar2.dir/rule
+
+.PHONY : Navegar2
+
+# fast build rule for target.
+Navegar2/fast:
+	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f robocup-home-education-los-ultramarinos/CMakeFiles/Navegar2.dir/build.make robocup-home-education-los-ultramarinos/CMakeFiles/Navegar2.dir/build
+.PHONY : Navegar2/fast
+
+# Convenience name for target.
+robocup-home-education-los-ultramarinos/CMakeFiles/tf_generate_messages_cpp.dir/rule:
+	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f CMakeFiles/Makefile2 robocup-home-education-los-ultramarinos/CMakeFiles/tf_generate_messages_cpp.dir/rule
+.PHONY : robocup-home-education-los-ultramarinos/CMakeFiles/tf_generate_messages_cpp.dir/rule
+
+# Convenience name for target.
+tf_generate_messages_cpp: robocup-home-education-los-ultramarinos/CMakeFiles/tf_generate_messages_cpp.dir/rule
+
+.PHONY : tf_generate_messages_cpp
+
+# fast build rule for target.
+tf_generate_messages_cpp/fast:
+	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f robocup-home-education-los-ultramarinos/CMakeFiles/tf_generate_messages_cpp.dir/build.make robocup-home-education-los-ultramarinos/CMakeFiles/tf_generate_messages_cpp.dir/build
+.PHONY : tf_generate_messages_cpp/fast
+
+# Convenience name for target.
+robocup-home-education-los-ultramarinos/CMakeFiles/diagnostic_msgs_generate_messages_nodejs.dir/rule:
+	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f CMakeFiles/Makefile2 robocup-home-education-los-ultramarinos/CMakeFiles/diagnostic_msgs_generate_messages_nodejs.dir/rule
+.PHONY : robocup-home-education-los-ultramarinos/CMakeFiles/diagnostic_msgs_generate_messages_nodejs.dir/rule
+
+# Convenience name for target.
+diagnostic_msgs_generate_messages_nodejs: robocup-home-education-los-ultramarinos/CMakeFiles/diagnostic_msgs_generate_messages_nodejs.dir/rule
+
+.PHONY : diagnostic_msgs_generate_messages_nodejs
+
+# fast build rule for target.
+diagnostic_msgs_generate_messages_nodejs/fast:
+	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f robocup-home-education-los-ultramarinos/CMakeFiles/diagnostic_msgs_generate_messages_nodejs.dir/build.make robocup-home-education-los-ultramarinos/CMakeFiles/diagnostic_msgs_generate_messages_nodejs.dir/build
+.PHONY : diagnostic_msgs_generate_messages_nodejs/fast
+
+# Convenience name for target.
+robocup-home-education-los-ultramarinos/CMakeFiles/robocup_home_education_los_ultramarinos.dir/rule:
+	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f CMakeFiles/Makefile2 robocup-home-education-los-ultramarinos/CMakeFiles/robocup_home_education_los_ultramarinos.dir/rule
+.PHONY : robocup-home-education-los-ultramarinos/CMakeFiles/robocup_home_education_los_ultramarinos.dir/rule
+
+# Convenience name for target.
+robocup_home_education_los_ultramarinos: robocup-home-education-los-ultramarinos/CMakeFiles/robocup_home_education_los_ultramarinos.dir/rule
+
+.PHONY : robocup_home_education_los_ultramarinos
+
+# fast build rule for target.
+robocup_home_education_los_ultramarinos/fast:
+	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f robocup-home-education-los-ultramarinos/CMakeFiles/robocup_home_education_los_ultramarinos.dir/build.make robocup-home-education-los-ultramarinos/CMakeFiles/robocup_home_education_los_ultramarinos.dir/build
+.PHONY : robocup_home_education_los_ultramarinos/fast
+
+# Convenience name for target.
+robocup-home-education-los-ultramarinos/CMakeFiles/Centrar.dir/rule:
+	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f CMakeFiles/Makefile2 robocup-home-education-los-ultramarinos/CMakeFiles/Centrar.dir/rule
+.PHONY : robocup-home-education-los-ultramarinos/CMakeFiles/Centrar.dir/rule
+
+# Convenience name for target.
+Centrar: robocup-home-education-los-ultramarinos/CMakeFiles/Centrar.dir/rule
+
+.PHONY : Centrar
+
+# fast build rule for target.
+Centrar/fast:
+	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f robocup-home-education-los-ultramarinos/CMakeFiles/Centrar.dir/build.make robocup-home-education-los-ultramarinos/CMakeFiles/Centrar.dir/build
+.PHONY : Centrar/fast
+
+# Convenience name for target.
+robocup-home-education-los-ultramarinos/CMakeFiles/Seguir.dir/rule:
+	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f CMakeFiles/Makefile2 robocup-home-education-los-ultramarinos/CMakeFiles/Seguir.dir/rule
+.PHONY : robocup-home-education-los-ultramarinos/CMakeFiles/Seguir.dir/rule
+
+# Convenience name for target.
+Seguir: robocup-home-education-los-ultramarinos/CMakeFiles/Seguir.dir/rule
+
+.PHONY : Seguir
+
+# fast build rule for target.
+Seguir/fast:
+	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f robocup-home-education-los-ultramarinos/CMakeFiles/Seguir.dir/build.make robocup-home-education-los-ultramarinos/CMakeFiles/Seguir.dir/build
+.PHONY : Seguir/fast
+
+# Convenience name for target.
+robocup-home-education-los-ultramarinos/CMakeFiles/tf2_msgs_generate_messages_nodejs.dir/rule:
+	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f CMakeFiles/Makefile2 robocup-home-education-los-ultramarinos/CMakeFiles/tf2_msgs_generate_messages_nodejs.dir/rule
+.PHONY : robocup-home-education-los-ultramarinos/CMakeFiles/tf2_msgs_generate_messages_nodejs.dir/rule
+
+# Convenience name for target.
+tf2_msgs_generate_messages_nodejs: robocup-home-education-los-ultramarinos/CMakeFiles/tf2_msgs_generate_messages_nodejs.dir/rule
+
+.PHONY : tf2_msgs_generate_messages_nodejs
+
+# fast build rule for target.
+tf2_msgs_generate_messages_nodejs/fast:
+	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f robocup-home-education-los-ultramarinos/CMakeFiles/tf2_msgs_generate_messages_nodejs.dir/build.make robocup-home-education-los-ultramarinos/CMakeFiles/tf2_msgs_generate_messages_nodejs.dir/build
+.PHONY : tf2_msgs_generate_messages_nodejs/fast
+
+# Convenience name for target.
+robocup-home-education-los-ultramarinos/CMakeFiles/Navegar.dir/rule:
+	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f CMakeFiles/Makefile2 robocup-home-education-los-ultramarinos/CMakeFiles/Navegar.dir/rule
+.PHONY : robocup-home-education-los-ultramarinos/CMakeFiles/Navegar.dir/rule
+
+# Convenience name for target.
+Navegar: robocup-home-education-los-ultramarinos/CMakeFiles/Navegar.dir/rule
+
+.PHONY : Navegar
+
+# fast build rule for target.
+Navegar/fast:
+	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f robocup-home-education-los-ultramarinos/CMakeFiles/Navegar.dir/build.make robocup-home-education-los-ultramarinos/CMakeFiles/Navegar.dir/build
+.PHONY : Navegar/fast
+
+# Convenience name for target.
+robocup-home-education-los-ultramarinos/CMakeFiles/ObservadorPersonas_rc.dir/rule:
+	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f CMakeFiles/Makefile2 robocup-home-education-los-ultramarinos/CMakeFiles/ObservadorPersonas_rc.dir/rule
+.PHONY : robocup-home-education-los-ultramarinos/CMakeFiles/ObservadorPersonas_rc.dir/rule
+
+# Convenience name for target.
+ObservadorPersonas_rc: robocup-home-education-los-ultramarinos/CMakeFiles/ObservadorPersonas_rc.dir/rule
+
+.PHONY : ObservadorPersonas_rc
+
+# fast build rule for target.
+ObservadorPersonas_rc/fast:
+	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f robocup-home-education-los-ultramarinos/CMakeFiles/ObservadorPersonas_rc.dir/build.make robocup-home-education-los-ultramarinos/CMakeFiles/ObservadorPersonas_rc.dir/build
+.PHONY : ObservadorPersonas_rc/fast
+
+# Convenience name for target.
+robocup-home-education-los-ultramarinos/CMakeFiles/MaletaDetector.dir/rule:
+	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f CMakeFiles/Makefile2 robocup-home-education-los-ultramarinos/CMakeFiles/MaletaDetector.dir/rule
+.PHONY : robocup-home-education-los-ultramarinos/CMakeFiles/MaletaDetector.dir/rule
+
+# Convenience name for target.
+MaletaDetector: robocup-home-education-los-ultramarinos/CMakeFiles/MaletaDetector.dir/rule
+
+.PHONY : MaletaDetector
+
+# fast build rule for target.
+MaletaDetector/fast:
+	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f robocup-home-education-los-ultramarinos/CMakeFiles/MaletaDetector.dir/build.make robocup-home-education-los-ultramarinos/CMakeFiles/MaletaDetector.dir/build
+.PHONY : MaletaDetector/fast
+
+# Convenience name for target.
 robocup-home-education-los-ultramarinos/CMakeFiles/ObservadorPelotasHSV_rc.dir/rule:
 	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f CMakeFiles/Makefile2 robocup-home-education-los-ultramarinos/CMakeFiles/ObservadorPelotasHSV_rc.dir/rule
 .PHONY : robocup-home-education-los-ultramarinos/CMakeFiles/ObservadorPelotasHSV_rc.dir/rule
@@ -466,51 +676,6 @@ Control_rc: robocup-home-education-los-ultramarinos/CMakeFiles/Control_rc.dir/ru
 Control_rc/fast:
 	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f robocup-home-education-los-ultramarinos/CMakeFiles/Control_rc.dir/build.make robocup-home-education-los-ultramarinos/CMakeFiles/Control_rc.dir/build
 .PHONY : Control_rc/fast
-
-# Convenience name for target.
-robocup-home-education-los-ultramarinos/CMakeFiles/tf2_msgs_generate_messages_lisp.dir/rule:
-	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f CMakeFiles/Makefile2 robocup-home-education-los-ultramarinos/CMakeFiles/tf2_msgs_generate_messages_lisp.dir/rule
-.PHONY : robocup-home-education-los-ultramarinos/CMakeFiles/tf2_msgs_generate_messages_lisp.dir/rule
-
-# Convenience name for target.
-tf2_msgs_generate_messages_lisp: robocup-home-education-los-ultramarinos/CMakeFiles/tf2_msgs_generate_messages_lisp.dir/rule
-
-.PHONY : tf2_msgs_generate_messages_lisp
-
-# fast build rule for target.
-tf2_msgs_generate_messages_lisp/fast:
-	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f robocup-home-education-los-ultramarinos/CMakeFiles/tf2_msgs_generate_messages_lisp.dir/build.make robocup-home-education-los-ultramarinos/CMakeFiles/tf2_msgs_generate_messages_lisp.dir/build
-.PHONY : tf2_msgs_generate_messages_lisp/fast
-
-# Convenience name for target.
-robocup-home-education-los-ultramarinos/CMakeFiles/Monologo_bt_node.dir/rule:
-	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f CMakeFiles/Makefile2 robocup-home-education-los-ultramarinos/CMakeFiles/Monologo_bt_node.dir/rule
-.PHONY : robocup-home-education-los-ultramarinos/CMakeFiles/Monologo_bt_node.dir/rule
-
-# Convenience name for target.
-Monologo_bt_node: robocup-home-education-los-ultramarinos/CMakeFiles/Monologo_bt_node.dir/rule
-
-.PHONY : Monologo_bt_node
-
-# fast build rule for target.
-Monologo_bt_node/fast:
-	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f robocup-home-education-los-ultramarinos/CMakeFiles/Monologo_bt_node.dir/build.make robocup-home-education-los-ultramarinos/CMakeFiles/Monologo_bt_node.dir/build
-.PHONY : Monologo_bt_node/fast
-
-# Convenience name for target.
-robocup-home-education-los-ultramarinos/CMakeFiles/robocup_home_education_los_ultramarinos.dir/rule:
-	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f CMakeFiles/Makefile2 robocup-home-education-los-ultramarinos/CMakeFiles/robocup_home_education_los_ultramarinos.dir/rule
-.PHONY : robocup-home-education-los-ultramarinos/CMakeFiles/robocup_home_education_los_ultramarinos.dir/rule
-
-# Convenience name for target.
-robocup_home_education_los_ultramarinos: robocup-home-education-los-ultramarinos/CMakeFiles/robocup_home_education_los_ultramarinos.dir/rule
-
-.PHONY : robocup_home_education_los_ultramarinos
-
-# fast build rule for target.
-robocup_home_education_los_ultramarinos/fast:
-	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f robocup-home-education-los-ultramarinos/CMakeFiles/robocup_home_education_los_ultramarinos.dir/build.make robocup-home-education-los-ultramarinos/CMakeFiles/robocup_home_education_los_ultramarinos.dir/build
-.PHONY : robocup_home_education_los_ultramarinos/fast
 
 src/Control.o: src/Control.cpp.o
 
@@ -647,6 +812,33 @@ src/MoveDetector.cpp.s:
 	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f robocup-home-education-los-ultramarinos/CMakeFiles/MoveDetector.dir/build.make robocup-home-education-los-ultramarinos/CMakeFiles/MoveDetector.dir/src/MoveDetector.cpp.s
 .PHONY : src/MoveDetector.cpp.s
 
+src/NavegarHastaPunto.o: src/NavegarHastaPunto.cpp.o
+
+.PHONY : src/NavegarHastaPunto.o
+
+# target to build an object file
+src/NavegarHastaPunto.cpp.o:
+	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f robocup-home-education-los-ultramarinos/CMakeFiles/NavegarHastaPunto.dir/build.make robocup-home-education-los-ultramarinos/CMakeFiles/NavegarHastaPunto.dir/src/NavegarHastaPunto.cpp.o
+.PHONY : src/NavegarHastaPunto.cpp.o
+
+src/NavegarHastaPunto.i: src/NavegarHastaPunto.cpp.i
+
+.PHONY : src/NavegarHastaPunto.i
+
+# target to preprocess a source file
+src/NavegarHastaPunto.cpp.i:
+	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f robocup-home-education-los-ultramarinos/CMakeFiles/NavegarHastaPunto.dir/build.make robocup-home-education-los-ultramarinos/CMakeFiles/NavegarHastaPunto.dir/src/NavegarHastaPunto.cpp.i
+.PHONY : src/NavegarHastaPunto.cpp.i
+
+src/NavegarHastaPunto.s: src/NavegarHastaPunto.cpp.s
+
+.PHONY : src/NavegarHastaPunto.s
+
+# target to generate assembly for a file
+src/NavegarHastaPunto.cpp.s:
+	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f robocup-home-education-los-ultramarinos/CMakeFiles/NavegarHastaPunto.dir/build.make robocup-home-education-los-ultramarinos/CMakeFiles/NavegarHastaPunto.dir/src/NavegarHastaPunto.cpp.s
+.PHONY : src/NavegarHastaPunto.cpp.s
+
 src/ObservadorPelotasHSV.o: src/ObservadorPelotasHSV.cpp.o
 
 .PHONY : src/ObservadorPelotasHSV.o
@@ -701,6 +893,33 @@ src/ObservadorPersonas.cpp.s:
 	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f robocup-home-education-los-ultramarinos/CMakeFiles/ObservadorPersonas_rc.dir/build.make robocup-home-education-los-ultramarinos/CMakeFiles/ObservadorPersonas_rc.dir/src/ObservadorPersonas.cpp.s
 .PHONY : src/ObservadorPersonas.cpp.s
 
+src/behavior_tree_nodes/Centrar.o: src/behavior_tree_nodes/Centrar.cpp.o
+
+.PHONY : src/behavior_tree_nodes/Centrar.o
+
+# target to build an object file
+src/behavior_tree_nodes/Centrar.cpp.o:
+	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f robocup-home-education-los-ultramarinos/CMakeFiles/Centrar.dir/build.make robocup-home-education-los-ultramarinos/CMakeFiles/Centrar.dir/src/behavior_tree_nodes/Centrar.cpp.o
+.PHONY : src/behavior_tree_nodes/Centrar.cpp.o
+
+src/behavior_tree_nodes/Centrar.i: src/behavior_tree_nodes/Centrar.cpp.i
+
+.PHONY : src/behavior_tree_nodes/Centrar.i
+
+# target to preprocess a source file
+src/behavior_tree_nodes/Centrar.cpp.i:
+	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f robocup-home-education-los-ultramarinos/CMakeFiles/Centrar.dir/build.make robocup-home-education-los-ultramarinos/CMakeFiles/Centrar.dir/src/behavior_tree_nodes/Centrar.cpp.i
+.PHONY : src/behavior_tree_nodes/Centrar.cpp.i
+
+src/behavior_tree_nodes/Centrar.s: src/behavior_tree_nodes/Centrar.cpp.s
+
+.PHONY : src/behavior_tree_nodes/Centrar.s
+
+# target to generate assembly for a file
+src/behavior_tree_nodes/Centrar.cpp.s:
+	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f robocup-home-education-los-ultramarinos/CMakeFiles/Centrar.dir/build.make robocup-home-education-los-ultramarinos/CMakeFiles/Centrar.dir/src/behavior_tree_nodes/Centrar.cpp.s
+.PHONY : src/behavior_tree_nodes/Centrar.cpp.s
+
 src/behavior_tree_nodes/Esperar.o: src/behavior_tree_nodes/Esperar.cpp.o
 
 .PHONY : src/behavior_tree_nodes/Esperar.o
@@ -727,6 +946,60 @@ src/behavior_tree_nodes/Esperar.s: src/behavior_tree_nodes/Esperar.cpp.s
 src/behavior_tree_nodes/Esperar.cpp.s:
 	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f robocup-home-education-los-ultramarinos/CMakeFiles/Esperar.dir/build.make robocup-home-education-los-ultramarinos/CMakeFiles/Esperar.dir/src/behavior_tree_nodes/Esperar.cpp.s
 .PHONY : src/behavior_tree_nodes/Esperar.cpp.s
+
+src/behavior_tree_nodes/MaletaDetector.o: src/behavior_tree_nodes/MaletaDetector.cpp.o
+
+.PHONY : src/behavior_tree_nodes/MaletaDetector.o
+
+# target to build an object file
+src/behavior_tree_nodes/MaletaDetector.cpp.o:
+	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f robocup-home-education-los-ultramarinos/CMakeFiles/MaletaDetector.dir/build.make robocup-home-education-los-ultramarinos/CMakeFiles/MaletaDetector.dir/src/behavior_tree_nodes/MaletaDetector.cpp.o
+.PHONY : src/behavior_tree_nodes/MaletaDetector.cpp.o
+
+src/behavior_tree_nodes/MaletaDetector.i: src/behavior_tree_nodes/MaletaDetector.cpp.i
+
+.PHONY : src/behavior_tree_nodes/MaletaDetector.i
+
+# target to preprocess a source file
+src/behavior_tree_nodes/MaletaDetector.cpp.i:
+	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f robocup-home-education-los-ultramarinos/CMakeFiles/MaletaDetector.dir/build.make robocup-home-education-los-ultramarinos/CMakeFiles/MaletaDetector.dir/src/behavior_tree_nodes/MaletaDetector.cpp.i
+.PHONY : src/behavior_tree_nodes/MaletaDetector.cpp.i
+
+src/behavior_tree_nodes/MaletaDetector.s: src/behavior_tree_nodes/MaletaDetector.cpp.s
+
+.PHONY : src/behavior_tree_nodes/MaletaDetector.s
+
+# target to generate assembly for a file
+src/behavior_tree_nodes/MaletaDetector.cpp.s:
+	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f robocup-home-education-los-ultramarinos/CMakeFiles/MaletaDetector.dir/build.make robocup-home-education-los-ultramarinos/CMakeFiles/MaletaDetector.dir/src/behavior_tree_nodes/MaletaDetector.cpp.s
+.PHONY : src/behavior_tree_nodes/MaletaDetector.cpp.s
+
+src/behavior_tree_nodes/MaletaDetector2.o: src/behavior_tree_nodes/MaletaDetector2.cpp.o
+
+.PHONY : src/behavior_tree_nodes/MaletaDetector2.o
+
+# target to build an object file
+src/behavior_tree_nodes/MaletaDetector2.cpp.o:
+	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f robocup-home-education-los-ultramarinos/CMakeFiles/MaletaDetector2.dir/build.make robocup-home-education-los-ultramarinos/CMakeFiles/MaletaDetector2.dir/src/behavior_tree_nodes/MaletaDetector2.cpp.o
+.PHONY : src/behavior_tree_nodes/MaletaDetector2.cpp.o
+
+src/behavior_tree_nodes/MaletaDetector2.i: src/behavior_tree_nodes/MaletaDetector2.cpp.i
+
+.PHONY : src/behavior_tree_nodes/MaletaDetector2.i
+
+# target to preprocess a source file
+src/behavior_tree_nodes/MaletaDetector2.cpp.i:
+	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f robocup-home-education-los-ultramarinos/CMakeFiles/MaletaDetector2.dir/build.make robocup-home-education-los-ultramarinos/CMakeFiles/MaletaDetector2.dir/src/behavior_tree_nodes/MaletaDetector2.cpp.i
+.PHONY : src/behavior_tree_nodes/MaletaDetector2.cpp.i
+
+src/behavior_tree_nodes/MaletaDetector2.s: src/behavior_tree_nodes/MaletaDetector2.cpp.s
+
+.PHONY : src/behavior_tree_nodes/MaletaDetector2.s
+
+# target to generate assembly for a file
+src/behavior_tree_nodes/MaletaDetector2.cpp.s:
+	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f robocup-home-education-los-ultramarinos/CMakeFiles/MaletaDetector2.dir/build.make robocup-home-education-los-ultramarinos/CMakeFiles/MaletaDetector2.dir/src/behavior_tree_nodes/MaletaDetector2.cpp.s
+.PHONY : src/behavior_tree_nodes/MaletaDetector2.cpp.s
 
 src/behavior_tree_nodes/Navegar.o: src/behavior_tree_nodes/Navegar.cpp.o
 
@@ -836,6 +1109,60 @@ src/behavior_tree_nodes/TextToSpeech.cpp.s:
 	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f robocup-home-education-los-ultramarinos/CMakeFiles/TextToSpeech.dir/build.make robocup-home-education-los-ultramarinos/CMakeFiles/TextToSpeech.dir/src/behavior_tree_nodes/TextToSpeech.cpp.s
 .PHONY : src/behavior_tree_nodes/TextToSpeech.cpp.s
 
+src/behavior_tree_nodes/TextToSpeech2.o: src/behavior_tree_nodes/TextToSpeech2.cpp.o
+
+.PHONY : src/behavior_tree_nodes/TextToSpeech2.o
+
+# target to build an object file
+src/behavior_tree_nodes/TextToSpeech2.cpp.o:
+	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f robocup-home-education-los-ultramarinos/CMakeFiles/TextToSpeech2.dir/build.make robocup-home-education-los-ultramarinos/CMakeFiles/TextToSpeech2.dir/src/behavior_tree_nodes/TextToSpeech2.cpp.o
+.PHONY : src/behavior_tree_nodes/TextToSpeech2.cpp.o
+
+src/behavior_tree_nodes/TextToSpeech2.i: src/behavior_tree_nodes/TextToSpeech2.cpp.i
+
+.PHONY : src/behavior_tree_nodes/TextToSpeech2.i
+
+# target to preprocess a source file
+src/behavior_tree_nodes/TextToSpeech2.cpp.i:
+	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f robocup-home-education-los-ultramarinos/CMakeFiles/TextToSpeech2.dir/build.make robocup-home-education-los-ultramarinos/CMakeFiles/TextToSpeech2.dir/src/behavior_tree_nodes/TextToSpeech2.cpp.i
+.PHONY : src/behavior_tree_nodes/TextToSpeech2.cpp.i
+
+src/behavior_tree_nodes/TextToSpeech2.s: src/behavior_tree_nodes/TextToSpeech2.cpp.s
+
+.PHONY : src/behavior_tree_nodes/TextToSpeech2.s
+
+# target to generate assembly for a file
+src/behavior_tree_nodes/TextToSpeech2.cpp.s:
+	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f robocup-home-education-los-ultramarinos/CMakeFiles/TextToSpeech2.dir/build.make robocup-home-education-los-ultramarinos/CMakeFiles/TextToSpeech2.dir/src/behavior_tree_nodes/TextToSpeech2.cpp.s
+.PHONY : src/behavior_tree_nodes/TextToSpeech2.cpp.s
+
+src/identificadorLado.o: src/identificadorLado.cpp.o
+
+.PHONY : src/identificadorLado.o
+
+# target to build an object file
+src/identificadorLado.cpp.o:
+	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f robocup-home-education-los-ultramarinos/CMakeFiles/identificadorLado.dir/build.make robocup-home-education-los-ultramarinos/CMakeFiles/identificadorLado.dir/src/identificadorLado.cpp.o
+.PHONY : src/identificadorLado.cpp.o
+
+src/identificadorLado.i: src/identificadorLado.cpp.i
+
+.PHONY : src/identificadorLado.i
+
+# target to preprocess a source file
+src/identificadorLado.cpp.i:
+	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f robocup-home-education-los-ultramarinos/CMakeFiles/identificadorLado.dir/build.make robocup-home-education-los-ultramarinos/CMakeFiles/identificadorLado.dir/src/identificadorLado.cpp.i
+.PHONY : src/identificadorLado.cpp.i
+
+src/identificadorLado.s: src/identificadorLado.cpp.s
+
+.PHONY : src/identificadorLado.s
+
+# target to generate assembly for a file
+src/identificadorLado.cpp.s:
+	cd /home/jorge03b/catkin_ws/src && $(MAKE) -f robocup-home-education-los-ultramarinos/CMakeFiles/identificadorLado.dir/build.make robocup-home-education-los-ultramarinos/CMakeFiles/identificadorLado.dir/src/identificadorLado.cpp.s
+.PHONY : src/identificadorLado.cpp.s
+
 src/robocup_home_education/DialogInterface.o: src/robocup_home_education/DialogInterface.cpp.o
 
 .PHONY : src/robocup_home_education/DialogInterface.o
@@ -924,35 +1251,46 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... install/strip"
-	@echo "... MoveDetector"
-	@echo "... tf_generate_messages_py"
-	@echo "... TextToSpeech"
-	@echo "... tf2_msgs_generate_messages_py"
-	@echo "... Coordinador_rc"
-	@echo "... tf_generate_messages_eus"
-	@echo "... tf2_msgs_generate_messages_cpp"
-	@echo "... Esperar"
-	@echo "... tf_generate_messages_nodejs"
-	@echo "... Navegar2"
-	@echo "... ObservadorPersonas_rc"
-	@echo "... install/local"
-	@echo "... Seguir"
-	@echo "... tf_generate_messages_cpp"
-	@echo "... tf2_msgs_generate_messages_nodejs"
-	@echo "... Navegar"
-	@echo "... Graficos_rc"
-	@echo "... tf_generate_messages_lisp"
-	@echo "... edit_cache"
-	@echo "... tf2_msgs_generate_messages_eus"
-	@echo "... rebuild_cache"
-	@echo "... ObservadorPelotasHSV_rc"
-	@echo "... Control_rc"
-	@echo "... tf2_msgs_generate_messages_lisp"
-	@echo "... Monologo_bt_node"
 	@echo "... list_install_components"
 	@echo "... test"
-	@echo "... robocup_home_education_los_ultramarinos"
+	@echo "... NavegarHastaPunto"
+	@echo "... MoveDetector"
+	@echo "... Graficos_rc"
+	@echo "... diagnostic_msgs_generate_messages_lisp"
+	@echo "... diagnostic_msgs_generate_messages_eus"
+	@echo "... Monologo_bt_node"
+	@echo "... identificadorLado"
+	@echo "... tf2_msgs_generate_messages_lisp"
+	@echo "... edit_cache"
+	@echo "... tf_generate_messages_lisp"
+	@echo "... rebuild_cache"
+	@echo "... tf2_msgs_generate_messages_eus"
+	@echo "... Coordinador_rc"
+	@echo "... Esperar"
+	@echo "... tf_generate_messages_py"
+	@echo "... diagnostic_msgs_generate_messages_cpp"
+	@echo "... tf2_msgs_generate_messages_cpp"
+	@echo "... tf_generate_messages_eus"
+	@echo "... tf2_msgs_generate_messages_py"
+	@echo "... TextToSpeech"
+	@echo "... TextToSpeech2"
+	@echo "... diagnostic_msgs_generate_messages_py"
+	@echo "... MaletaDetector2"
+	@echo "... tf_generate_messages_nodejs"
+	@echo "... Navegar2"
+	@echo "... tf_generate_messages_cpp"
+	@echo "... diagnostic_msgs_generate_messages_nodejs"
 	@echo "... install"
+	@echo "... robocup_home_education_los_ultramarinos"
+	@echo "... Centrar"
+	@echo "... install/local"
+	@echo "... Seguir"
+	@echo "... tf2_msgs_generate_messages_nodejs"
+	@echo "... Navegar"
+	@echo "... ObservadorPersonas_rc"
+	@echo "... MaletaDetector"
+	@echo "... ObservadorPelotasHSV_rc"
+	@echo "... Control_rc"
 	@echo "... src/Control.o"
 	@echo "... src/Control.i"
 	@echo "... src/Control.s"
@@ -968,15 +1306,27 @@ help:
 	@echo "... src/MoveDetector.o"
 	@echo "... src/MoveDetector.i"
 	@echo "... src/MoveDetector.s"
+	@echo "... src/NavegarHastaPunto.o"
+	@echo "... src/NavegarHastaPunto.i"
+	@echo "... src/NavegarHastaPunto.s"
 	@echo "... src/ObservadorPelotasHSV.o"
 	@echo "... src/ObservadorPelotasHSV.i"
 	@echo "... src/ObservadorPelotasHSV.s"
 	@echo "... src/ObservadorPersonas.o"
 	@echo "... src/ObservadorPersonas.i"
 	@echo "... src/ObservadorPersonas.s"
+	@echo "... src/behavior_tree_nodes/Centrar.o"
+	@echo "... src/behavior_tree_nodes/Centrar.i"
+	@echo "... src/behavior_tree_nodes/Centrar.s"
 	@echo "... src/behavior_tree_nodes/Esperar.o"
 	@echo "... src/behavior_tree_nodes/Esperar.i"
 	@echo "... src/behavior_tree_nodes/Esperar.s"
+	@echo "... src/behavior_tree_nodes/MaletaDetector.o"
+	@echo "... src/behavior_tree_nodes/MaletaDetector.i"
+	@echo "... src/behavior_tree_nodes/MaletaDetector.s"
+	@echo "... src/behavior_tree_nodes/MaletaDetector2.o"
+	@echo "... src/behavior_tree_nodes/MaletaDetector2.i"
+	@echo "... src/behavior_tree_nodes/MaletaDetector2.s"
 	@echo "... src/behavior_tree_nodes/Navegar.o"
 	@echo "... src/behavior_tree_nodes/Navegar.i"
 	@echo "... src/behavior_tree_nodes/Navegar.s"
@@ -989,6 +1339,12 @@ help:
 	@echo "... src/behavior_tree_nodes/TextToSpeech.o"
 	@echo "... src/behavior_tree_nodes/TextToSpeech.i"
 	@echo "... src/behavior_tree_nodes/TextToSpeech.s"
+	@echo "... src/behavior_tree_nodes/TextToSpeech2.o"
+	@echo "... src/behavior_tree_nodes/TextToSpeech2.i"
+	@echo "... src/behavior_tree_nodes/TextToSpeech2.s"
+	@echo "... src/identificadorLado.o"
+	@echo "... src/identificadorLado.i"
+	@echo "... src/identificadorLado.s"
 	@echo "... src/robocup_home_education/DialogInterface.o"
 	@echo "... src/robocup_home_education/DialogInterface.i"
 	@echo "... src/robocup_home_education/DialogInterface.s"

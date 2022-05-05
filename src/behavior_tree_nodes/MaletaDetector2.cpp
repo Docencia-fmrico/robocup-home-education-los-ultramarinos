@@ -83,8 +83,9 @@ MaletaDetector2::tick()
       act.data = false; 
       activador.publish(act);
       exito=true;
+      //setOutput<std::string>("message", "1");
     } 
-    ROS_INFO("Exito escaneo   ");  
+    ROS_INFO("Exito escaneo  Derecha ");  
     return BT::NodeStatus::SUCCESS;
   }
   else if(derecha <= izquierda){
@@ -93,8 +94,9 @@ MaletaDetector2::tick()
       act.data = false; 
       activador.publish(act);
       exito=true;  
+      //setOutput<std::string>("message", "2");
     } 
-    ROS_INFO("Exito escaneo   ");
+    ROS_INFO("Exito escaneo  Izquierda ");
     return BT::NodeStatus::SUCCESS;
 
   }else{

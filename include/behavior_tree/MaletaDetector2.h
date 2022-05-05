@@ -42,7 +42,7 @@ class MaletaDetector2 : public BT::ActionNodeBase
  
     static BT::PortsList providedPorts()
     {
-        return { BT::OutputPort<std::string>("maleta_dir")};
+        return { BT::OutputPort<std::string>("message")};
     }
 
 

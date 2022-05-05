@@ -41,12 +41,13 @@ int main(int argc, char **argv)
    factory.registerFromPlugin(loader.getOSName("Seguir"));
    factory.registerFromPlugin(loader.getOSName("Navegar"));
    factory.registerFromPlugin(loader.getOSName("Navegar2"));
-   factory.registerFromPlugin(loader.getOSName("MaletaDetector"));
+   //factory.registerFromPlugin(loader.getOSName("MaletaDetector"));
    factory.registerFromPlugin(loader.getOSName("Centrar"));
-     factory.registerFromPlugin(loader.getOSName("MaletaDetector2"));
+   factory.registerFromPlugin(loader.getOSName("MaletaDetector2"));
 
   auto blackboard = BT::Blackboard::create();
-  blackboard->set("maleta_dir","nada");
+  blackboard->set<std::string>("message", "nada");
+  
   std::string pkgpath = ros::package::getPath("robocup_home_education_los_ultramarinos");
   std::string xml_file = pkgpath + "/behavior_trees_xml/Tree_Main.xml";
 

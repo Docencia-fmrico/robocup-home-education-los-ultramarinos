@@ -60,14 +60,14 @@ Navegar::tick()
     msg.header.stamp = i;
     msg.header.frame_id = "map";
 
-    msg.pose.position.x = -3;
-    msg.pose.position.y = 0;
+    msg.pose.position.x = 0;
+    msg.pose.position.y = 3.0;
     msg.pose.position.z = 0.0;
 
     msg.pose.orientation.x = 0.0;
     msg.pose.orientation.y = 0.0;
-    msg.pose.orientation.z = 0.0;
-    msg.pose.orientation.w = 1.0;
+    msg.pose.orientation.z = 0.9238795;
+    msg.pose.orientation.w = -0.3826834;
 
     activador.publish(msg);
   }

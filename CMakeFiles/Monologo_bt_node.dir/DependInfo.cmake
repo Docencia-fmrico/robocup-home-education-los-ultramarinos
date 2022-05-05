@@ -19,6 +19,7 @@ set(CMAKE_TARGET_DEFINITIONS_CXX
 set(CMAKE_CXX_TARGET_INCLUDE_PATH
   "robocup-home-education-los-ultramarinos/include"
   "/home/jorge03b/catkin_ws/devel/include"
+  "audio_common/sound_play/include"
   "/opt/ros/noetic/include"
   "/opt/ros/noetic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp"
   "/usr/include/opencv4"

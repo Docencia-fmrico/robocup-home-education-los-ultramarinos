@@ -64,7 +64,7 @@ Centrar::tick()
   }
   
   // 
-  bool centrado = abs(dg) <= lim_g ;//&& abs(da) <= lim_a ;
+  bool centrado = abs(dg) <= lim_g && abs(da) <= lim_a ;
   //std::cout << "Error distacia : " << da << " Error angulo : " << dg << "Condicion abs(dg) <= lim_g :" << centrado << " \n";
 
   if (centrado) {
