@@ -41,6 +41,7 @@ int main(int argc, char **argv)
    factory.registerFromPlugin(loader.getOSName("Seguir"));
    factory.registerFromPlugin(loader.getOSName("Navegar"));
    factory.registerFromPlugin(loader.getOSName("Navegar2"));
+   factory.registerFromPlugin(loader.getOSName("Navegar4"));
    //factory.registerFromPlugin(loader.getOSName("MaletaDetector"));
    factory.registerFromPlugin(loader.getOSName("Centrar"));
    factory.registerFromPlugin(loader.getOSName("MaletaDetector2"));

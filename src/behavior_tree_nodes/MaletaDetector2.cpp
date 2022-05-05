@@ -31,6 +31,7 @@ MaletaDetector2::MaletaDetector2(const std::string& name , const BT::NodeConfigu
   int fr = 10 ;
   sub = nh_.subscribe("/movement_data", fr, &MaletaDetector2::messageCallback, this); 
   activador = nh_.advertise<std_msgs::Bool>("/control_maleta",fr);   
+  audio = nh_.advertise<std_msgs::String>("/msg_receive",fr);  
 }
 
 void
@@ -83,7 +84,12 @@ MaletaDetector2::tick()
       act.data = false; 
       activador.publish(act);
       exito=true;
-      //setOutput<std::string>("message", "1");
+
+      std_msgs::String lado; 
+      lado.data = "right" ;
+      audio.publish(lado);
+
+      
     } 
     ROS_INFO("Exito escaneo  Derecha ");  
     return BT::NodeStatus::SUCCESS;
@@ -94,7 +100,11 @@ MaletaDetector2::tick()
       act.data = false; 
       activador.publish(act);
       exito=true;  
-      //setOutput<std::string>("message", "2");
+      
+      std_msgs::String lado; 
+      lado.data = "left" ;
+      audio.publish(lado);
+      
     } 
     ROS_INFO("Exito escaneo  Izquierda ");
     return BT::NodeStatus::SUCCESS;

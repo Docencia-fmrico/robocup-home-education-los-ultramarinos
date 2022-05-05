@@ -2,6 +2,7 @@
 #include "ros/ros.h"
 #include "std_msgs/String.h"
 #include "std_msgs/Bool.h"
+#include "std_msgs/Int32.h"
 #include "geometry_msgs/Pose2D.h"
 //#include "robocup-home-education-los-ultramarinos/RobotData.h"
 //#include "robocup-home-education-los-ultramarinos/PolarPoint.h"
@@ -59,11 +60,11 @@ bool lost(double latest_msg, double now){
 	return(now - latest_msg > MAX_WAIT);
 }
 
-void voiceReceived(const std_msgs::String::ConstPtr& msg)
+void voiceReceived(const std_msgs::Int32::ConstPtr& msg)
 {
-	//if (msg->data == "STOP"){
+	if (msg->data == 1){
 		done = true;
-	//}
+	}
 }
 
 

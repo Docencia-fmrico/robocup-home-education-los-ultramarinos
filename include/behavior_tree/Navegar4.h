@@ -21,48 +21,45 @@
 #include "std_msgs/Bool.h"
 #include "std_msgs/String.h"
 #include "geometry_msgs/PoseStamped.h"
-#include "geometry_msgs/Pose2D.h"
+#include "move_base_msgs/MoveBaseActionResult.h"
+#include "std_msgs/Int64.h"
 #include <string>
 #include "ros/ros.h"
 
 namespace behavior_trees
 {
 
-class MaletaDetector2 : public BT::ActionNodeBase
+class Navegar2 : public BT::ActionNodeBase
 {
   public:
 
-    explicit MaletaDetector2(const std::string& name , const BT::NodeConfiguration& config);
+    explicit Navegar2(const std::string& name , const BT::NodeConfiguration& config);
 
     void halt();
 
     BT::NodeStatus tick();
+
+   void messageCallback(const std_msgs::Int64::ConstPtr& msg);
+
+
     
-    void messageCallback(const geometry_msgs::Pose2D::ConstPtr& msg);
- 
     static BT::PortsList providedPorts()
     {
-        return { BT::OutputPort<std::string>("message")};
+        return { BT::InputPort<std::string>("object")};
     }
 
 
   private:
     ros::NodeHandle nh_;
     ros::Publisher activador ;
-    int feedBack ;
     ros::Subscriber sub ;
-    ros::Publisher ad;   
-    ros::Publisher audio; 
-    std::string charla ;
-    int a = 0 ;
-    bool exito = false ;
-    int izquierda = 0 ;
-    int derecha = 0 ;
-  
+    int feedBack = 0 ;    
+    ros::Time i;
+    int ac = 0;
 
 
 };
 
 }  // namespace behavior_trees
 
-#endif  // BEHAVIOR_TREES_NAVEGAR_H
+#endif  // BEHAVIOR_TREES_Navegar2_H

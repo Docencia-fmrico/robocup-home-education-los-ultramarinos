@@ -9,9 +9,7 @@
                    <Action ID="Navegar"/>
                    <Action ID="Centrar"/>
                    <Action ID="TextToSpeech"/>  
-                   <Action ID="MaletaDetector2"/>
-                   <Action ID="TextToSpeech2"/>
-                   
+                   <Action ID="MaletaDetector2"/>      
                    <Action ID="Seguir"/>
                    <Action ID="Navegar2"/> 
 

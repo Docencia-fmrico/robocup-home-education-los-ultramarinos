@@ -27,11 +27,10 @@ find_package(catkin REQUIRED COMPONENTS
 ################################################
 
 ## Generate messages in the 'msg' folder
-# add_message_files(
-#   FILES
-#   Message1.msg
-#   Message2.msg
-# )
+add_message_files(
+   FILES
+   Info.msg
+ )
 
 ## Generate services in the 'srv' folder
 # add_service_files(
@@ -111,6 +110,7 @@ add_library(Seguir SHARED src/behavior_tree_nodes/Seguir.cpp)
 add_library(Navegar SHARED src/behavior_tree_nodes/Navegar.cpp)
 add_library(Esperar SHARED src/behavior_tree_nodes/Esperar.cpp)
 add_library(Navegar2 SHARED src/behavior_tree_nodes/Navegar2.cpp)
+add_library(Navegar4 SHARED src/behavior_tree_nodes/Navegar4.cpp)
 add_library(MaletaDetector SHARED src/behavior_tree_nodes/MaletaDetector.cpp)
 add_library(Centrar SHARED src/behavior_tree_nodes/Centrar.cpp)
 add_library(MaletaDetector2 SHARED src/behavior_tree_nodes/MaletaDetector2.cpp)
@@ -137,6 +137,7 @@ add_executable( Graficos_rc src/Graficos.cpp )
 add_executable( identificadorLado src/identificadorLado.cpp ) 
 add_executable( MoveDetector src/MoveDetector.cpp ) 
 add_executable( NavegarHastaPunto src/NavegarHastaPunto.cpp ) 
+add_executable( TextToSpeechNode src/TextToSpeechNode.cpp ) 
 
 
 target_link_libraries( ObservadorPelotasHSV_rc
@@ -177,6 +178,10 @@ target_link_libraries( NavegarHastaPunto
 ${catkin_LIBRARIES}
 )
 
+target_link_libraries( TextToSpeechNode
+${catkin_LIBRARIES}
+${PROJECT_NAME}
+)
 
 
 
@@ -212,6 +217,7 @@ list(APPEND plugin_libs
   Navegar
   Esperar
   Navegar2
+  Navegar4
   MaletaDetector
   Centrar
   MaletaDetector2
