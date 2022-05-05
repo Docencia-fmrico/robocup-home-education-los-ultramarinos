@@ -7,13 +7,11 @@
                 <Sequence>
                     <Action ID="Navegar3"/>
                     <Action ID="Observar"/>
-                    <Action ID="TextToSpeech"/>
                     <Action ID="DataCheck"/>
                 </Sequence>
                 <SequenceStar>
                     <Action ID="Navegar3"/>
                     <Action ID="DataDump"/>
-                    <Action ID="TextToSpeech"/>
                 </SequenceStar>
             </ForceSuccess>
         </KeepRunningUntilFailure>

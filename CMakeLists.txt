@@ -64,7 +64,7 @@ list(APPEND plugin_libs
   
 )
 
-add_library(TextToSpeech SHARED src/behavior_tree_nodes/TextToSpeech.cpp)
+##add_library(TextToSpeech SHARED src/behavior_tree_nodes/TextToSpeech.cpp)
 add_library(Seguir SHARED src/behavior_tree_nodes/Seguir.cpp)
 add_library(Navegar SHARED src/behavior_tree_nodes/Navegar.cpp)
 add_library(Esperar SHARED src/behavior_tree_nodes/Esperar.cpp)
@@ -97,6 +97,7 @@ add_executable( data_collector src/robocup_home_education/data_collector.cpp )
 add_executable( identificadorLado src/robocup_home_education/identificadorLado.cpp ) 
 add_executable( MoveDetector src/robocup_home_education/MoveDetector.cpp )
 add_executable( Find_My_Mates src/Find_My_Mates.cpp )
+add_executable( TextToSpeech src/robocup_home_education/TextToSpeech.cpp )
 
 target_link_libraries( ObservadorPelotasHSV_rc
 ${catkin_LIBRARIES}
@@ -139,6 +140,11 @@ target_link_libraries( Find_My_Mates
 ${catkin_LIBRARIES}
 )
 
+target_link_libraries( TextToSpeech
+${catkin_LIBRARIES}
+${PROJECT_NAME}
+)
+
 
 
 
@@ -170,7 +176,7 @@ target_link_libraries(Monologo_node ${catkin_LIBRARIES} robocup_home_education_l
 target_link_libraries(Carry_My_Luggage_bt_node ${catkin_LIBRARIES} robocup_home_education_los_ultramarinos ${ZMQ_LIBRARIES})
 
 list(APPEND plugin_libs
-  TextToSpeech
+  #TextToSpeech
   Seguir
   Navegar
   Navegar2

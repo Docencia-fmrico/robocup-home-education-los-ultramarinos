@@ -5,7 +5,7 @@
 #include <math.h>
 #include <string>
 #include <iostream>
-#include "robocup_home_education_los_ultramarinos/Info.h"
+//#include "robocup_home_education_los_ultramarinos/Info.h"
 
 int fr =  10;
 int current_person;

@@ -58,7 +58,7 @@ class Navegar3 : public BT::ActionNodeBase
     ros::Time time;
     int a = 0;
 
-    geometry_msgs::PoseStamped positions[7];
+    geometry_msgs::PoseStamped positions[6];
     int counter = 0;
 
 
