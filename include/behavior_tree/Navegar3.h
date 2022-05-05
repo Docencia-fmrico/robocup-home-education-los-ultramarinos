@@ -21,9 +21,11 @@
 #include "std_msgs/Bool.h"
 #include "std_msgs/String.h"
 #include "geometry_msgs/PoseStamped.h"
+#include "std_msgs/Int32.h"
 #include "move_base_msgs/MoveBaseActionResult.h"
 
 #include <string>
+#include <vector>
 #include "ros/ros.h"
 
 namespace behavior_trees
@@ -52,14 +54,18 @@ class Navegar3 : public BT::ActionNodeBase
   private:
     ros::NodeHandle nh_;
     ros::Publisher activador ;
+    ros::Publisher dataPub;
     ros::Subscriber sub ;
     std::string feedBack = "" ;
     
-    ros::Time time;
+    ros::Time i;
     int a = 0;
 
-    geometry_msgs::PoseStamped positions[6];
+    //std::vector<geometry_msgs::PoseStamped> positions[6];
     int counter = 0;
+
+
+
 
 
 };

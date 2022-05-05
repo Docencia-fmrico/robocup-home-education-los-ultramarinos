@@ -62,6 +62,8 @@ int main(int argc, char** argv)
         forwarder.stopListen();
         }
       forwarder.speak(str_speak);
+      //ROS_INFO("SPEAKING: %s", str_speak);
+      std::cout << "SPEAKING: " << str_speak << "\n";
       str_speak = "";
     }
 
@@ -73,6 +75,8 @@ int main(int argc, char** argv)
         forwarder.stopListen();
         }
       forwarder.tell(str_tell);
+      //ROS_INFO("TELLING: %s", str_tell);
+      std::cout << "TELLING: " << str_tell << "\n";
       str_tell = "";
 
     }

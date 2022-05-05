@@ -13,6 +13,7 @@ int current_person;
 geometry_msgs::Pose2D cSensorsData;
 std_msgs::String nSensorsData;
 std_msgs::String oSensorsData;
+std_msgs::Int32 pSensorsData;
 std_msgs::String msg;
 std_msgs::Int32 pp;
 std_msgs::Int32 pp2;
@@ -25,6 +26,7 @@ struct Person {
     std::string color;
     std::string name;
     std::string object;
+    int position;
     
 };
 
@@ -41,39 +43,11 @@ Person people[3];
 int people_counter = 0;
 //Person persona;
 
-RGB violet = {
-    148,
-    0,
-    211,
-    "VIOLET",
-};
-
-RGB purple = {
-    75,
-    0,
-    130,
-    "PURPLE",
-};
-
 RGB blue = {
     0,
     0,
     255,
     "BLUE",
-};
-
-RGB green = {
-    0,
-    255,
-    0,
-    "GREEN",
-};
-
-RGB yellow = {
-    255,
-    255,
-    0,
-    "YELLOW",
 };
 
 RGB orange = {
@@ -90,21 +64,7 @@ RGB red = {
     "RED",
 };
 
-RGB black = {
-    0,
-    0,
-    0,
-    "BLACK",
-};
-
-RGB white = {
-    255,
-    255,
-    255,
-    "WHITE",  
-};
-
-RGB rainbow[] = {violet,purple,blue,green,yellow,orange,red,black,white};
+RGB rainbow[] = {blue,orange,red};
 double ColourDistance(RGB e1, RGB e2)
 {
   long rmean = ( (long)e1.r + (long)e2.r ) / 2;
@@ -153,6 +113,12 @@ void objectReceived(const std_msgs::String::ConstPtr& object_)
     people[people_counter].object = oSensorsData.data;
 }
 
+void positionReceived(const std_msgs::Int32::ConstPtr& position_)
+{
+	pSensorsData = *position_;
+    people[people_counter].position = pSensorsData.data;
+}
+
 void voiceReceived(const std_msgs::String::ConstPtr& name_)
 {
 	nSensorsData = *name_;
@@ -167,7 +133,7 @@ void dump(ros::Publisher talkPub, ros::Publisher dumpPub, Person people[], int p
     std::stringstream status;
     for (int i = 0; i < people_counter; i++)
     {
-        ss << people[i].name << " is wearing a " << people[i].color << " shirt and is holding a " << people[i].object << ".\n";
+        ss << people[i].name << "is at position " << people[i].position << ", is wearing a " << people[i].color << " shirt and is holding a " << people[i].object << ".\n";
     }
     msg.data = ss.str();
 	talkPub.publish(msg);
@@ -233,6 +199,7 @@ int main(int argc, char** argv)
 	ros::Subscriber colorSub = nh.subscribe<geometry_msgs::Pose2D>("/person_data", fr, personReceived);
 	ros::Subscriber listenerSub = nh.subscribe<std_msgs::String>("/info_received", fr, voiceReceived);
     ros::Subscriber objectSub = nh.subscribe<std_msgs::String>("/object_data", fr, objectReceived);
+    ros::Subscriber positionSub = nh.subscribe<std_msgs::Int32>("/position_data", fr, positionReceived);
 	ros::Subscriber Activador = nh.subscribe("/control_data", fr, activacionTree);
     ros::Subscriber Dumper = nh.subscribe("/data_dump", fr, dumpTree);
 
