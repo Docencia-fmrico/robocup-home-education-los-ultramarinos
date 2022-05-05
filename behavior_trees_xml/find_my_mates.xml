@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<root main_tree_to_execute="BehaviorTree">
+    <!-- ////////// -->
+    <BehaviorTree ID="BehaviorTree">
+        <KeepRunningUntilFailure>
+            <ForceSuccess>
+                <Sequence>
+                    <Action ID="Navegar3"/>
+                    <Action ID="Observar"/>
+                    <Action ID="DataCheck"/>
+                </Sequence>
+                <SequenceStar>
+                    <Action ID="Navegar3"/>
+                    <Action ID="DataDump"/>
+                </SequenceStar>
+            </ForceSuccess>
+        </KeepRunningUntilFailure>
+    </BehaviorTree>
+    <!-- ////////// -->
+    <TreeNodesModel>
+       <Action ID="Observar"/>
+       <Action ID="DataCheck"/>
+       <Action ID="DataDump"/>
+       <Action ID="Navegar3"/>
+       <Action ID="TextToSpeech"/>
+    </TreeNodesModel>
+    <!-- ////////// -->
+</root>
+

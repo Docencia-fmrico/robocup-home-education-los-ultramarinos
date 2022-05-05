@@ -19,6 +19,7 @@
 #include "DialogInterface.h"
 #include "robocup_home_education_los_ultramarinos/Info.h"
 #include "std_msgs/Int32.h"
+#include "std_msgs/String.h"
 
 namespace ph = std::placeholders;
 
@@ -39,7 +40,7 @@ class MonologoDF: public DialogInterface
       this->registerCallback(std::bind(&MonologoDF::emptyIntentCB, this, ph::_1), "Empty");
 
       stop_pub = nh_.advertise<std_msgs::Int32>("/stop_received", 1);
-      info_pub = nh_.advertise<robocup_home_education_los_ultramarinos::Info>("/info_received", 1);
+      info_pub = nh_.advertise<std_msgs::String>("/info_received", 1);
       std_msgs::Int32 msg;
       msg.data = 0;
       stop_pub.publish(msg);
@@ -131,10 +132,9 @@ class MonologoDF: public DialogInterface
             object = param.value[0];
         }
       }
-      robocup_home_education_los_ultramarinos::Info msg;
-      msg.person = person;
-      msg.object = object;
-      if (person != "" and object != "")
+      std_msgs::String msg;
+      msg.data = person;
+      if (person != "")
       {
         disableListen();
         info_pub.publish(msg);
