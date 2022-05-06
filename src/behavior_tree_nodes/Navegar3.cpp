@@ -17,7 +17,7 @@
 #include "behavior_tree/Navegar3.h"
 
 
-geometry_msgs::PoseStamped positions[7];
+geometry_msgs::PoseStamped positions[4];
 
 namespace behavior_trees
 {
@@ -67,7 +67,7 @@ BT::ActionNodeBase(name, config), nh_(), feedBack(" ")
     positions[2].pose.orientation.y = 0;
     positions[2].pose.orientation.z = 1;
     positions[2].pose.orientation.w = 0;
-
+/*
     //P4
     positions[3].header.stamp = i;
     positions[3].header.frame_id = "map";
@@ -100,17 +100,17 @@ BT::ActionNodeBase(name, config), nh_(), feedBack(" ")
     positions[5].pose.orientation.y = 0;
     positions[5].pose.orientation.z = 0.707;
     positions[5].pose.orientation.w = -0.707;
-
+*/
     //P7
-    positions[6].header.stamp = i;
-    positions[6].header.frame_id = "map";
+    positions[3].header.stamp = i;
+    positions[3].header.frame_id = "map";
 
-    positions[6].pose.position.x = 5;
-    positions[6].pose.position.y = 0;
-    positions[6].pose.orientation.x = 0;
-    positions[6].pose.orientation.y = 0;
-    positions[6].pose.orientation.z = 0;
-    positions[6].pose.orientation.w = 1;
+    positions[3].pose.position.x = 5;
+    positions[3].pose.position.y = 0;
+    positions[3].pose.orientation.x = 0;
+    positions[3].pose.orientation.y = 0;
+    positions[3].pose.orientation.z = 1;
+    positions[3].pose.orientation.w = 0;
 
     
 }
@@ -128,7 +128,7 @@ void Navegar3::halt()
 
 BT::NodeStatus Navegar3::tick()
 {
-  if (counter >= 7){
+  if (counter >= 4){
       std_msgs::Int32 algo;
       algo.data = 1;
       dataDumper.publish(algo);
