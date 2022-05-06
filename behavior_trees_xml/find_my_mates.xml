@@ -2,19 +2,15 @@
 <root main_tree_to_execute="BehaviorTree">
     <!-- ////////// -->
     <BehaviorTree ID="BehaviorTree">
-        <KeepRunningUntilFailure>
+    <KeepRunningUntilFailure>
             <ForceSuccess>
                 <Sequence>
                     <Action ID="Navegar3"/>
                     <Action ID="Observar"/>
                     <Action ID="DataCheck"/>
                 </Sequence>
-                <SequenceStar>
-                    <Action ID="Navegar3"/>
-                    <Action ID="DataDump"/>
-                </SequenceStar>
             </ForceSuccess>
-        </KeepRunningUntilFailure>
+            </KeepRunningUntilFailure>
     </BehaviorTree>
     <!-- ////////// -->
     <TreeNodesModel>
@@ -22,6 +18,7 @@
        <Action ID="DataCheck"/>
        <Action ID="DataDump"/>
        <Action ID="Navegar3"/>
+        <Action ID="Navegar2"/>
        <Action ID="TextToSpeech"/>
     </TreeNodesModel>
     <!-- ////////// -->

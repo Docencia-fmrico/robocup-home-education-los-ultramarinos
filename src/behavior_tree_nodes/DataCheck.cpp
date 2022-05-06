@@ -29,7 +29,7 @@ BT::ActionNodeBase(name, config), nh_(), feedBack(" ")
 void DataCheck::messageCallback(const std_msgs::String::ConstPtr& msg)
 {
   feedBack = msg->data;
-  std::cout << msg->data;
+  ROS_INFO("DATA FEEDBACK RECEIVED");
 }
 
 void DataCheck::halt()
@@ -47,19 +47,30 @@ BT::NodeStatus DataCheck::tick()
   person.data = person_counter;
   activador.publish(person);
 
-  if (feedBack == "FAILURE")
-  {
-    return BT::NodeStatus::FAILURE;
-    person_counter++;
+  if (a < 10){
+    ROS_INFO("WAITING %d", a);
+    a++;
+    return BT::NodeStatus::RUNNING;
   }
 
-  if (feedBack == "SUCCESS")
+  if (feedBack == "FAILURE")
   {
+    ROS_INFO("LOOKING FOR MORE PEOPLE");
+    a = 0;
+    person_counter++;
+    return BT::NodeStatus::FAILURE;
+    
+  }
+
+  else if (feedBack == "SUCCESS")
+  {
+    ROS_INFO("GOING HOME");
     return BT::NodeStatus::SUCCESS;
     //person_counter++;
   }
-  if (feedBack == "RUNNING")
+  else
   {
+    ROS_INFO("TALKING");
     return BT::NodeStatus::RUNNING;
     //person_counter++;
   }

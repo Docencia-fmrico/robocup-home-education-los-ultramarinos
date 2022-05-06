@@ -1,0 +1,14 @@
+<launch>
+        
+        <include file="$(find robocup_home_education_los_ultramarinos)/launch/dialog.launch"/>
+        
+        
+        <node pkg="robocup_home_education_los_ultramarinos" type="ObservadorPelotas_rc" name="ObservadorPelotas_rc" output="screen">
+	</node>
+
+        <node pkg="robocup_home_education_los_ultramarinos" type="data_collector" name="data_collector" output="screen">
+	</node>
+        
+      
+
+</launch>

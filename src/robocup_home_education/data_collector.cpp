@@ -30,81 +30,14 @@ struct Person {
     
 };
 
-struct RGB {
-
-    double r;
-    double g;
-    double b;
-    std::string name;
-
-};
-
 Person people[3];
 int people_counter = 0;
 //Person persona;
 
-RGB blue = {
-    0,
-    0,
-    255,
-    "BLUE",
-};
-
-RGB orange = {
-    255,
-    127,
-    0,
-    "ORANGE",
-};
-
-RGB red = {
-    255,
-    0,
-    0,
-    "RED",
-};
-
-RGB rainbow[] = {blue,orange,red};
-double ColourDistance(RGB e1, RGB e2)
+void personReceived(const std_msgs::String::ConstPtr& rgb_)
 {
-  long rmean = ( (long)e1.r + (long)e2.r ) / 2;
-  long r = (long)e1.r - (long)e2.r;
-  long g = (long)e1.g - (long)e2.g;
-  long b = (long)e1.b - (long)e2.b;
-  return sqrt((((512+rmean)*r*r)>>8) + 4*g*g + (((767-rmean)*b*b)>>8));
-}
-
-std::string getColor(RGB valores){
-    double d_min;
-    int result;
-    for(int i = 0; i < 9; i++)
-    {
-        if (( i == 0) || (ColourDistance(valores, rainbow[i]) < d_min) )
-        {
-            d_min = ColourDistance(valores, rainbow[i]);
-            result = i;
-            }
-        //ROS_INFO("%d", d_min);
-    }
-    //ROS_INFO("%d", result);
-    //ROS_INFO("%s", rainbow[result].name);
-    std::cout << rainbow[result].name << std::endl;
-    return rainbow[result].name;
-
-}
-
-void personReceived(const geometry_msgs::Pose2DConstPtr& rgb_)
-{
-	cSensorsData = *rgb_;
-    //persona = people[people_counter];
-
-    RGB color ={
-        cSensorsData.x,
-        cSensorsData.y,
-        cSensorsData.theta,
-        "unkown",
-    };
-    people[people_counter].color = getColor(color);
+    people[people_counter].color = rgb_->data;
+    std::cout << rgb_->data;
 }
 
 void objectReceived(const std_msgs::String::ConstPtr& object_)
@@ -117,6 +50,7 @@ void positionReceived(const std_msgs::Int32::ConstPtr& position_)
 {
 	pSensorsData = *position_;
     people[people_counter].position = pSensorsData.data;
+   
 }
 
 void voiceReceived(const std_msgs::String::ConstPtr& name_)
@@ -124,6 +58,7 @@ void voiceReceived(const std_msgs::String::ConstPtr& name_)
 	nSensorsData = *name_;
     people[people_counter].name = nSensorsData.data;
     people_counter++;
+    ROS_INFO("People visited: %d", people_counter);
 }
 
 void dump(ros::Publisher talkPub, ros::Publisher dumpPub, Person people[], int people_counter)
@@ -133,7 +68,7 @@ void dump(ros::Publisher talkPub, ros::Publisher dumpPub, Person people[], int p
     std::stringstream status;
     for (int i = 0; i < people_counter; i++)
     {
-        ss << people[i].name << "is at position " << people[i].position << ", is wearing a " << people[i].color << " shirt and is holding a " << people[i].object << ".\n";
+        ss << people[i].name << " is at position " << people[i].position << ", is wearing a " << people[i].color << " shirt and is holding a " << people[i].object << ".\n";
     }
     msg.data = ss.str();
 	talkPub.publish(msg);
@@ -151,22 +86,23 @@ void activacionTree(const std_msgs::Int32::ConstPtr& pp)
 { 
     current_person = pp->data;
 
+    ROS_INFO("CURRENT PERSON: %d\n",current_person);
+
+    ROS_INFO("PEOPLE COUNTER: %d\n",people_counter);
+
     if(people_counter != current_person){
         std::stringstream ss;
 	    ss << "RUNNING";
 	    msg.data = ss.str();
 	    treePub.publish(msg);
     }
-    else if (people_counter < 1){
-
-        //talk(talkPub, people, people_counter);
+    else if (people_counter < 3){
         std::stringstream ss;
 	    ss << "FAILURE";
 	    msg.data = ss.str();
 	    treePub.publish(msg);
     }
     else{
-
         std::stringstream ss;
 	    ss << "SUCCESS";
 	    msg.data = ss.str();
@@ -196,7 +132,7 @@ int main(int argc, char** argv)
 	treePub = nh.advertise<std_msgs::String>("/status_data", fr);
     dumpPub = nh.advertise<std_msgs::String>("/status_dump", fr);
 
-	ros::Subscriber colorSub = nh.subscribe<geometry_msgs::Pose2D>("/person_data", fr, personReceived);
+	ros::Subscriber colorSub = nh.subscribe<std_msgs::String>("/person_data", fr, personReceived);
 	ros::Subscriber listenerSub = nh.subscribe<std_msgs::String>("/info_received", fr, voiceReceived);
     ros::Subscriber objectSub = nh.subscribe<std_msgs::String>("/object_data", fr, objectReceived);
     ros::Subscriber positionSub = nh.subscribe<std_msgs::Int32>("/position_data", fr, positionReceived);

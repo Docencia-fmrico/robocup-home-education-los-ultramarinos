@@ -55,6 +55,7 @@ class Navegar3 : public BT::ActionNodeBase
     ros::NodeHandle nh_;
     ros::Publisher activador ;
     ros::Publisher dataPub;
+    ros::Publisher dataDumper;
     ros::Subscriber sub ;
     std::string feedBack = "" ;
     

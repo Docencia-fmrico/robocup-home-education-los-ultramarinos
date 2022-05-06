@@ -50,10 +50,13 @@ class Observar : public BT::ActionNodeBase
   private:
     ros::NodeHandle nh_;
     ros::Publisher activador ;
+    ros::Publisher talkPub;
     ros::Subscriber sub ;
     
     std::string feedBack;
+    std_msgs::String msg;
     int failures;
+    int a;
 
 
 };

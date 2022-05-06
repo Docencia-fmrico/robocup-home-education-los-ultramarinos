@@ -31,11 +31,11 @@ int main(int argc, char **argv)
   BT::BehaviorTreeFactory factory;
   BT::SharedLibrary loader;
 
-  factory.registerFromPlugin(loader.getOSName("TextToSpeech"));
   factory.registerFromPlugin(loader.getOSName("Observar"));
   factory.registerFromPlugin(loader.getOSName("DataCheck"));
   factory.registerFromPlugin(loader.getOSName("DataDump"));
   factory.registerFromPlugin(loader.getOSName("Navegar3"));
+  factory.registerFromPlugin(loader.getOSName("Navegar2"));
 
   auto blackboard = BT::Blackboard::create();
 

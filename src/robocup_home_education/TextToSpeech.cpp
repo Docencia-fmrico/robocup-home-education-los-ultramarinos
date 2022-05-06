@@ -80,6 +80,9 @@ int main(int argc, char** argv)
       str_tell = "";
 
     }
+  if (forwarder.isListenEnabled()){
+    forwarder.listen();
+    }
 
 
   ros::spinOnce();

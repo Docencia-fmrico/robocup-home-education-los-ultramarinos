@@ -17,6 +17,7 @@
 #include "behavior_tree/Observar.h"
 #include "geometry_msgs/Twist.h"
 #include "std_msgs/Bool.h"
+
 #include "behaviortree_cpp_v3/behavior_tree.h"
 #include "std_msgs/String.h"
 #include "ros/ros.h"
@@ -27,6 +28,7 @@ namespace behavior_trees
 Observar::Observar(const std::string& name , const BT::NodeConfiguration & config): BT::ActionNodeBase(name, config),nh_(),feedBack(" ")
 {   
   activador = nh_.advertise<std_msgs::Bool>("/control_observador",10);
+  talkPub = nh_.advertise<std_msgs::String>("/msg_receive",10);
   sub = nh_.subscribe<std_msgs::String>("/status_observador", 10, &Observar::messageCallback, this); 
   failures = 0;
 }
@@ -35,8 +37,8 @@ Observar::Observar(const std::string& name , const BT::NodeConfiguration & confi
 void
 Observar::messageCallback(const std_msgs::String::ConstPtr& msg)
 {
-  feedBack = msg->data ;
-  std::cout << msg->data;
+  feedBack = msg->data;
+  ROS_INFO("OBSERVER FEEDBACK RECEIVED");
 }
 
 
@@ -50,35 +52,64 @@ BT::NodeStatus
 Observar::tick()
 {
 
-  std_msgs::Bool act ;
-  act.data = true ;
- 
-    activador.publish(act);
+  std_msgs::Bool act;
+  if (a == 5){
+  act.data = true;
+  activador.publish(act);
+  }
+  a++;
   
   if (feedBack == "RUNNING") {
-       
+      failures++;
+      if(failures > 200){
+        act.data = false;
+        activador.publish(act);
+        failures = 0;
+        a = 0;
+        ROS_INFO("Observador failure\n");
+         return BT::NodeStatus::FAILURE;
+        }
+        else{
+        ROS_INFO("Observador failing\n");
          return BT::NodeStatus::RUNNING;
-  } 
+         }
 
-  if (feedBack == "SUCCESS") {
+  }
+  else if (feedBack == "SUCCESS") {
     act.data = false;
- 
-
-    for (int i = 0; i < 5; i++)
-      activador.publish(act);
+    activador.publish(act);
+    std_msgs::String msg;
+    std::stringstream dialog;
+	  dialog << "Welcome";
+  	msg.data = dialog.str();
+  	talkPub.publish(msg);
+        failures = 0;
+        a = 0;
+        ROS_INFO("Observador success\n");
+        feedBack = "FAILURE";
     return BT::NodeStatus::SUCCESS;
   }
-
-  if (feedBack == "FAILURE") {
+  else if (feedBack == "FAILURE") {
       failures++;
       if(failures > 100){
+        act.data = false;
+        activador.publish(act);
+        failures = 0;
+        a = 0;
+        ROS_INFO("Observador failure\n");
          return BT::NodeStatus::FAILURE;
-         failures = 0;
+         
         }
       else{
+        ROS_INFO("Observador failing\n");
+         return BT::NodeStatus::RUNNING;
+         }
+      }
+    else{
+        ROS_INFO("Observador no feedback\n");
          return BT::NodeStatus::RUNNING;
       }
-  }   
+     
 }
 }  // namespace behavior_trees
 

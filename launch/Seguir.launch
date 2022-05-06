@@ -2,7 +2,8 @@
         
         <include file="$(find robots)/launch/kobuki_rplidar.launch"/>
         
-       
+        <node pkg="robocup_home_education_los_ultramarinos" type="NavegarHastaPunto" name="NavegarHastaPunto" output="screen">
+	</node>
         
         <include file="$(find navigation)/launch/navigation.launch"/>
       

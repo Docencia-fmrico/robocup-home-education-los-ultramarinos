@@ -53,7 +53,8 @@ class DataDump : public BT::ActionNodeBase
     ros::Subscriber sub ;
     
     std::string feedBack ;
-
+    int success_counter = 0;
+    int a = 0;
 
 };
 

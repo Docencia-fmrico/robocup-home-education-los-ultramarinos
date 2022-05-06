@@ -42,10 +42,12 @@ void DataDump::halt()
 
 BT::NodeStatus DataDump::tick()
 {
-  
+  if (a == 5){
   std_msgs::Int32 algo;
   algo.data = 1;
   activador.publish(algo);
+  }
+  a++;
 
   if (feedBack == "FAILURE")
   {
@@ -54,7 +56,13 @@ BT::NodeStatus DataDump::tick()
 
   else if (feedBack == "SUCCESS")
   {
+    success_counter++;
+    if (success_counter > 100){
     return BT::NodeStatus::SUCCESS;
+    }
+    else{
+     return BT::NodeStatus::RUNNING; 
+    }
   }
 
   else

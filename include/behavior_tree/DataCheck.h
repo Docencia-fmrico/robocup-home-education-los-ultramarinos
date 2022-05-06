@@ -54,6 +54,7 @@ class DataCheck : public BT::ActionNodeBase
     
     std::string feedBack ;
     int person_counter = 1;
+    int a = 0;
 
 
 };

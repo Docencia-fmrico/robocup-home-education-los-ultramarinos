@@ -17,7 +17,7 @@
 #include "behavior_tree/Navegar3.h"
 
 
-geometry_msgs::PoseStamped positions[6];
+geometry_msgs::PoseStamped positions[7];
 
 namespace behavior_trees
 {
@@ -25,8 +25,13 @@ Navegar3::Navegar3(const std::string& name, const BT::NodeConfiguration & config
 BT::ActionNodeBase(name, config), nh_(), feedBack(" ")
 {
   activador = nh_.advertise<geometry_msgs::PoseStamped>("move_base_simple/goal", 10);
-  dataPub = nh_.advertise<std_msgs::Int32>("/positions", 10);
+  dataDumper = nh_.advertise<std_msgs::Int32>("/data_dump", 10);
+  dataPub = nh_.advertise<std_msgs::Int32>("/position_data", 10);
   sub = nh_.subscribe("/move_base/result", 10, &Navegar3::messageCallback, this);
+
+
+
+   
    //P1
     positions[0].header.stamp = i;
     positions[0].header.frame_id = "map";
@@ -35,8 +40,8 @@ BT::ActionNodeBase(name, config), nh_(), feedBack(" ")
     positions[0].pose.position.y = 7.2;
     positions[0].pose.orientation.x = 0;
     positions[0].pose.orientation.y = 0;
-    positions[0].pose.orientation.z = 0.7;
-    positions[0].pose.orientation.w = 0.7;
+    positions[0].pose.orientation.z = 0.707;
+    positions[0].pose.orientation.w = 0.707;
 
 
     //P2
@@ -86,7 +91,7 @@ BT::ActionNodeBase(name, config), nh_(), feedBack(" ")
     positions[4].pose.orientation.w = -0.707;
 
     //P6
-        positions[5].header.stamp = i;
+    positions[5].header.stamp = i;
     positions[5].header.frame_id = "map";
 
     positions[5].pose.position.x = 2;
@@ -95,6 +100,19 @@ BT::ActionNodeBase(name, config), nh_(), feedBack(" ")
     positions[5].pose.orientation.y = 0;
     positions[5].pose.orientation.z = 0.707;
     positions[5].pose.orientation.w = -0.707;
+
+    //P7
+    positions[6].header.stamp = i;
+    positions[6].header.frame_id = "map";
+
+    positions[6].pose.position.x = 5;
+    positions[6].pose.position.y = 0;
+    positions[6].pose.orientation.x = 0;
+    positions[6].pose.orientation.y = 0;
+    positions[6].pose.orientation.z = 0;
+    positions[6].pose.orientation.w = 1;
+
+    
 }
 
 void Navegar3::messageCallback(const move_base_msgs::MoveBaseActionResult::ConstPtr& msg)
@@ -110,6 +128,12 @@ void Navegar3::halt()
 
 BT::NodeStatus Navegar3::tick()
 {
+  if (counter >= 7){
+      std_msgs::Int32 algo;
+      algo.data = 1;
+      dataDumper.publish(algo);
+    return BT::NodeStatus::SUCCESS;
+  }
   if (a == 5)
   {
     std::cout << a << "\n";
@@ -130,6 +154,7 @@ BT::NodeStatus Navegar3::tick()
       a = 0;
       counter++;
       pp.data = counter;
+      ROS_INFO("POSOTION %d REACHED", counter);
       dataPub.publish(pp);
 
       feedBack = "";
