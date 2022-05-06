@@ -56,8 +56,8 @@ add_definitions(${PCL_DEFINITIONS})
 
 add_library(robocup_home_education_los_ultramarinos
 	src/robocup_home_education/DialogInterface.cpp
-  src/robocup_home_education/PIDController.cpp
-  src/robocup_home_education/Controlador.cpp
+ # src/robocup_home_education/PIDController.cpp
+ # src/robocup_home_education/Controlador.cpp
 )
 
 list(APPEND plugin_libs
@@ -65,15 +65,15 @@ list(APPEND plugin_libs
 )
 
 ##add_library(TextToSpeech SHARED src/behavior_tree_nodes/TextToSpeech.cpp)
-add_library(Seguir SHARED src/behavior_tree_nodes/Seguir.cpp)
-add_library(Navegar SHARED src/behavior_tree_nodes/Navegar.cpp)
-add_library(Esperar SHARED src/behavior_tree_nodes/Esperar.cpp)
-add_library(Navegar2 SHARED src/behavior_tree_nodes/Navegar2.cpp)
+#add_library(Seguir SHARED src/behavior_tree_nodes/Seguir.cpp)
+#add_library(Navegar SHARED src/behavior_tree_nodes/Navegar.cpp)
+#add_library(Esperar SHARED src/behavior_tree_nodes/Esperar.cpp)
+#add_library(Navegar2 SHARED src/behavior_tree_nodes/Navegar2.cpp)
 add_library(Navegar3 SHARED src/behavior_tree_nodes/Navegar3.cpp)
 add_library(Observar SHARED src/behavior_tree_nodes/Observar.cpp)
-add_library(Centrar SHARED src/behavior_tree_nodes/Centrar.cpp)
+#add_library(Centrar SHARED src/behavior_tree_nodes/Centrar.cpp)
 add_library(DataCheck SHARED src/behavior_tree_nodes/DataCheck.cpp)
-add_library(DataDump SHARED src/behavior_tree_nodes/DataDump.cpp)
+#add_library(DataDump SHARED src/behavior_tree_nodes/DataDump.cpp)
 
 
 add_dependencies(robocup_home_education_los_ultramarinos ${catkin_EXPORTED_TARGETS} sound_play_generate_messages_cpp)
@@ -89,48 +89,22 @@ target_link_libraries(robocup_home_education_los_ultramarinos ${catkin_LIBRARIES
 ## The recommended prefix ensures that target names across packages don't collide
 
 add_executable(ObservadorPersonas_rc src/robocup_home_education/ObservadorPersonas.cpp)
-add_executable(Coordinador_rc src/robocup_home_education/Coordinador.cpp)
-add_executable(ObservadorPelotasHSV_rc src/robocup_home_education/ObservadorPelotasHSV.cpp)
-add_executable( Control_rc src/robocup_home_education/Control.cpp ) 
-add_executable( Graficos_rc src/robocup_home_education/Graficos.cpp ) 
+#add_executable(Coordinador_rc src/robocup_home_education/Coordinador.cpp)
+##add_executable(ObservadorPelotasHSV_rc src/robocup_home_education/ObservadorPelotasHSV.cpp)
+#add_executable( Control_rc src/robocup_home_education/Control.cpp ) 
+#add_executable( Graficos_rc src/robocup_home_education/Graficos.cpp ) 
 add_executable( data_collector src/robocup_home_education/data_collector.cpp )
-add_executable( identificadorLado src/robocup_home_education/identificadorLado.cpp ) 
-add_executable( MoveDetector src/robocup_home_education/MoveDetector.cpp )
+#add_executable( identificadorLado src/robocup_home_education/identificadorLado.cpp ) 
+#add_executable( MoveDetector src/robocup_home_education/MoveDetector.cpp )
 add_executable( Find_My_Mates src/Find_My_Mates.cpp )
 add_executable( TextToSpeech src/robocup_home_education/TextToSpeech.cpp )
 
-target_link_libraries( ObservadorPelotasHSV_rc
-${catkin_LIBRARIES}
-)
+
 
 target_link_libraries( ObservadorPersonas_rc
 ${catkin_LIBRARIES}
 )
 
-target_link_libraries( Coordinador_rc
-${catkin_LIBRARIES}
-)
-
-
-target_link_libraries( Control_rc 
-${catkin_LIBRARIES} 
-${PROJECT_NAME}
- )
-
-
-target_link_libraries( Graficos_rc 
-${catkin_LIBRARIES} 
-${PROJECT_NAME}
- )
-
-target_link_libraries(  MoveDetector
-${catkin_LIBRARIES} 
-${PROJECT_NAME}
- )
-
-target_link_libraries( identificadorLado
-${catkin_LIBRARIES}
-)
 
 target_link_libraries( data_collector
 ${catkin_LIBRARIES}
@@ -178,15 +152,15 @@ target_link_libraries(Carry_My_Luggage_bt_node ${catkin_LIBRARIES} robocup_home_
 
 list(APPEND plugin_libs
   #TextToSpeech
-  Seguir
-  Navegar
-  Navegar2
+  #Seguir
+  #Navegar
+ # Navegar2
   Navegar3
-  Esperar
+ # Esperar
   Observar
-  Centrar
+  #Centrar
   DataCheck
-  DataDump
+  #DataDump
 )
 
 foreach(bt_plugin ${plugin_libs})

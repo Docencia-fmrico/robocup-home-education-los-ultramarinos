@@ -61,7 +61,7 @@ Observar::tick()
   
   if (feedBack == "RUNNING") {
       failures++;
-      if(failures > 200){
+      if(failures > 150){
         act.data = false;
         activador.publish(act);
         failures = 0;
