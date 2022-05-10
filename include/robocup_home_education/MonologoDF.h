@@ -72,7 +72,6 @@ class MonologoDF: public DialogInterface
         // timer = nh_.createTimer(ros::Duration(6), &MonologoDF::timercallback, this, true);
         disableListen();
       }
-        
     }
     void rightIntentCB(dialogflow_ros_msgs::DialogflowResult result)
     {
@@ -134,7 +133,7 @@ class MonologoDF: public DialogInterface
       robocup_home_education_los_ultramarinos::Info msg;
       msg.person = person;
       msg.object = object;
-      if (person != "" and object != "")
+      if (person != "" && object != "")
       {
         disableListen();
         info_pub.publish(msg);
