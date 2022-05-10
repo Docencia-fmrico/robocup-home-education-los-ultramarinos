@@ -1,4 +1,4 @@
-// Copyright 2019 Intelligent Robotics Lab
+// Copyright 2022 los ultramarinos
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -28,63 +28,46 @@
 
 namespace behavior_trees
 {
-
-Centrar::Centrar(const std::string& name , const BT::NodeConfiguration & config): BT::ActionNodeBase(name, config),nh_(),feedBack(" ")
-{ 
-   
-  sub = nh_.subscribe("/errores", 10, &Centrar::messageCallback, this);
-
-  ad = nh_.advertise<std_msgs::Bool>("/control_seguimiento",10);
-
-
-}
-
-void
-Centrar::messageCallback(const geometry_msgs::Twist::ConstPtr& msg)
+Centrar::Centrar(const std::string& name , const BT::NodeConfiguration & config):
+BT::ActionNodeBase(name, config), nh_(), feedBack(" ")
 {
-  dg = msg->angular.x ;
-  da = msg->linear.y ;
-
-  
-  
+  sub = nh_.subscribe("/errores", 10, &Centrar::messageCallback, this);
+  ad = nh_.advertise<std_msgs::Bool>("/control_seguimiento", 10);
 }
 
+void Centrar::messageCallback(const geometry_msgs::Twist::ConstPtr& msg)
+{
+  dg = msg->angular.x;
+  da = msg->linear.y;
+}
 
-  
-
-void
-Centrar::halt()
+void Centrar::halt()
 {
   ROS_INFO("Seguir halt");
 }
 
-BT::NodeStatus
-Centrar::tick()
+BT::NodeStatus Centrar::tick()
 {
   std::cout << da << " - " << dg << "\n";
-  
-  std_msgs::Bool act ;
-  act.data = true ;
+
+  std_msgs::Bool act;
+  act.data = true;
   ad.publish(act);
 
-  if (dg < -lim_g || dg > lim_g || da < -lim_a || da > lim_a) {
+  if (dg < -lim_g || dg > lim_g || da < -lim_a || da > lim_a)
+  {
     act.data = false;
     ROS_INFO("SUCCESS");
     ad.publish(act);
     return BT::NodeStatus::SUCCESS;
   }
 
-  
   ROS_INFO("RUNNING");
   return BT::NodeStatus::RUNNING;
-    
-
+}
 }  // namespace behavior_trees
-
 
 BT_REGISTER_NODES(factory)
 {
   factory.registerNodeType<behavior_trees::Centrar>("Centrar");
-}
-
 }

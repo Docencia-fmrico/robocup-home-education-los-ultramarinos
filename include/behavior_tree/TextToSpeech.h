@@ -24,29 +24,26 @@
 namespace behavior_tree
 {
 
-  class TextToSpeech : public BT::ActionNodeBase
-  {
-    public:
-      explicit TextToSpeech(const std::string& name, const BT::NodeConfiguration& config);
+class TextToSpeech : public BT::ActionNodeBase
+{
+  public:
+    explicit TextToSpeech(const std::string& name, const BT::NodeConfiguration& config);
+    void halt();
+    BT::NodeStatus tick();
+    static BT::PortsList providedPorts()
+    {
+      return { BT::OutputPort<std::string>("object")};
+    }
 
-      void halt();
+  private:
+    ros::NodeHandle nh;
+    ros::Subscriber msg_sub;
+    ros::Subscriber msg_to_say_sub;
+    MonologoDF forwarder;
 
-      BT::NodeStatus tick();
-
-      static BT::PortsList providedPorts()
-      {
-        return { BT::OutputPort<std::string>("object")};
-      }
-    private:
-      ros::NodeHandle nh;
-      ros::Subscriber msg_sub;
-      ros::Subscriber msg_to_say_sub;
-      MonologoDF forwarder;
-
-      void messageReceivedCallback(const std_msgs::String::ConstPtr& msg);
-      void messageToSayCallback(const std_msgs::String::ConstPtr& msg);
-  };
-
+    void messageReceivedCallback(const std_msgs::String::ConstPtr& msg);
+    void messageToSayCallback(const std_msgs::String::ConstPtr& msg);
+};
 }  // namespace behavior_tree
 
 #endif  // BEHAVIOR_TREE_TEXTTOSPEECH_H
