@@ -1,0 +1,17 @@
+<launch>
+        
+        <include file="$(find astra_camera)/launch/astra.launch"/>
+      
+        <node pkg="cameras_cpp" type="nodo_camera" name="nodo_camera" output="screen">
+	</node>
+              
+	<node pkg="robocup_home_education_los_ultramarinos" type="ObservadorPelotasHSV_rc" name="ObservadorPelotasHSV_rc" output="screen">
+	</node>
+
+	<node pkg="robocup_home_education_los_ultramarinos" type="Coordinador_rc" name="Coordinador_rc" output="screen">
+	</node>
+
+	<node pkg="robocup_home_education_los_ultramarinos" type="Control_rc" name="Control_rc" output="screen">
+	</node>
+	
+</launch>
